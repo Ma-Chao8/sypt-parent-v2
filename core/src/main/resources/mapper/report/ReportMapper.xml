@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.report.dao.ReportDao">
+    <resultMap id="reportVO" type="com.tianma315.core.report.vo.ReportVO">
+        <id property="reportId" column="report_id"/>
+        <result property="traceabilityFileId" column="traceability_file_id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="reportName" column="report_name"/>
+        <result property="state" column="state"/>
+        <result property="batchNumber" column="batch_number"/>
+        <result property="checkBy" column="check_by"/>
+        <result property="checkType" column="check_type"/>
+        <result property="checkEnterprise" column="check_enterprise"/>
+        <result property="checkDate" column="check_date"/>
+        <result property="checkPhone" column="check_phone"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="checkMechanismName" column="check_mechanism_name"/>
+        <result property="checkTypeName" column="check_type_name"/>
+        <result property="companyName" column="company_name" />
+
+
+        <collection property="reportImgDOList" column="{reportId=report_id}" select="getReportImgByReportId">
+            <id property="reportImgId" column="report_img_id"/>
+            <result property="reportId" column="reportId"/>
+            <result property="imgSrc" column="img_src"/>
+            <result property="enclosureId" column="enclosure_id"/>
+            <!--<result property="state" column="state"/>-->
+        </collection>
+    </resultMap>
+
+    <select id="getReportDO" resultMap="reportVO">
+        SELECT r.*,
+        ct.check_type_name,
+        cm.check_mechanism_name,
+        p.company_name,
+        p.tel
+        FROM report r
+        LEFT JOIN check_type ct ON r.check_type_id  = ct.check_type_id
+        LEFT JOIN check_mechanism cm ON r.check_mechanism_id = cm.check_mechanism_id
+        left JOIN  company p on  r.company_id = p.company_id
+        WHERE r.state = 0
+        <if test="report.companyId !=null ">
+            and r.company_id = #{report.companyId}
+        </if>
+        <if test="beginDate != null and endDate != null">
+            and DATE_FORMAT(r.check_date,'%Y%m%d') &gt;= DATE_FORMAT(#{beginDate},'%Y%m%d')
+            AND  DATE_FORMAT(r.check_date,'%Y%m%d') &lt;= DATE_FORMAT(#{endDate},'%Y%m%d')
+        </if>
+        <if test="report.reportName != null and report.reportName != '' ">
+            AND r.report_name =#{report.reportName}
+        </if>
+
+    </select>
+
+    <select id="getReportImgByReportId" resultType="com.tianma315.core.report.domain.ReportImgDO">
+        SELECT ri.report_img_id,ri.report_id as reportId,ri.img_src,ri.enclosure_id FROM report_img ri  WHERE ri.report_id=#{reportId}
+    </select>
+    
+    <select id="countDay" resultType="Integer">
+        SELECT COUNT(r.report_id) num FROM report r WHERE DATE_FORMAT(r.create_date,'%Y%m%d') = curdate() and r.state = 0
+    </select>
+
+    <select id="countMonth" resultType="Integer">
+        SELECT COUNT(r.report_id) num FROM report r WHERE DATE_FORMAT(r.create_date,'%Y%m') = DATE_FORMAT(now(),'%Y%m') and r.state = 0
+    </select>
+
+    <select id="countAll" resultType="Integer">
+        SELECT COUNT(r.report_id) num FROM report r WHERE r.state = 0
+    </select>
+
+    <select id="newestRecord" resultType="String">
+        SELECT r.report_name FROM report r WHERE r.state = 0 ORDER BY r.create_date desc limit 3
+    </select>
+
+    <select id="checkRank" resultType="com.tianma315.core.report.vo.ReportCountVO">
+        SELECT COUNT(r.company_id) value,c.company_name as name FROM report r LEFT join company c on r.company_id = c.company_id WHERE r.state = 0  GROUP BY r.company_id ORDER BY value DESC limit 3
+    </select>
+
+    <select id="checkTypeProportion" resultType="com.tianma315.core.report.vo.ReportCountVO">
+        SELECT COUNT(r.check_type_id) value,ct.check_type_name as name  FROM report r LEFT JOIN check_type ct ON r.check_type_id = ct.check_type_id WHERE r.state = 0
+        GROUP BY r.check_type_id
+    </select>
+
+    <select id="checkMechanismProportion" resultType="com.tianma315.core.report.vo.ReportCountVO">
+        SELECT COUNT(r.check_mechanism_id) value,cm.check_mechanism_name as name  FROM report r , check_mechanism cm  WHERE r.state = 0 and  r.check_mechanism_id = cm.check_mechanism_id
+        GROUP BY r.check_mechanism_id
+    </select>
+
+    <select id="reportAnyDayCount" resultType="com.tianma315.core.report.vo.ReportAnyDayCountVO">
+        SELECT ( DATE_FORMAT( r.create_date, '%d' ) ) as nowDay, count( r.report_id ) as num
+        FROM report r WHERE DATE_FORMAT( r.create_date, '%Y%m' ) = DATE_FORMAT( now( ), '%Y%m' )
+        GROUP BY ( DATE_FORMAT( r.create_date, '%Y%m%d' ) )
+    </select>
+</mapper>

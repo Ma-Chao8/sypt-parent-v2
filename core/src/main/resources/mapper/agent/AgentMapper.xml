@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.agent.dao.AgentDao">
+    <select id="getAgentVO" resultType="com.tianma315.core.agent.vo.AgentVO">
+        SELECT a.*,aa.*,al.* FROM agent a
+        LEFT JOIN agent_address aa  on a.agent_id = aa.agent_id
+        LEFT JOIN agent_level al on a.level_id = al.level_id
+        WHERE aa.status = 1 AND a.company_id = #{companyId}
+        <if test="agentName != null and agentName != ''">
+            AND a.agent_name LIKE concat('%',#{agentName},'%')
+        </if>
+        <if test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+            order by a.${sortName} ${sortOrder}
+        </if>
+    </select>
+
+</mapper>

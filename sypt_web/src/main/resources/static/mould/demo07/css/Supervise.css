@@ -1,0 +1,37 @@
+.topnav{
+	background-color: #fff;
+	width: 100%;   
+    height: 500px;
+    border-radius: 6px;
+}
+.header img{
+	padding: 20px;
+}
+.header{text-align:center;}
+.text-t{font-size: 13px;
+    text-align: center;}
+
+.list{line-height: 2;}
+
+input#text{height: 40px;}
+label{font-size: 12px;}
+
+#box{text-align: center;padding-top: 10px;}
+/*.btn{background-color: #972623;
+    color: white;
+    border: 0;
+    border-radius: 6px;
+    width: 22%;
+    height: 25px;}*/
+
+.name,.phone,.text,.uploadBox{display: flex;
+    justify-content: center;padding-bottom: 5px;}
+
+
+/*上传图片*/
+.payBg{width:173px;height: 40px;border: 1px solid #cbcbcb;}
+
+
+
+.text-text{height: 40px}
+.uploadBox label{margin: }

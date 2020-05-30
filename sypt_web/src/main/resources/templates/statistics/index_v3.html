@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--360浏览器优先以webkit内核解析-->
+		<title>表单提交</title>
+		<link rel="shortcut icon" href="favicon.ico">
+		<link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+		<link th:href="@{/css/font-awesome.css}" href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+		<link th:href="@{/css/animate.css}" href="css/animate.css" rel="stylesheet">
+		<link th:href="@{/css/style.css}" href="css/style.css?v=4.1.0" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/demo.css}" href="css/demo.css" />
+
+	</head>
+
+	<body class="gray-bg">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>查看稽查结果</h5>
+					</div>
+					<div class="ibox-content">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">稽查：</label>
+
+								<div class="col-sm-7">
+									<input type="text" name="code" id="code" class="form-control" placeholder="请输入溯源码...">
+								</div>
+								<input id="submit" class="btn btn-primary col-sm-1" type="button" value="查看" onclick="submitFrom()"></input>
+							</div>
+						</form>
+
+
+						<div class="wrapper wrapper-content animated fadeInRight">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="title_head">
+										<p>检测报告列表</p>
+									</div>
+
+									<div class="table_form">
+										<table class="table table-bordered">
+											<tr class="success">
+												<td>企业名称</td>
+												<td id="companyName"></td>
+											</tr>
+											<tr class="warning">
+												<td>记录名称</td>
+												<td id="reportName"></td>
+											</tr>
+											<tr class="success">
+												<td>批次</td>
+												<td id="batchNumber"></td>
+											</tr>
+											<tr class="warning">
+												<td>检测人</td>
+												<td id="checkBy"></td>
+											</tr>
+											<tr class="success">
+												<td>检测类型</td>
+												<td id="checkTypeName"></td>
+											</tr>
+											<tr class="warning">
+												<td>检测企业名称</td>
+												<td id="checkMechanismName"></td>
+											</tr>
+											<tr class="success">
+												<td>检测时间</td>
+												<td id="checkDate"></td>
+											</tr>
+											<tr class="warning">
+												<td>检测人电话</td>
+												<td id="checkPhone"></td>
+											</tr>
+											<tr class="success">
+												<td>检测报告</td>
+												<td>
+													<div class="report" id="imgs">
+														<!--<img src="img/a2.jpg">-->
+														<!--<img src="img/a2.jpg">-->
+													</div>
+												</td>
+											</tr>
+											
+										</table>	
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="title_head">
+										<p>原材料列表</p>
+									</div>
+									
+									<div class="table_form">
+										<table class="table table-bordered">
+											<tr class="success">
+												<td>原料</td>
+												<td id="materialName"></td>
+											</tr>
+											<tr class="warning">
+												<td>原料生产日期</td>
+												<td id="dateOfProduction"></td>
+											</tr>
+											<tr class="success">
+												<td>供应商</td>
+												<td id="supplierName"></td>
+											</tr>
+											<tr class="warning">
+												<td>批次</td>
+												<td id="purchaseNo"></td>
+											</tr>
+											<tr class="success">
+												<td>采购人</td>
+												<td id="purchaser"></td>
+											</tr>
+											<tr class="warning">
+												<td>数量</td>
+												<td id="number"></td>
+											</tr>
+											<tr class="success">
+												<td>入库标识</td>
+												<td id="identifier"></td>
+											</tr>
+											<tr class="warning">
+												<td>品牌</td>
+												<td id="brand"></td>
+											</tr>
+											<tr class="success">
+												<td>原料图片</td>
+												<td>
+													<div class="report">
+														<img id="checkImg" src="">
+
+													</div>
+												</td>
+											</tr>
+											
+										</table>	
+									</div>
+
+								</div>
+
+								<div class="col-sm-4">
+									<div class="title_head">
+										<p>溯源档案列表</p>
+									</div>
+									
+									<div class="table_form">
+										<table class="table table-bordered">
+											<tr class="success">
+												<td>档案名称</td>
+												<td id="traceFileName"></td>
+											</tr>
+											<tr class="warning">
+												<td>产品名称</td>
+												<td id="productName"></td>
+											</tr>
+											<tr class="success">
+												<td>创建人</td>
+												<td id="username"></td>
+											</tr>
+											<tr class="warning">
+												<td>创建时间</td>
+												<td id="createdDate"></td>
+											</tr>
+											<tr class="success">
+												<td>出库次数</td>
+												<td id="bindCount"></td>
+											</tr>
+											<tr class="warning">
+												<td>产品使用量</td>
+												<td id="codeCount"></td>
+											</tr>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 全局js -->
+		<script th:src="@{/js/jquery.min.js}" src="js/jquery.min.js?v=2.1.4"></script>
+		<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js?v=3.3.6"></script>
+		<script th:src="@{/js/plugins/layer/layer.min.js}" src="js/plugins/layer/layer.min.js"></script>
+
+		<!-- 自定义js -->
+		<script th:src="@{/js/content.js}" src="js/content.js"></script>
+
+		<!-- 欢迎信息 -->
+		<script th:src="@{/js/welcome.js}" src="js/welcome.js"></script>
+
+		<script th:src="@{/js/util/getContext.js}"></script>
+
+	<script type="text/javascript">
+//		$("#submit").submit(submitFrom())
+
+		function submitFrom() {
+		    var code = $("#code").val();
+		    var data = {"code":code};
+			$.ajax({
+                cache : true,
+                type : "POST",
+                url : getContext()+"/audit/getDataByCode",
+				dataType: "JSON",
+                data : data,
+                async : false,
+                error : function(request) {
+                    parent.layer.alert("Connection error");
+                },
+                success : function(data) {
+                    if (data.code == 0) {
+//                        parent.layer.msg("操作成功");
+//                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+//                        parent.layer.close(index);
+
+                        var resultData = data.data
+						console.log(resultData)
+                        var reportDO = resultData.reportVO
+                        $("#companyName").text(reportDO.companyName)
+                        $("#reportName").text(reportDO.reportName)
+                        $("#batchNumber").text(reportDO.batchNumber)
+                        $("#checkBy").text(reportDO.checkBy)
+                        $("#checkTypeName").text(reportDO.checkTypeName)
+                        $("#checkMechanismName").text(reportDO.checkMechanismName)
+                        $("#checkDate").text(reportDO.checkDate)
+                        $("#checkPhone").text(reportDO.checkPhone)
+						var list = reportDO.reportImgDOList
+						var img = '';
+                        $("#imgs").empty()
+						for (var i in list){
+                            var imgObj = list[i]
+                            img += '<img src="'+imgObj.imgSrc+'"/>'
+						}
+						$("#imgs").append(img)
+
+						var purchaseDO = resultData.purchaseVO
+                        $("#materialName").text(purchaseDO.materialName)
+                        $("#dateOfProduction").text(purchaseDO.dateOfProduction)
+                        $("#supplierName").text(purchaseDO.supplierName)
+                        $("#purchaseNo").text(purchaseDO.purchaseNo)
+                        $("#purchaser").text(purchaseDO.purchaser)
+                        $("#number").text(purchaseDO.number)
+                        $("#identifier").text(purchaseDO.identifier)
+                        $("#brand").text(purchaseDO.brand)
+						$("#checkImg").attr('src',purchaseDO.reportImg)
+                        var traceFile = resultData.traceFile
+						$("#traceFileName").text(traceFile.traceFileName)
+                        $("#productName").text(traceFile.productName)
+                        $("#username").text(traceFile.username)
+                        $("#createdDate").text(traceFile.createdDate)
+                        $("#bindCount").text(traceFile.bindCount)
+                        $("#codeCount").text(traceFile.codeCount)
+
+                    } else {
+                        parent.layer.alert(data.msg)
+                    }
+
+                }
+            })
+        }
+	</script>
+	</body>
+
+
+</html>

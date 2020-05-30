@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mould/demo::header">
+</head>
+<body>
+<div id="contentlist" class="container-fluid">
+    <div class="preview-layout">
+        <div id="content">
+            <div id="demoTpl" xmlns:th="http://www.thymeleaf.org">
+                <link rel="stylesheet" type="text/css" th:href="@{/mould/demo01/css/style1.css}"
+                      href="/static/mould/demo01/css/style1.css"/>
+                <script type="text/javascript" th:src="@{/mould/demo01/js/remControl.js}"
+                        src="/static/mould/demo01/js/remControl.js"></script>
+                <script type="text/javascript" th:src="@{/mould/demo01/js/demo01.js}"
+                        src="/static/mould/demo01/js/demo01.js"></script>
+
+
+                <header id="fc-head">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div th:if="${tf!= null}"
+                                 th:each="banner: ${tf.proBanners}"
+                                 class="swiper-slide">
+                                <img th:if="${banner!= null}"
+                                     th:name="${banner.bannerImgId}"
+                                     th:src="${banner.bannerUrl}"
+                                />
+                            </div>
+                        </div>
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </header>
+
+                <div id="fc-content" class="fc-content demo01">
+                    <!--<div id="fc-content-head" class="fc-content-head">-->
+                    <!--<dl>-->
+                    <!--<dd>-->
+                    <!--<p id="ceshi" style="text-align: center;" th:if="${traceFile != null}"-->
+                    <!--th:text="${traceFile?.introduce}"></p>-->
+                    <!--<h4 class="mt-15 f14">查询码：-->
+                    <!--<span class="lanse" th:if="${traceFile!= null}" th:text="${traceFile?.code}">************</span>-->
+                    <!--</h4>-->
+                    <!--<h4 class="mt-0 f14">您第一次查询时间：-->
+                    <!--<span class="lanse" th:if="${traceFile != null}"-->
+                    <!--th:text="${#dates.format(traceFile?.firstQueryDate,'yyyy-MM-dd HH:mm:ss')}">2017/07/06  16:54:33</span>-->
+                    <!--</h4>-->
+                    <!--<h4 class="mt-0 f14">查询次数：-->
+                    <!--<span class="lanse" th:if="${traceFile != null}" th:text="${traceFile?.query_number}">0</span>次-->
+                    <!--</h4>-->
+                    <!--</dd>-->
+                    <!--</dl>-->
+                    <!--</div>-->
+
+                    <div id="fc-content-head" class="fc-content-head">
+                        <dl>
+                            <dd>
+                                <p id="ceshi" style="text-align: center;"
+                                ></p>
+                                <h4 class="mt-15 f14">查询码：
+                                    <span class="lanse" th:text="${tf.code}">************</span>
+                                </h4>
+                                <h4 class="mt-0 f14">您第一次查询时间：
+                                    <span class="lanse"
+                                          th:text="${#dates.format(tf.firstQueryDate,'yyyy-MM-dd HH:mm:ss')}">2020/05/06  16:54:33</span>
+                                </h4>
+                                <h4 class="mt-0 f14">查询次数：
+                                    <span class="lanse" th:text="${tf.queryNumber}">1</span>次
+                                </h4>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div id="fc-content-body" class="fc-content-body" name="demo01">
+                        <div th:each="menu : ${tf.menuList}" class="area02 area" name="area01">
+                            <dl>
+                                <dt class="text-c f-18 fc-sub1 settledspan">
+                                    <img th:if="${menu.icon}" th:src="${menu.icon}" style="width:10%">
+                                    <span th:text="${menu?.menuName}">产品信息</span>
+                                </dt>
+                                <dd>
+                                    <ul class="contentBox2">
+                                        <li th:if="${menu != null}"
+                                            th:each="data : ${menu.dataList}"
+                                            class="fc-sub2">
+
+                                            <h5 th:if="${!#strings.isEmpty(data.dataKey) || !#strings.isEmpty(data.dataValue)}"
+                                                class="settledspan">
+                                                <span th:if="${!#strings.isEmpty(data?.dataKey)}"
+                                                      th:text="${data?.dataKey}"
+                                                      class="bold f-14 subkey">产品名称</span>：
+                                                <span th:if="${data.type!=1}"
+                                                      th:text="${#strings.isEmpty(data?.dataValue) ? '' : data?.dataValue}"
+                                                      class="fc-gray f-12 subvalue">红鳍东方河鲀</span>
+                                                <div th:if="${data.type == 1}">
+                                                    <a>详情<i class="Hui-iconfont Hui-iconfont-sanjiao zhankai"></i></a>
+                                                </div>
+                                            </h5>
+                                            <ul class="contentBox3">
+                                                <li class="fc-sub3">
+                                                    <img name="204" th:each="pic : ${data.pics}"
+                                                         th:alt="${data?.dataKey}" th:src="${pic}" class="mt-10"/>
+                                                </li>
+                                            </ul>
+
+
+                                        </li>
+                                    </ul>
+                                </dd>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="footer-layout bgblue" th:if="${tf.proFootLinks}">
+                    <li th:each="footLink : ${tf.proFootLinks}" class='footer-item white'>
+                        <a th:href="${#strings.isEmpty(footLink.footlinkRedirectUrl) ? '#' : footLink.footlinkRedirectUrl}">
+                            <img th:name="${footLink.footlinkIconId}"
+                                 th:src="${#strings.isEmpty(footLink.footlinkIcon) ? '#' : footLink.footlinkIcon}"
+                                 src='http://qny1.tianma315.com/FhIluG389dgH8RAwxHHxa6z9-Czf'/>
+                            <h5 th:text="${footLink.footlinkTitle}">公司简介</h5>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="fc-footer">
+        <ul class="footerArea" th:object="${tf.company}" th:inline="text">
+            <li>[[*{companyName}]]</li>
+            <li>地址:[[*{companyAddress}]]</li>
+            <li>电话：[[*{tel}]]</li>
+            <li>
+                <a href="http://www.tianma315.com" target="_blank">技术方：广州天码防伪科技有限公司</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+
+</html>

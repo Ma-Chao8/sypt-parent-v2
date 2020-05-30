@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.material.dao.PurchaseDao">
+    <select id="getPurchaseVO" resultType="com.tianma315.core.material.vo.PurchaseVO">
+        select p.purchase_id AS purchaseId,p.material_id AS materialId,p.date_of_production AS dateOfProduction,p.date_store AS dateStore,
+        p.supplier_id AS supplierId,p.purchase_no AS purchaseNo,p.purchaser,p.report_img AS reportImg,p.number,p.identifier,
+        s.supplier_name AS supplierName,m.material_name AS materialName,cp.company_name as companyName
+        FROM purchase p
+        LEFT JOIN supplier s ON p.supplier_id = s.supplier_id
+        LEFT JOIN material m ON p.material_id = m.material_id
+        left join company cp on cp.company_id = p.company_id
+        WHERE p.state = 0
+        <if test="companyId != null">
+            AND p.company_id = #{companyId}
+        </if>
+        ORDER by p.${sortName} ${sortOrder}
+
+    </select>
+</mapper>

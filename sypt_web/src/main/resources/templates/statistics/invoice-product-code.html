@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<meta name="ctxPath" th:content="@{/}">
+<head th:include="include::header"></head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="row">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>柱状图</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-inline" style="text-align: center">
+                                <label class="control-label">年份：</label>
+                                <input class="form-control"  type="text" id="yearDate" placeholder="年份"  autocomplete="off"/>
+                                <label class="control-label">月份：</label>
+                                <select name="monthDate" class="form-control"  id="monthDate">
+                                    <option value="">请选择</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <button class="btn btn-primary" id="search" type="button" onclick="initTable()">查找</button>
+                            </div>
+                            <div class="echarts" id="echarts-bar-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script src="/static/js/plugins/echarts/echarts-all.js" th:src="@{/js/plugins/echarts/echarts-all.js}"></script>
+<!-- 如果有supervise权限则加载监管机构面板对应的图标数据 -->
+<script type="text/javascript">
+    laydate.render({
+        elem : '#yearDate',
+        type : 'year'
+    });
+
+    function searchData() {
+        var year = $("#yearDate").val();
+        var month = $("#monthDate").find("option:selected").val();
+        var jsonObject = {"year":year,"month":month};
+        var results;
+        $.ajax({
+            url: getContext() + '/invoice/invoice/countCode',
+            type: 'POST',
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json",
+            dataType: 'JSON',
+            async: false,
+            success: function (result) {
+                if (result.code == 0) {
+                    results = result.data
+                }
+
+            },
+            error: function (error) {
+                layer.alert("网络错误，请稍后重新操作");
+            }
+        });
+        return results;
+    }
+
+    function initTable() {
+        var obj = searchData()
+        var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+        var baroption = {
+            title : {
+                text: '发货量'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['大码','小码']
+            },
+            grid:{
+                x:30,
+                x2:40,
+                y2:24
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : obj.dates
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'大码',
+                    type:'bar',
+                    data:obj.bigValues,
+//                    markPoint : {
+//                        data : [
+//                            {type : 'max', name: '最大值'},
+//                            {type : 'min', name: '最小值'}
+//                        ]
+//                    },
+//                    markLine : {
+//                        data : [
+//                            {type : 'average', name: '平均值'}
+//                        ]
+//                    }
+                },
+                {
+                    name:'小码',
+                    type:'bar',
+                    data:obj.smallValues,
+//                    markPoint : {
+//                        data : [
+//                            {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+//                            {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+//                        ]
+//                    },
+//                    markLine : {
+//                        data : [
+//                            {type : 'average', name : '平均值'}
+//                        ]
+//                    }
+                }
+            ]
+        };
+        barChart.setOption(baroption);
+
+        window.onresize = barChart.resize;
+    }
+
+    $(function () {
+        initTable()
+    });
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.traceability.dao.TyMenuDao">
+
+    <select id="selectMenuPage" resultType="com.tianma315.core.traceability.vo.TyMenuVO">
+        SELECT
+        tm.*,
+        su.username,
+        tf.trace_file_name
+        FROM ty_menu tm
+        LEFT JOIN sys_user su ON tm.create_by = su.id
+        LEFT JOIN trace_file tf ON tf.trace_file_id = tm.traceability_file_id
+        where tm.traceability_file_id = #{trace_file_id}
+    </select>
+</mapper>

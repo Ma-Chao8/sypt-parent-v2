@@ -1,0 +1,28 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #f2f2f2;
+}
+
+
+/*  extends style   */
+.mui-btn-block {
+    padding: 6px 12px;
+}
+
+
+.mui-input-group .mui-input-row {
+    height: 46px;
+}
+
+.mui-input-row label {
+    padding: 14px 15px;
+}
+
+.mui-input-row label ~ input,
+.mui-input-row label ~ select,
+.mui-input-row label ~ textarea {
+    padding: 5px 15px;
+    height: 45px;
+}
+

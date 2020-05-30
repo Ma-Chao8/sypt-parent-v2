@@ -1,0 +1,187 @@
+html,
+body {
+    -webkit-overflow-scrolling: touch;
+    background-color: #e4e4e4;
+}
+
+/*img{width: 100%;}*/
+#fc-head img {
+    width: 100%;
+}
+
+#fc-content.demo01 {
+    /*width: 7.1rem;
+    height: 100%;*/
+    width: 100%;
+    background-color: #fff;
+    margin: 10px auto;
+    box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+#fc-content.demo01 dl {
+    margin-top: 0rem;
+
+}
+
+#fc-content.demo01 dl > dt {
+    width: 88%;
+    margin: 0 auto;
+    height: 50px;
+    background: url("../img/xian.jpg") no-repeat center;
+    background-size: 100%;
+    line-height: 50px;
+    position: relative;
+}
+
+.iconfont {
+    position: absolute;
+    right: 0px;
+    transform: rotate(90deg);
+    color: rgba(0, 0, 0, 0.5);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    /*    height: 40px;
+        line-height: 40px;*/
+    text-align: center;
+    background: #002970;
+}
+
+.icon-xiala-copy {
+    /*margin-top: -0.45rem;*/
+}
+
+#fc-content.demo01 dl > dt img {
+    /*width: 1.85rem;*/
+    width: 30px;
+    vertical-align: -3px;
+}
+
+#fc-content.demo01 dd {
+    text-indent: 0.9rem;
+}
+
+
+h6 {
+    font-size: 14px;
+    color: #ff4400;
+    font-weight: 700;
+}
+
+/*
+ *查询部分
+ */
+#fc-content-head dd p {
+    font-size: 13px;
+    margin-top: 0.4rem;
+    text-indent: 0;
+    padding-left: 0.9rem;
+    padding-right: 0.4rem;
+}
+
+.area01 dd {
+    text-indent: 1.1rem;
+}
+
+.secondlevel {
+    border: 1px solid #003399;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 95%;
+    margin: 0 auto;
+    height: 40px;
+    background: url("../img/xian.jpg") no-repeat center;
+    background-size: 100%;
+    line-height: 40px;
+    position: relative;
+}
+
+.fc-footer {
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;
+    background-color: #1878b2;
+    color: white;
+    padding: 1px;
+    margin-top: 20px;
+}
+
+
+.mb-10 {
+    margin-bottom: 10px
+}
+
+.photo-1 {
+    display: block;
+}
+
+.tu {
+    display: flex;
+}
+
+
+/*.area dd{padding-top: 10px}*/
+/*文字*/
+p.text-t {
+    margin: 8px 16px;
+    font-size: 12px;
+    text-align: justify;
+    word-break: break-all;
+}
+
+p.rightxia {
+    padding-left: 60%;
+    font-size: 12px;
+}
+
+.search {
+    font-size: 12px;
+    color: #00458e;
+    padding-left: 1px;
+}
+
+p.xian {
+    border-top: 1px solid #1878b2;
+    width: 95%;
+    margin: auto;
+}
+
+.fc-blue {
+    color: #1878b2
+}
+
+/*底部*/
+.shareColumn img {
+    width: 1.64rem;
+    margin: 8px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5)
+}
+
+.shareColumn {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.shareColumn a {
+    display: block;
+    flex: 1 1 30%
+}
+
+.secondary {
+    margin-top: 0.2rem;
+}
+
+.fc-sub2 ul {
+    display: none;
+}
+
+.fc-sub3 h5 {
+    text-indent: 0;
+    padding-left: 0.9rem;
+    padding-right: 0.4rem;
+}

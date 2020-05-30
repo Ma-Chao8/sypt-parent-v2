@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head th:include="include :: header"></head>
+<style>
+	.jxs_style{width: 75%;
+		display: inline-block;}
+	.tas_style{
+		display: inline-flex;
+	}
+	.form-group {
+		 margin-bottom: 0px;
+	}
+	.export.btn-group{position: absolute;
+		top: -96px;
+		left: -65px;}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+
+					<div class="fixed-table-toolbar col-sm-12" style="padding-top: 2%;padding-bottom: 2%;text-align: center;">
+						<div class="ibox-condition col-sm-10" id="conditionbox">
+							<div class="form-group" >
+								<label class="control-label">发货日期：</label>
+								<input autocomplete="off" class="form-control layer-date" id="beginDate"  name="beginDate" placeholder="开始日期" style="max-width:205px;display: inline-block;" />
+								<span>--</span>
+								<input autocomplete="off" class="form-control layer-date" id="endDate" placeholder="结束日期" style="max-width:205px;display: inline-block;" />
+							</div>
+						</div>
+
+						<button class="btn btn-outline-secondary"  type="button" id="btnExport">
+							<i class="fa fa-download" aria-hidden="true"></i>导出
+						</button>
+					</div>
+
+					<div class="fixed-table-toolbar col-sm-12" style="padding-bottom: 2%;">
+						<div class="form-group col-sm-4">
+							<label class="control-label">经销商：</label>
+								<select id="agentId" name="agentId" class="form-control jxs_style">
+									<option value="0">选择经销商</option>
+								</select>
+						</div>
+						<div class="form-group col-sm-4">
+							<label class="control-label">仓库：</label>
+							<select id="warehouseId" type="text" class="form-control jxs_style">
+								<option value="">选择仓库</option>
+							</select>
+						</div>
+
+
+
+						<div class="form-group tas_style col-sm-4">
+							<input id="searchKey" type="text" class="form-control"
+								   placeholder="关键字（联系人或号码)" style="width: 65%;display: inline-block;">
+							<div class="form-group" style="display: inline-block">
+								<button class="btn btn-default glyphicon glyphicon-repeat" id="clear" onclick="clearCheckInput()" title="刷新" type="button"></button>
+								<button class="btn btn-primary glyphicon glyphicon-search" onclick="reLoad()" type="button">
+								</button>
+							</div>
+
+
+
+							<!--<button class="btn btn-success" onclick="reLoad()">查询</button>-->
+						</div>
+
+					</div>
+
+
+
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_details_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:invoice:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:invoice:remove">
+			<script type="text/javascript">
+				var s_details_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:invoice:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" th:src="@{/js/appjs/invoice/invoice/invoice.js}" src="/js/appjs/invoice/invoice/invoice.js"></script>
+	<script type="text/javascript">
+		laydate.render({
+			elem: '#beginDate'
+		})
+		laydate.render({
+			elem: '#endDate'
+		})
+		function clearCheckInput() {
+			$("#agentId").val(0)
+			$("#beginDate").val('')
+			$("#endDate").val('')
+			$('#searchKey').val('')
+			reLoad()
+		}
+
+		function getWarehouseId() {
+					$.ajax({
+						cache : true,
+						type : "GET",
+						url : getContext()+"/warehouse/warehouse/all",
+						// data : $('#signupForm').serialize(),// 你的formid
+						async : false,
+						error : function(request) {
+							parent.layer.alert("Connection error");
+						},
+						success : function(data) {
+							var itemList = data.data;
+							var htmlText ="";
+							for (var i in itemList){
+								var item = itemList[i];
+								htmlText += "<option value='"+item.warehouseId+"'> "+item.warehouseName+" </option>"
+							}
+							$("#warehouseId").append(htmlText);
+						}
+					});
+				}
+
+		$('#warehouseId').change(function () {
+			reLoad();
+		})
+	</script>
+
+</body>
+</html>

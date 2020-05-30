@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+    table{border: 1px solid darkgrey;}
+    table tr,table th{text-align: center;}
+    table caption{
+        padding: 10px 15px;
+        background-color: #c9c9c9;
+    }
+</style>
+<body>
+<div class="pd-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2 col-md-2"></div>
+            <div class="col-sm-8 col-md-8">
+                <div class="col-sm-6 col-md-6">
+                    <strong>货单号：</strong>
+                    <span id="invoiceId"></span>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <strong>发货时间：</strong>
+                    <span id="deliverDate"></span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2"></div>
+            <div class="col-sm-8 col-md-8">
+                <div class="col-sm-6 col-md-6">
+                    <strong>经销商：</strong>
+                    <span id="agentName"></span>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <strong>联系人：</strong>
+                    <span id="linkman"></span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2"></div>
+            <div class="col-sm-8 col-md-8">
+                <div class="col-sm-6 col-md-6">
+                    <strong>电话：</strong>
+                    <span id="tel"></span>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <strong>收货地址：</strong>
+                    <span id="deliverAddress"></span>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <input id="returnId" name="returnId" type="hidden">
+        <div>
+            <div id="choiceProduct">
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    function getInvoiceId() {
+        var id = [[${invoiceId}]]
+        return id;
+    }
+    $(function () {
+        $.ajax({
+            type: "GET",
+            async:false,
+            url: getContext()+"/invoice/invoice/getDetails/" + getInvoiceId(),
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                    var invoice = result.data;
+                    console.log(invoice)
+                    $("#invoiceId").text(invoice.invoiceId)
+                    $("#deliverDate").text(invoice.deliverDate)
+                    $("#agentName").text(invoice.agentName)
+                    $("#linkman").text(invoice.linkman)
+                    $("#tel").text(invoice.tel)
+                    $("#deliverAddress").text(invoice.deliverAddres)
+
+                     var htmlText = '<table class="table table-striped" border="1">';
+                     htmlText+= "<caption>产品信息</caption>"+"<thead>\n" +
+                         "    <tr>\n" +
+                         "      <th>产品名称</th>\n" +
+                         "      <th>大码</th>\n" +
+                         "      <th>小码</th>\n" +
+                         "    </tr>\n" +
+                         "  </thead>";
+                          htmlText += " <tbody>"
+                         var prolist = invoice.products;
+                         for (var index in prolist){
+                             var pro= prolist[index];
+                             htmlText+="<tr>";
+
+                             for (var i in pro.codes){
+                                 htmlText+="<td>"+pro.productName+" </td>"
+                                 var  code =pro.codes[i]
+                                 htmlText+="<td>"+code.bigCode+" </td>"
+                                 htmlText+="<td>"+code.smallCode+" </td>"
+                                 htmlText+="</tr>";
+                             }
+                             htmlText+="</tr>";
+                         }
+
+                     htmlText+='</tbody>';
+                     htmlText+="</table>";
+                     $("#choiceProduct").append(htmlText);
+                } else {
+                    layer.msg(result.message);
+                }
+            },
+            error: function () {
+                layer.msg("网络错误，请重新刷新界面")
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

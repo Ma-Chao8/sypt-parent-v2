@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主题</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!--    -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.css}" href="/static/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}" href="/static/css/animate.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/layui/css/layui.css}" href="/static/lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/static/css/style.css">
+
+    <style>
+        .image-item {
+            height: 200px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        /*.image {*/
+            /*display: block;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        /*}*/
+        .file .images {
+            height: 280px;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content" id="app">
+    <div class="row">
+        <div class="animated fadeInRight">
+            <!--<ul name="images">-->
+                <!--<li class="image-item col-xs-12  col-sm-3 col-md-2 col-lg-2" v-for="row in rows">-->
+                    <!--<img :id="row.demoId" :data-name="row.demoName" :data-bind="row.demoValues" :src="row.demoIcon"-->
+                         <!--alt="image" class="image" title="点击先择">-->
+                <!--</li>-->
+            <!--</ul>-->
+            <div class="file-box" v-for="row in rows">
+                <div class="file">
+                    <a href="#">
+                        <span class="corner"></span>
+                        <div class="images">
+                            <img alt="image" class="img-responsive" :id="row.demoId" :src="row.demoIcon">
+                        </div>
+                        <div class="file-name"><br/>
+                            <strong>{{row.demoName}}</strong>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div style="clear: both">
+                <ul id="page"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    window.ctxPath = /*[[@{/}]]*/ '';
+</script>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-paginator.min.js}"
+        src="/static/js/bootstrap-paginator.min.js"></script>
+<script type="text/javascript" th:src="@{/js/content.js}" src="/static/js/content.js"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" src="/static/lib/layui/layui.js"></script>
+<script type="text/javascript" th:src="@{/js/plugins/clipboard/clipboard.min.js}"
+        src="/static/js/plugins/clipboard/clipboard.min.js"></script>
+<script type="text/javascript" th:src="@{/js/plugins/layer/layer.min.js}"
+        src="/static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" th:src="@{/js/vue.min.js}" src="/static/js/vue.min.js"></script>
+
+<script>
+    (function () {
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total: 0,
+                file: '',
+                type: 'image',
+                rows: '',
+                pageInfo: {},
+                pageNumber: 1,
+                pageSize: 12,
+            },
+            methods: {
+                getData: function () {
+                    $.getJSON(ctxPath + 'procedures/procedures/theme/list', {
+                        type: this.type,
+                        pageNumber: this.pageNumber,
+                        pageSize: this.pageSize
+                    }, function (r) {
+                        // console.log(r)
+                        app.total = r.data.total;
+                        app.rows = r.data.records;
+                        app.pageInfo = r.data;
+                        app.page();
+                    });
+                },
+                page: function () {
+                    var options = {
+                        currentPage: app.pageInfo.current, //当前页
+                        totalPages: app.pageInfo.pages, //总页数
+                        numberofPages: 4, //显示的页数
+                        bootstrapMajorVersion: 3,
+                        alignment: 'center',
+                        size: 'large',
+                        shouldShowPage: true,
+                        itemTexts: function (type, page, current) { //修改显示文字
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "尾页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        onPageClicked: function (event, originalEvent, type, page) {
+                            app.pageNumber = page;
+                            app.getData();
+                        }
+                    };
+                    $('#page').bootstrapPaginator(options);
+                },
+                remove: function (id) {
+                    layer.confirm('确定要删除选中的记录？', {
+                        btn: ['确定', '取消']
+                    }, function () {
+                        $.ajax({
+                            url: ctx + "common/sysFile/remove",
+                            type: "post",
+                            data: {
+                                'id': id
+                            },
+                            success: function (r) {
+                                if (r.code == 0) {
+                                    layer.msg(r.msg);
+                                    app.getData();
+                                } else {
+                                    layer.msg(r.msg);
+                                }
+                            }
+                        });
+                    })
+                }
+            },
+            created: function () {
+                this.getData();
+            }
+        });
+
+        $(document).on("click", ".images", function () {
+            if (parent.onSelect) {
+                parent.onSelect(this);
+            }
+            var index1 = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index1); //再执行关闭
+        })
+    })();
+</script>
+</body>
+</html>

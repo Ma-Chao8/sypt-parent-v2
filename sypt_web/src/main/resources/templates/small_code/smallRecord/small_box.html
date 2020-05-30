@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head th:include="include :: header"></head>
+	<style>
+		.box {
+			text-align: center;
+			background-color: #ded0ad;
+			border-radius: 6px;
+			padding: 10px;
+			margin: 10px 0;
+		}
+		
+		p.f17 {
+			font-size: 16px;
+			color: #000;
+			font-weight: 600;
+		}
+	
+		.bar_code{
+			    font-size: 0;
+			    width: 160px;
+			    height: 114px;
+			    line-height: 114px;
+			    text-align: center;
+			    display: inline-block;
+			}
+			.bar_code img{
+			    max-height: 100%;
+			    max-width: 100%;
+			    vertical-align: middle;
+			    
+			}
+		
+	</style>
+	<body class="gray-bg">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>小箱管理列表</h5>
+					</div>
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal">
+							<div class="form-group">
+								<div class="col-sm-6" style="float: left!important;">
+									<button class="btn btn-danger" type="submit" href="javascript:;"><i class="glyphicon glyphicon-barcode"></i>拆标出箱(拆箱操作)</button>
+								</div>
+								<div class="col-sm-6" style="float: right !important;">
+									<input type="text" class="form-control" placeholder="输入或扫描外箱码/箱内产品二维码查找外箱" style="display: inline-block;width:75%;">
+									<button class="btn btn-primary" type="submit" href="javascript:;"><i class="glyphicon glyphicon-ok"></i>确认装箱</button>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-4">
+									<div class="box">
+										<p class="f17">外箱码(小码)</p>
+										<div class="bar_code">
+											<img src="img/browser.png">
+										</div>
+										<p class="f15">378952116215</p>
+										<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" type="button">
+											修改装箱
+										</button>
+										<button class="btn btn-danger" type="submit" href="javascript:;"><i class="glyphicon glyphicon-remove"></i>取消装箱</button>
+										<p class="f14">箱内产品数量：<span>3</span></p>
+										<p class="f14">未关联大箱</p>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">查看或修改外箱码为【378952116215】的箱内产品</h4>
+					</div>
+					<div class="modal-body">
+						<label class="control-label">二维码数据：</label>
+
+						<div>
+							<textarea type="text" class="form-control" rows="10" cols="5"></textarea>
+						</div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary">确定</button>
+					</div>
+				</div>
+		</div>
+
+
+
+
+			<div th:include="include :: footer"></div>
+	</body>
+
+</html>

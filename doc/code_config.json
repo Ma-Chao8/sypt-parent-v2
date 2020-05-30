@@ -1,0 +1,11 @@
+{
+  "SECRET_KEY": "84b72d7a-cda1-407f-b384-accfb91c41d8",
+  "OUT_CODE_URL": "http://112.74.55.51:8080/cabby_code_v1/code/view/open/addBatch?code_number={CODE_NUMBER}&secretKey={SECRET_KEY}",
+  "OUT_CODE_DOWNLOAD": "http://112.74.55.51:8080/cabby_code_v1/code/view/open/reDownloadCode/{CODE_BATCH_ID}?secretKey={SECRET_KEY}",
+  "SECURITY_CODE_URL": "http://caihl.tianma315.com/sypt_wx/trace/view/query?c={SECURITY_CODE}",
+  "CHECK_CODE_URL": "http://112.74.55.51:8080/cabby_code_v1/code/json/check/sequence/{CODE}/{PRODUCT_IDENT}",
+  "PRODUCT_IDENT": [
+    "8888",
+    "5865"
+  ]
+}

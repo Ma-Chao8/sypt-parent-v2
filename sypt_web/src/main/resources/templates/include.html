@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!-- common style  -->
+    <link rel="shortcut icon" th:href="@{/favicon.ico}" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap/css/bootstrap.min.css?v=3.3.6}" href="/static/lib/bootstrap/css/bootstrap.min.css?v=3.3.6" >
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css}" href="/static/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-table/bootstrap-table.min.css}" href="/static/lib/bootstrap-table/bootstrap-table.min.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/font-awesome/css/font-awesome.css?v=4.4.0}" href="/static/lib/font-awesome/css/font-awesome.css?v=4.4.0" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugins/jsTree/style.min.css}" href="/static/css/plugins/jsTree/style.min.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugins/jqTreeGrid/jquery.treegrid.css}" href="/static/css/plugins/jqTreeGrid/jquery.treegrid.css" >
+    <!--summernote css -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugins/summernote/summernote-0.8.8.css}" href="/static/css/plugins/summernote/summernote-0.8.8.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}" href="/static/css/animate.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugins/chosen/chosen.css}" href="/static/css/plugins/chosen/chosen.css" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css?v=4.1.0}" href="/static/css/style.css?v=4.1.0" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/system-log.css}" href="/static/css/system-log.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/box.css}" href="/static/css/box.css" >
+</head>
+
+<div th:fragment="footer">
+    <script type="text/javascript" th:inline="javascript">
+        var ctx = /*[[@{/}]]*/'';
+        var ctxPath = ctx;
+        function getContext() {
+            if (!ctxPath) {
+                return ''
+            }
+            return ctxPath;
+        }
+    </script>
+    <script type="text/javascript" th:inline="javascript"></script>
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js?v=2.1.4}" src="/static/lib/jquery/jquery.min.js?v=2.1.4"></script>
+    <script type="text/javascript" th:src="@{/lib/bootstrap/js/bootstrap.min.js?v=3.3.6}" src="/static/lib/bootstrap/js/bootstrap.min.js?v=3.3.6"></script>
+    <script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js}" src="/static/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/bootstrap-table/bootstrap-table.min.js}" src="/static/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js}" src="/static/lib/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}" src="/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}" src="/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/bootstrap-table/bootstrap-table-export.js}" src="/static/js/plugins/bootstrap-table/bootstrap-table-export.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/bootstrap-table/tableExport.min.js}" src="/static/js/plugins/bootstrap-table/tableExport.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/validate/jquery.validate.min.js}" src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/validate/messages_zh.min.js}" src="/static/js/plugins/validate/messages_zh.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/jsTree/jstree.min.js}" src="/static/js/plugins/jsTree/jstree.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.min.js}" src="/static/js/plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.extension.js}" src="/static/js/plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js}" src="/static/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/chosen/chosen.jquery.js}" src="/static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/layer/layer.min.js}" src="/static/js/plugins/layer/layer.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/content.js?v=1.0.0}" src="/static/js/content.js?v=1.0.0"></script>
+    <!--summernote-->
+    <script type="text/javascript" th:src="@{/js/plugins/summernote/summernote.min.js}" src="/static/js/plugins/summernote/summernote.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/summernote/summernote-zh-CN.min.js}" src="/static/js/plugins/summernote/summernote-zh-CN.min.js"></script>
+    <!--  时间格式化工具类  -->
+    <script type="text/javascript" th:src="@{/js/DateFormat.js}" src="/static/js/DateFormat.js"></script>
+    <script type="text/javascript" th:src="@{/js/util/select.js}" src="/static/js/util/select.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/laydate/laydate.js}" src="/static/js/plugins/laydate/laydate.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/distpicker/distpicker.data.min.js}" src="/static/js/plugins/distpicker/distpicker.data.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/distpicker/distpicker.js}" src="/static/js/plugins/distpicker/distpicker.js"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/wang-editor/wangEditor.min.js}" src="/static/js/plugins/wang-editor/wangEditor.min.js"></script>
+</div>
+</html>

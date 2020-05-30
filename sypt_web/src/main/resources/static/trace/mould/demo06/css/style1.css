@@ -1,0 +1,121 @@
+html,
+body {
+	-webkit-overflow-scrolling: touch;
+	background-color: #2e7287;
+}
+img{width: 100%;}
+#fc-head img {
+	width: 100%;
+}
+
+.swiper-container{width: 100%;
+	              border-radius: 6px}
+
+#fc-content.demo01 {
+	/*width: 7.1rem;
+	height: 100%;*/
+	width:100%
+	background-color: #fff;
+	margin: 10px auto;
+	box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+	border-radius: 6px;
+	overflow: hidden;
+	position: relative;
+}
+
+#fc-content.demo01 dl {
+	margin-top: 0.60rem;
+	
+}
+
+#fc-content.demo01 dl>dt {
+	width: 96%;
+	margin: 0 auto;
+	height: 0.7rem;
+	background: url("../img/xian.jpg") no-repeat center;
+	background-size: 6.46rem;
+	line-height: 0.7rem;
+}
+
+#fc-content.demo01 dl>dt img {
+	width: 0.45rem;
+	vertical-align: -3px;
+}
+
+
+/*
+ *查询部分
+ */
+#fc-content-head dd p {
+	font-size: 12px;
+	margin-top: 0.4rem;
+	margin: 9px 9px;
+    font-weight: 700;
+    text-indent: 2.5rem;
+    text-align: justify;
+}
+
+.text-red{color: red;text-align: center;}
+.mb-11{padding-top: 15px}
+h6{text-indent: 0.5rem;color: #1878b2;}
+h5{text-indent: 2.5rem;font-size: 12px}/*?*/
+h4{font-size: 14px;text-align: center;color: #fe0000;font-weight: 700}
+#fc-footer{font-size: 12px;text-align: center;line-height: 24px;}
+#fc-footer{background-color: #035381;color: white;padding: 1px;}
+a.phone{padding-left: 10px}
+
+p.text-t{margin: 8px 16px;font-size: 12px;}
+p{margin-bottom: 0px}
+p.rightxia{font-size: 12px;}
+.shareColumn img{width:1.64rem;margin:8px;box-shadow: 0 3px 9px rgba(0,0,0,.5);border-radius: 6px}
+.shareColumn{display: flex;justify-content: space-around;flex-wrap: wrap;background-color: #def0d6;text-align: center;}
+.shareColumn a{display: block;flex: 1 1 30%}
+
+
+
+
+/*养殖信息*/
+ a{color: #1878b2;}
+.content{display: flex;border: 1px solid #1878b2;margin: 8px;height:346px;border-radius: 6px}
+.content p{margin-bottom: 0}
+.leftbox{width: 27%;color: #000000}
+.rightbox{margin: 8px;width: 70%;text-indent: 10px;}
+.text-ti{width:100%;height: 80px;text-align: center;margin: 5px 5px;border-radius: 6px;}
+.text-text p{font-size: 12px}
+.tu1 img{width: 100%}
+img.tu1{margin-top:30%}
+img.tu{margin-top: 10px}
+img.tu3{margin-top: 25%}
+.mmactive{color:white;font-weight: 800;font-size: 16px;}
+.zi{width: 60px}   
+.text-ti{display: flex; align-content: center;
+         align-items: center;
+         line-height: 1.3;
+         justify-content: center;}
+/*检验检测*/
+.jianbox{display: flex;border: 1px solid #1878b2;height:299px;margin: 8px;border-radius: 6px}
+.boxleft{width:27%;color: #000000}
+.boxright{margin:10px;overflow-y: auto;position: relative;width: 70%;text-indent: 10px;}
+.text-jian{height: 80px;text-align: center;padding-top: 60px;width:100%;margin: 6px;border-radius: 6px}
+.boxright p{font-size: 12px}
+.nnactive{color:white;font-weight: 800;font-size: 16px;}
+.baogao{width: 25%;margin-top: 10px} 
+.cbaogao{width: 50%;margin-top: 10px;margin: 5px 45px;}
+
+/*物流信息*/ 
+.lengbox{display: flex;border: 1px solid #1878b2;height:299px;margin: 8px;border-radius: 6px}  
+.lengleft{width: 27%;color: #000000}
+.lengright{text-indent: 10px; margin: 10px; overflow-y: auto; position: relative; width: 70%;font-size: 12px}
+.text-leng{width: 100%; height: 80px;margin: 6px; padding-top: 60px; border-radius: 6px;text-align: center;}
+.ccactive{color:white;font-weight: 800; font-size: 16px;}
+
+
+.fc-content-box {
+	width:100%
+	background-color: #fff;
+	margin: 10px auto;
+	box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+	border-radius: 6px;
+	overflow: hidden;
+	position: relative;
+}

@@ -1,0 +1,143 @@
+html,
+body {
+    -webkit-overflow-scrolling: touch;
+    background-color: #e4e4e4;
+}
+
+img {
+    width: 100%;
+}
+
+#fc-head img {
+    width: 100%;
+}
+
+#fc-content {
+    width: 95%;
+    background-color: #fff;
+    margin: 10px auto;
+    box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.xian {
+    width: 100%;
+    margin: 0 auto;
+    background: url("../img/xian.jpg") no-repeat center;
+    background-size: 100%;
+}
+
+
+.bggreen {
+    background-color: #57a2f0;
+    color: white;
+}
+
+.area {
+    padding: 0 0.1rem;
+}
+
+.area01 dt,
+.area02 dt,
+.area04 dt,
+.img_multi01 dt,
+.img_single01 dt,
+.img_single02 dt {
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+    height: 0.5rem;
+    line-height: 0.5rem;
+}
+
+.area01 dt img,
+.area02 dt img,
+.area04 dt img,
+.img_multi01 dt img,
+.img_single01 dt img,
+.img_single02 dt img {
+    width: 0.3rem;
+    height: 0.3rem;
+}
+
+
+.area02 dd,
+.area04 dd,
+.img_multi01 dd,
+.img_single01 dd {
+    display: none
+}
+
+#fc-footer {
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;
+}
+
+/*资质荣誉*/
+.mb-10 {
+    margin-bottom: 10px
+}
+
+.tu {
+    display: flex;
+}
+
+/*公司简介*/
+.text-t {
+    text-indent: 0.6rem
+}
+
+/*文字*/
+.fc-sub2 {
+    margin: 8px 16px;
+    font-size: 12px;
+    text-align: justify;
+    word-break: break-all;
+}
+
+p.rightxia {
+    padding-left: 60%;
+    font-size: 12px;
+}
+
+.search {
+    font-size: 12px;
+    color: #00458e;
+    padding-left: 1px;
+}
+
+
+/*小箭头*/
+.iconfont {
+    position: absolute;
+    right: 15px;
+    transform: all 0.5s;
+}
+
+.icon {
+    font-size: 30px;
+    color: #57a2f0;
+    left: 40%;
+    margin-top: -10px;
+}
+
+.rotate90 {
+    /*transform: rotate(90deg);*/
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+}
+
+.imgflex {
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    -webkit-flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.imgflex img {
+    width: 45%;
+    height: 50%;
+}
+

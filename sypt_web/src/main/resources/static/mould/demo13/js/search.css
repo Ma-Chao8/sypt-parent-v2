@@ -1,0 +1,123 @@
+html,
+body {	
+	background-color: #f4f4f4;
+}
+body{
+	-webkit-overflow-scrolling: touch;
+	position: relative;
+}
+img{width: 100%;}
+#fc-head img {
+	width: 100%;
+}
+
+/**/
+#fc-content-head{
+	margin-top: 5px;
+   
+}
+
+.mb-10{margin: 10px 10px}
+
+#fc-content.demo01 {
+	width: 7.1rem;
+	height: 100%;
+	background-color: #fff;
+	margin: 10px auto;
+    border-radius: 6px;
+	border-radius: 6px;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: 0;
+}
+
+
+#fc-content.demo02 dl>dt {
+	width: 96%;
+	margin: 0 auto;
+	height: 0.7rem;
+	background: url("../img/xian.png") no-repeat center;
+	background-size: 4.46rem;
+	line-height: 0.7rem;
+	color: #666666;
+	font-size: 16px;
+}
+
+#fc-content.demo02 dl>dt img {
+	width: 0.45rem;
+	vertical-align: -3px;
+}
+
+/*zi*/
+.zi{background-color: #86bf3c;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;   
+}
+
+/*search*/
+.text-text{text-align: center;font-size: 13px;margin-bottom: 0;color: #86bf3c;}
+.f15{text-align: center;font-size: 17px;margin-bottom: 0px}
+.contentbox2{text-indent: 0.9rem;}
+.fc-red{color: #86bf3c;}
+h5{color: #000000}
+/*logo*/
+.logo{width: 20px;
+     vertical-align: -3px;}
+
+.swiper-slide{padding: 0 2px;margin-right: 0;}     
+.swiper-button-next{height: 35px}
+.swiper-button-prev{height: 35px}
+
+/*li里字体*/
+.xinxi li{font-size: 14px;
+          font-weight: 600;}
+.f13{font-size: 13px}
+.gray{color: #666666}    
+
+
+/*旋转*/
+/*.mui-navigate-right:after{
+	 transition: all 0.5s;
+	 transform-origin: 50% 30%;
+}
+.rotea:after{
+   
+    transform: rotate(90deg);
+}*/
+
+
+/*证书*/        
+.swiper{display:flex;}
+.slide{padding: 0 2px;}
+
+/*联系方式*/
+#footer{text-align: center;
+       margin-top: 10px;
+           background-color: #ffffff;
+    color: #70a42c;
+        font-size: 12px;
+        line-height: 2;}
+.rightxia{margin-bottom: 0;
+          color: white;
+          font-size: 12px} 
+.contact{padding-top: 10px;}                 
+
+/*产品信息*/
+.xinxi{padding-top: 10px;}
+
+/**/
+a.mui-navigate-right{text-decoration: none;}
+
+div.fc-box{text-align: center;}
+
+button.fc-baogao{color: #0080cb;
+    border: 1px solid #0080cb;
+    border-radius: 6px;}
+
+p.red{text-align: justify;
+    color: red;
+    text-indent: 4%;}

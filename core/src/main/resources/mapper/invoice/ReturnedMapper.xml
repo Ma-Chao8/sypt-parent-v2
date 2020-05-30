@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.invoice.dao.ReturnedDao">
+    <!-- 退货单 -->
+    <resultMap id="ReturnedVo" type="ReturnedVO">
+        <id property="returnedId" column="returned_id"/>
+        <result property="invoiceId" column="invoice_id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="remark" column="remark"/>
+        <result property="agentName" column="agent_name"/>
+
+        <!-- 退货单对应的产品 -->
+        <collection property="products" ofType="ReturnedProductVO" column="returned_id"
+                    select="com.tianma315.core.invoice.dao.ReturnedProductDao.selectByReturnedId">
+        </collection>
+    </resultMap>
+
+
+    <select id="getPage" resultMap="ReturnedVo">
+       SELECT
+        r.*,
+        a.agent_name,
+        w.warehouse_name
+        FROM returned r
+        LEFT JOIN warehouse w ON r.warehouse_id = w.warehouse_id
+        LEFT JOIN invoice i ON r.invoice_id = i.invoice_id
+        LEFT JOIN agent a ON i.agent_id = a.agent_id
+        WHERE r.company_id = #{companyId}
+        <if test="beginDate != null and beginDate !=''">
+            AND r.create_date &gt;=#{beginDate}
+        </if>
+        <if test="endDate != null and endDate !=''">
+            AND r.create_date &lt;=#{endDate}
+        </if>
+        <if test="warehouseId != null and warehouseId !=''">
+            AND r.warehouse_id = #{warehouseId}
+        </if>
+        <if test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+            Order by r.${sortName} ${sortOrder}
+        </if>
+    </select>
+
+</mapper>

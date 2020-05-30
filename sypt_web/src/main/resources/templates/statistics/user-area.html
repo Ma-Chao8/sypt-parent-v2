@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<meta name="ctxPath" th:content="@{/}">
+<head th:include="include::header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div style="height:600px" id="echarts-map-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script src="/static/js/plugins/echarts/echarts-all.js" th:src="@{/js/plugins/echarts/echarts-all.js}"></script>
+<!-- 如果有supervise权限则加载监管机构面板对应的图标数据 -->
+<script src="/static/js/demo/echarts-agent-count.js" th:src="@{/js/demo/echarts-agent-count.js}"></script>
+</body>
+
+</html>

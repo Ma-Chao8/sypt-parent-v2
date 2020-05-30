@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+                                                                							                                                                <!--<div class="form-group">	-->
+								<!--<label class="col-sm-3 control-label">档案id：</label>-->
+								<!--<div class="col-sm-8">-->
+									<!--<input id="traceabilityFileId" name="traceabilityFileId" class="form-control" type="text">-->
+								<!--</div>-->
+							<!--</div>-->
+														                                                                <!--<div class="form-group">	-->
+								<!--<label class="col-sm-3 control-label">商户id：</label>-->
+								<!--<div class="col-sm-8">-->
+									<!--<input id="companyId" name="companyId" class="form-control" type="text">-->
+								<!--</div>-->
+							<!--</div>-->
+
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">名称：</label>
+								<div class="col-sm-8">
+									<input id="reportName" name="reportName" class="form-control" type="text">
+								</div>
+							</div>
+														                                                                <!--<div class="form-group">	-->
+								<!--<label class="col-sm-3 control-label">状态0正常1删除：</label>-->
+								<!--<div class="col-sm-8">-->
+									<!--<input id="state" name="state" class="form-control" type="text">-->
+								<!--</div>-->
+							<!--</div>-->
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">批次：</label>
+								<div class="col-sm-8">
+									<input id="batchNumber" name="batchNumber" class="form-control" type="text">
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">检测人：</label>
+								<div class="col-sm-8">
+									<input id="checkBy" name="checkBy" class="form-control" type="text">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">检测时间：</label>
+								<div class="col-sm-8">
+									<input id="checkDate" name="checkDate" class="form-control" type="text" autocomplete="off">
+								</div>
+							</div>
+
+
+
+														                                                                <div class="form-group">
+								<label class="col-sm-3 control-label">检测类型：</label>
+								<div class="col-sm-8">
+									<select id="checkTypeId" name="checkTypeId" class="form-control">
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">检测企业机构：</label>
+								<div class="col-sm-4">
+									<select id="checkMechanismId" name="checkMechanismId" class="form-control">
+									</select>
+								</div>
+								<div class="col-sm-4 input-group">
+									<input type="text" id="checkMechanismName" class="form-control" placeholder="搜索机构名称"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" onclick="getCheckMechanismByUpdate(null)">搜索
+                                        </button> </span>
+								</div>
+
+<!--								<div class="col-sm-3">-->
+<!--									<input id="checkMechanismName" type="text" class="form-control"-->
+<!--										   placeholder="搜索机构名称">-->
+<!--								</div>-->
+<!--								<div class="col-sm-1 pull-left">-->
+<!--									<button class="btn btn-success" onclick="getCheckMechanismByUpdate(null)"><i class="glyphicon glyphicon-search"></i></button>-->
+<!--								</div>-->
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">检测人电话(非必填)：</label>
+								<div class="col-sm-8">
+									<input id="checkPhone" name="checkPhone" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<input type="button" class="btn btn-danger" value="取消"
+										   onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+									</input>
+								</div>
+							</div>
+						</form>
+<!--						<div class="col-sm-1 pull-right">-->
+<!--							<button class="btn btn-success" onclick="getCheckMechanismByUpdate(null)" style="position: absolute;right: 62px;bottom: 115px;"><i class="glyphicon glyphicon-search"></i></button>-->
+<!--						</div>-->
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript">
+        laydate.render({
+            elem : '#checkDate',
+            type : 'date',
+			trigger: 'click'
+        });
+	</script>
+	<script type="text/javascript" th:src="@{/js/appjs/report/report/add.js}" src="/static/js/appjs/report/report/add.js">
+	</script>
+</body>
+</html>

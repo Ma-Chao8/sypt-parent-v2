@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="report:report:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="report:report:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-1 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="报告名称">
+						</div>
+						<div class="columns pull-right col-md-2 nopadding"  shiro:hasPermission="report:report:showcheck">
+							<select id="companyId" type="text" class="form-control chosen-select" tabindex="2" style="width: 100%"
+									data-placeholder="公司">
+								<option value="">选择公司</option>
+							</select>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding" shiro:hasPermission="report:report:showcheck">
+							<select id="industryId" type="text" class="form-control chosen-select" tabindex="2" style="width: 100%"
+									data-placeholder="行业" onchange="getCompanyId()">
+								<option value="">选择行业</option>
+							</select>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<!--<label style=" display: inline-block;width: 20%;padding: 0;">结束时间：</label>-->
+							<!--<input id="endDate" type="text" class="form-control" style="width: 70%;display: inline-block;"-->
+								   <!--placeholder="结束时间">-->
+							<input id="endDate" type="text" class="form-control" autocomplete="off"
+								   placeholder="结束时间">
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<!--<label style=" display: inline-block;width: 20%;padding: 0;">开始时间：</label>-->
+							<!--<input id="beginDate" type="text" class="form-control" style="width: 70%;display: inline-block;"-->
+								   <!--placeholder="开始时间">-->
+							<input id="beginDate" type="text" class="form-control" autocomplete="off"
+								   placeholder="开始时间">
+						</div>
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+				var s_addReportImg_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="report:report:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="report:report:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="report:report:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+
+		<div>
+			<script type="text/javascript"  shiro:hasPermission="report:report:add">
+				var s_addReportImg_h = '';
+			</script>
+		</div>
+	</div>
+
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+        laydate.render({
+            elem : '#beginDate',
+            type : 'date'
+        });
+        laydate.render({
+            elem : '#endDate',
+            type : 'date'
+        });
+        function getIndustryId() {
+            $.ajax({
+                cache : true,
+                type : "GET",
+                url : getContext()+"/industry/industry/all",
+                // data : $('#signupForm').serialize(),// 你的formid
+                async : false,
+                error : function(request) {
+                    parent.layer.alert("Connection error");
+                },
+                success : function(data) {
+                    var itemList = data.data;
+                    var htmlText ="";
+                    for (var i in itemList){
+                        var item = itemList[i];
+                        htmlText += "<option value='"+item.industryId+"' onchange='getCompanyId(item.industryId)'> "+item.industryName+" </option>"
+                    }
+                    $("#industryId").append(htmlText);
+                }
+            });
+        }
+
+        function getCompanyId() {
+            var industryId = $("#industryId option:selected").val();
+            $("#companyId").empty();
+            var htmlText ="<option value=''>选择公司</option>";
+            if(industryId != null && industryId != ''){
+				$.ajax({
+					cache : true,
+					type : "GET",
+					url : getContext()+"/company/all/"+industryId,
+					// data : $('#signupForm').serialize(),// 你的formid
+					async : false,
+					error : function(request) {
+						parent.layer.alert("Connection error");
+					},
+					success : function(data) {
+						var itemList = data.data;
+						for (var i in itemList){
+							var item = itemList[i];
+							htmlText += "<option value='"+item.companyId+"'> "+item.companyName+" </option>"
+						}
+
+					}
+				});
+            }
+            $("#companyId").append(htmlText);
+        }
+
+	</script>
+	<script type="text/javascript" th:src="@{/js/appjs/report/report/report.js}" src="/static/js/appjs/report/report/report.js">
+
+	</script>
+</body>
+</html>

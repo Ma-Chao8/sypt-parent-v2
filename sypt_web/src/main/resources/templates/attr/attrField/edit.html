@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="attrFieldId" name="attrFieldId" th:value="${attrField.attrFieldId}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">属性名：</label>
+								<div class="col-sm-8">
+									<input id="attrFieldName" name="attrFieldName" th:value="${attrField.attrFieldName}" class="form-control" type="text">
+								</div>
+							</div>
+						<input id="attrId" name="attrId" th:value="${attrField.attrId}" class="form-control" type="hidden">
+														<div class="form-group">
+								<label class="col-sm-3 control-label">类型：</label>
+								<div class="col-sm-8">
+									<select id="type" name="type" class="form-control" onchange="isHiddenFieldValue()">
+
+									</select>
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">表单提示：</label>
+								<div class="col-sm-8">
+									<input id="tips" name="tips" th:value="${attrField.tips}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">排序：</label>
+								<div class="col-sm-8">
+									<input id="orderNum" name="orderNum" th:value="${attrField.orderNum}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group" id="fieldValueDiv">
+								<label class="col-sm-3 control-label">属性值：</label>
+								<div class="col-sm-8">
+									<!--<input id="fieldValue" name="fieldValue" class="form-control" type="number">-->
+									<textarea id="fieldValue" name="fieldValue" class="form-control" >
+									</textarea>
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" th:inline="javascript">
+		$(function () {
+
+        })
+		function setTypeSelect() {
+			var type  = [[${attrField.type}]]
+            $("#type").empty()
+			var text = '';
+			if(type == 1){
+				text += "<option value='1' selected='selected'>下拉框</option>"
+				text += "<option value='2'>文本</option>"
+//                text += "<option value='3'>复选框</option>"
+                text += "<option value='4'>单选框</option>"
+			}else if(type == 2){
+                text += "<option value='1' >下拉框</option>"
+                text += "<option value='2' selected='selected'>文本</option>"
+//                text += "<option value='3'>复选框</option>"
+                text += "<option value='4'>单选框</option>"
+			}else if(type == 3){
+                text += "<option value='1' >下拉框</option>"
+                text += "<option value='2' >文本</option>"
+//                text += "<option value='3' selected='selected'>复选框</option>"
+                text += "<option value='4'>单选框</option>"
+			}else{
+                text += "<option value='1' >下拉框</option>"
+                text += "<option value='2' >文本</option>"
+//                text += "<option value='3'>复选框</option>"
+                text += "<option value='4' selected='selected'>单选框</option>"
+			}
+			$("#type").html(text);
+        }
+        function setFieldValue() {
+		    var text = ''
+			var fieldValueList = [[${attrField.fieldValueDOList}]]
+			for (var i in fieldValueList){
+			    var data = fieldValueList[i];
+                text += data.fieldValue + "*"
+			}
+			var result = text.substring(0,text.length-1)
+			$("#fieldValue").text(result)
+        }
+
+        function isHiddenFieldValue() {
+            var val = $("#type option:selected").val();
+            if (val == 2){
+                $("#fieldValueDiv").hide()
+            }else{
+                $("#fieldValueDiv").show()
+            }
+        }
+	</script>
+	<script type="text/javascript" src="/js/appjs/attr/attrField/edit.js" th:src="@{/js/appjs/attr/attrField/edit.js}">
+	</script>
+</body>
+</html>

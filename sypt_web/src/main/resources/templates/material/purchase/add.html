@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+														                                                                <div class="form-group">
+								<label class="col-sm-3 control-label">原料：</label>
+								<div class="col-sm-8">
+									<select id="materialId" name="materialId" class="form-control">
+
+									</select>
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">原料生产日期(出厂日期)：</label>
+								<div class="col-sm-8">
+									<input id="dateOfProduction" name="dateOfProduction" class="form-control" type="text" autocomplete="off">
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">供应商：</label>
+								<div class="col-sm-8">
+									<select id="supplierId" name="supplierId" class="form-control">
+
+									</select>
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">批次：</label>
+								<div class="col-sm-8">
+									<input id="purchaseNo" name="purchaseNo" class="form-control" type="text">
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">采购人：</label>
+								<div class="col-sm-8">
+									<input id="purchaser" name="purchaser" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">入库时间：</label>
+								<div class="col-sm-8">
+									<input id="dateStore" name="dateStore" class="form-control" type="text">
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">检测图片路径：</label>
+								<div class="col-sm-8">
+									<input id="file" name="file" class="form-control" type="file">
+								</div>
+							</div>
+														                                                                <div class="form-group">
+								<label class="col-sm-3 control-label">数量：</label>
+								<div class="col-sm-8">
+									<input id="number" name="number" class="form-control" type="text">
+								</div>
+							</div>
+														                                                                <div class="form-group">	
+								<label class="col-sm-3 control-label">入库标识(原料名称+批次)：</label>
+								<div class="col-sm-8">
+									<input id="identifier" name="identifier" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<input type="button" class="btn btn-danger" value="取消"
+										   onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+									</input>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript">
+        laydate.render({
+            elem : '#dateOfProduction',
+            type : 'date'
+        });
+		laydate.render({
+			elem : '#dateStore',
+			type : 'date',
+			trigger: 'click'
+		});
+	</script>
+	<script type="text/javascript" th:src="@{/js/appjs/material/purchase/add.js}" src="/js/appjs/material/purchase/add.js">
+	</script>
+</body>
+</html>

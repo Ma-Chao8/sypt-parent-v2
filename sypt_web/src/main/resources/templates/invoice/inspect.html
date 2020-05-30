@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <title>稽查</title>
+</head>
+<style>
+    .form-horizontal{
+        position: relative;
+        top: 35px;
+        left: 140px;
+    }
+</style>
+<body>
+
+<div style="padding: 100px 100px 10px 20px;" class="container">
+    <div class="row">
+        <div class="col-lg-7 col-md-7">
+            <div class="input-group">
+                <input id="code" type="text" class="form-control" placeholder="请输入稽查码">
+                <span class="input-group-btn">
+                <button id="inspect"  class="btn btn-primary">
+                    稽查
+                </button>
+            </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">InspectCode</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="inspect_code"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">InvoiceId</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="invoiceId"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">Product</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="product"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">Agent</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="agent"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">Linkman</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="linkman"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">Tel</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="tel"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="col-sm-2 control-label">DeliverDate</label>-->
+            <div class="col-sm-10">
+                <p class="form-control-static" id="deliverDate"></p>
+            </div>
+        </div>
+    </form>
+
+<div th:include="include :: footer"></div>
+
+<script>
+    $(function () {
+        //-------------加载数据-----------------
+
+        $("#inspect").click(function () {
+            $("#inspect_code").text("");
+            $("#invoiceId").text("");
+            $("#product").text("");
+            $("#agent").text("");
+            $("#linkman").text("");
+            $("#tel").text("");
+            $("#deliverDate").text("");
+            var code = $("#code").val();
+            $("#code").val("")
+            if (!code) {
+                layer.msg("请输入稽查码");
+                return;
+            }
+            $.ajax({
+                url: getContext() + "invoice/inspect/select/"+code,
+                type: "GET",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        var inspect = result.data;
+                        $("#inspect_code").text("稽查码：" + inspect.inspectCode);
+                        $("#invoiceId").text("货单号："+inspect.invoiceId);
+                        $("#product").text("产品名称：" + inspect.productName);
+                        $("#agent").text("经销商：" + inspect.agentName);
+                        $("#linkman").text("联系人：" + inspect.linkman);
+                        $("#tel").text("电话：" + inspect.tel);
+                        $("#deliverDate").text("发货时间: "+new Date(inspect.deliverDate).format("yyyy-MM-dd"));
+
+                    } else {
+                        layer.msg(result.msg)
+                    }
+                },
+                error: function () {
+                    layer.msg("网络错误，请稍后重新操作")
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

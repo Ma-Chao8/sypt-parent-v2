@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>产品新装箱操作</h5>
+            </div>
+            <div class="ibox-content">
+                <form id="dataForm" method="POST" class="form-horizontal">
+
+                    <!--<div class="row">-->
+                        <!--<div class="col-xs-3 text-right bold">扫码数量：</div>-->
+                        <!--<div class="col-xs-6"><input type="number" class="form-control num" type="number"/></div>-->
+                    <!--</div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择产品：</label>
+                        <div class="col-sm-6">
+                            <select id="productId" name="productId" onchange="getBoxSize()" class="form-control">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">录入二维码数据：</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="smallCode" class="form-control"
+                                   placeholder="支持手持录入和扫码录入,手动录入后需按下回车键"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">录入外箱码：</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="bigCode" class="form-control" placeholder="手动生成或录入已有外箱码">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+
+                        <div class="col-sm-6">
+                            <button class="btn" type="button" onclick="getNum()"><i
+                                    class="glyphicon glyphicon-barcode"></i>手动生成一个外箱码
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择类型：</label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                               <input type="radio" name="codeType" value="0" checked="checked">不打印
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="codeType" value="1">打印一维码
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="codeType" value="2">打印二维码
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="codeList">
+                        <div class="tip">
+                            <span>已扫条数：<span class="count red" id="count">0</span></span>
+                            <button class="btn btn-danger" type="button" onclick="clearData()">清除
+                            </button>
+                        </div>
+                        <div class="tag">
+                            <ul class="taglist" id="tagList">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary" type="button" onclick="submitSmallRecord()"><i
+                                    class="glyphicon glyphicon-ok"></i>确认装箱
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:src="@{/js/LodopFuncs.js}"></script>
+<script type="text/javascript">
+
+    var data = ''
+    var dataArray = new Array()
+    var size = 0;
+
+    $(function () {
+        initProduct()
+        $("#smallCode").get(0).focus();
+    })
+
+    function initProduct() {
+        getProduct(null)
+        getBoxSize()
+    }
+
+    function getBoxSize() {
+        size = $("#productId option:selected").attr("box");
+        $("#count").text(size+"/"+dataArray.length)
+    }
+
+    $("#smallCode").keyup(function (event) {
+        if (event.keyCode == 13) {
+            getData()
+        }
+    });
+
+    function clearData() {
+        $("#count").text(size+"/"+0)
+        dataArray.length = 0;
+        $("#tagList").empty()
+    }
+
+    function getData() {
+        if (dataArray.length<size){
+            var val = $("#smallCode").val();
+            var result = val.split('=')
+            $("#smallCode").val("")
+            var resultNum = "";
+            if (result.length>=2) {
+                resultNum = result[1]
+            }else{
+                resultNum = result[0]
+            }
+
+            if(dataArray.indexOf(resultNum)==-1) {
+                dataArray.push(resultNum)
+                var index = dataArray.length-1
+                $("#tagList").append('<li value=' + dataArray[index] + '>' + dataArray[index] + '<span onclick="deleteLi('+index+')"><i class="fa fa-remove" ></i></span></li>');
+                $("#count").text(size+"/"+dataArray.length)
+            }
+        }else{
+            $("#smallCode").val("")
+        }
+    }
+
+    function deleteLi(index) {
+        var liVal = $("#tagList>li").eq(index).val();
+        dataArray.splice(dataArray.indexOf(liVal),1)
+        $("#tagList>li").eq(index).hide()
+        $("#count").text(size+"/"+dataArray.length)
+    }
+
+
+    function getNum() {
+        var chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        var nums = "";
+        for (var i = 0; i < 12; i++) {
+            var id = parseInt(Math.random() * 10);
+            nums += chars[id];
+        }
+//        return nums;
+        $("#bigCode").val(nums)
+    }
+
+    function initData(){
+        var smallCode = $("#bigCode").val()
+        var productId = $("#productId").val()
+        var obj = {"smallCodes":dataArray,"bigCode":smallCode,"productId":productId}
+        return obj
+    }
+
+    function submitSmallRecord() {
+//        getData()
+        var loadingFlag;
+        var obj = initData();
+        $.ajax({
+            cache : true,
+            type : "POST",
+            dataType: "JSON",
+            contentType : 'application/json',
+            url : getContext()+"/small_code/smallRecord/saveRecord",
+            data : JSON.stringify(obj),
+            async : false,
+            beforeSend: function (XMLHttpRequest) {
+                //注意，layer.msg默认3秒自动关闭，如果数据加载耗时比较长，需要设置time
+                loadingFlag= layer.msg('请稍候……', { icon: 16, shade: 0.01,shadeClose:false,time:60000 });
+            },
+            error : function(request) {
+                parent.layer.alert("Connection error");
+            },
+            success : function(data) {
+                layer.close(loadingFlag);
+                if (data.code == 0) {
+                    var type = $("input[name='codeType']:checked").val();
+                    if(type==0){
+                        parent.layer.msg("操作成功");
+                        parent.reLoad();
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+                    }else{
+                        printBigCode(type)
+                        window.location.reload();
+                    }
+                } else {
+                    parent.layer.alert(data.msg)
+                }
+
+            }
+        });
+    }
+
+
+    function printBigCode(codeType){
+        var LODOP=getLodop();
+        LODOP.PRINT_INIT()
+        LODOP.SET_PRINTER_INDEX("2120TU(标签)") //指定打印机名称
+        var bigCode = $("#bigCode").val()
+        var codeArray = new Array();
+        codeArray.push(bigCode)
+        if(codeType==1){
+            LODOP.ADD_PRINT_BARCODE("0.2cm", "0.4cm","38mm", "15mm", "128C", bigCode)
+            LODOP.ADD_PRINT_TEXT("2cm","0.3cm","100%","100%",getNowFormatDate()+"/溯源云平台")
+        }else if(codeType==2){
+            LODOP.ADD_PRINT_BARCODE("0.2cm", "1.1cm","25mm", "25mm", "QRCode", bigCode)
+            // LODOP.ADD_PRINT_TEXT("2.5cm","0.3cm","100%","100%",getNowFormatDate()+"/溯源云平台")
+        }
+        LODOP.PRINT(); //直接打印
+    }
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+</script>
+</body>
+
+</html>

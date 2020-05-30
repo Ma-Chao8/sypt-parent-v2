@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include::header"></head>
+<link th:href="@{/css/plugins/steps/jquery.steps.css}" rel="stylesheet">
+<style>
+    .checkbox-inline input[type=checkbox] {
+        position: inherit !important;
+        margin-left: 0 !important;
+    }
+    .wizard-big.wizard > .content{
+        min-height: 410px !important;
+
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <!--<div class="ibox-title">-->
+                    <!--<h5></h5>-->
+                <!--</div>-->
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t wizard-big" id="dataForm">
+                        <h1>产品</h1>
+                        <fieldset>
+                            <h2>产品信息</h2>
+                            <div class="row" style="max-height: 320px;overflow-y: scroll;">
+                            <input name="productId" th:value="${product.productId}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">产品名称：</label>
+                                <div class="col-sm-8">
+                                    <input name="productName" th:value="${product.productName}" class="form-control"
+                                           type="text" required autocomplete="off" placeholder="产品名称（必填）">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">产品包装数量：</label>
+                                <div class="col-sm-8">
+                                    <input name="boxSize" th:value="${product.boxSize}" class="form-control required" type="number"
+                                           autocomplete="off" placeholder="产品包装数量（必填）">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">产品规格：</label>
+                                <div class="col-sm-8">
+                                    <input name="productSpec" th:value="${product.productSpec}" class="form-control required" type="text"
+                                           autocomplete="off" placeholder="产品规格（必填）">
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">生产许可：</label>-->
+                                <!--<div class="col-sm-8">-->
+                                    <!--<input name="permit" th:value="${product.permit}" class="form-control" type="text" required-->
+                                           <!--autocomplete="off" placeholder="生产许可（必填）">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">生产基地：</label>-->
+                                <!--<div class="col-sm-8">-->
+                                    <!--<input name="productionBase" th:value="${product.productionBase}" class="form-control" type="text" required-->
+                                           <!--autocomplete="off" placeholder="生产基地（必填）">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">保质期：</label>-->
+                                <!--<div class="col-sm-8">-->
+                                    <!--<input name="warranty" th:value="${product.warranty}" class="form-control" type="text" required-->
+                                           <!--autocomplete="off" placeholder="保质期">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group" shiro:hasPermission="procedures:procedures:procedures">
+                                <label class="col-sm-3 control-label">溯源模版：</label>
+                                <div class="col-sm-8">
+                                    <select id="proceduresId" name="proceduresId" class="form-control">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">产品图片：</label>
+                                <div class="col-sm-8">
+                                    <input name="file" class="form-control" type="file"
+                                           autocomplete="off" placeholder="产品图片">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">产品描述：</label>
+                                <!--<div class="col-sm-8">-->
+                                <!--<input name="describe" th:value="${product.describe}" class="form-control" type="text" required-->
+                                <!--autocomplete="off" placeholder="产品描述">-->
+                                <!--</div>-->
+                                <div class="col-sm-8">
+                                    <div id="editor" name="editor">
+
+                                    </div>
+                                    <input id="describe" th:value="${product.describe}" name="describe" class="form-control" type="hidden">
+                                </div>
+                            </div>
+                            </div>
+                        </fieldset>
+
+
+                        <h1 shiro:hasPermission="attr:attr:attr">产品属性</h1>
+                        <fieldset shiro:hasPermission="attr:attr:attr">
+                            <h2>产品信息</h2>
+                            <div class="row pre-scrollable">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">产品类型：</label>
+                                    <div class="col-sm-8">
+                                        <select id="attrId" name="attrId" onchange="getAttrFieldByAttrId()"
+                                                class="form-control">
+                                            <option value="">不关联任何产品</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="content">
+
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="col-sm-8 col-sm-offset-5">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <input type="button" class="btn btn-danger" value="取消"
+                                   onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+                            </input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript"> var ctx = '' + /*[[@{/}]]*/ +'';
+</script>
+<div th:include="include::footer"></div>
+<script th:src="@{/js/plugins/staps/jquery.steps.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    +function () {
+        $("#dataForm").validate({
+            rules: {
+                productName: {required: true},
+                boxSize: {required: true},
+                productSpec: {required: true}
+            },
+
+            messages: {
+                productName: {
+                    required: '<span><i class="fa fa-times-circle"></i>产品名称不能为空</span>'
+                },
+                boxSize: {
+                    required: '<span><i class="fa fa-times-circle"></i>产品包装数量不能为空</span>'
+                },
+                productSpec: {
+                    required: '<span><i class="fa fa-times-circle"></i>产品规格不能为空</span>'
+                }
+            },
+            submitHandler: function (form) {
+                setDescribe()
+                var fieldResult = {};
+                var fieldResultArr = new Array();
+                var attrId = $("#attrId option:selected").val();
+                if (attrId != null) {
+                    var children = $("#content").children();
+                    for (var i = 0; i < children.length; i++) {
+                        var div = children[i];
+                        var attrFieldId = $(div).find("input[name='attrFieldId']").val()
+
+                        var fieldValue = $(div).find("[name='fieldValue']");
+                        var fieldValueResult = '';
+                        if (fieldValue.attr('type') == 'checkbox') {
+                            fieldValueResult = $(div).find("input[type='checkbox']:checked").val()
+                        } else if (fieldValue.attr('type') == 'radio') {
+                            fieldValueResult = $(div).find("input[type='radio']:checked").val()
+                        } else {
+                            fieldValueResult = fieldValue.val()
+                        }
+                        fieldResult = {"attrFieldId":attrFieldId,"values":fieldValueResult,"attrId":attrId};
+                        fieldResultArr.push(fieldResult)
+                    }
+                }
+                update(fieldResultArr)
+            }
+
+        });
+
+
+    }();
+
+
+    $(document).ready(function () {
+        var attrField = [[${product.productFieldVOS}]]
+        console.log(attrField)
+
+        var attrId;
+        if (attrField!=null && attrField.length>0){
+            attrId = attrField[0].attrId
+        }
+        getAttr(attrId)
+        if(attrId != null && attrId != undefined){
+            initAttrField(attrId,attrField)
+        }
+
+        initEditor();
+        //fileSet();
+        getProcedures([[${product.proceduresId}]])
+    });
+
+   /* function fileSet() {
+        $("#dataForm").steps({
+            bodyTag: "fieldset",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                // Always allow going backward even if the current step contains invalid fields!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+
+                // Forbid suppressing "Warning" step if the user is to young
+                if (newIndex === 3 && Number($("#age").val()) < 18) {
+                    return false;
+                }
+
+                var form = $(this);
+
+                // Clean up if user went backward before
+                if (currentIndex < newIndex) {
+                    // To remove error styles
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                }
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                // Start validation; Prevent going forward if false
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+                // Suppress (skip) "Warning" step if the user is old enough.
+                if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                    $(this).steps("next");
+                }
+
+                // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                if (currentIndex === 2 && priorIndex === 3) {
+                    $(this).steps("previous");
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                var form = $(this);
+
+                // Disable validation on fields that are disabled.
+                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                form.validate().settings.ignore = ":disabled";
+
+                // Start validation; Prevent form submission if false
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+//                    var form = $(this);
+//
+//                    // Submit form input
+//                    form.submit();
+                var fieldResult = {};
+                var fieldResultArr = new Array();
+                var attrId = $("#attrId option:selected").val();
+                if (attrId != null) {
+                    var children = $("#content").children();
+                    for (var i = 0; i < children.length; i++) {
+                        var div = children[i];
+                        var attrFieldId = $(div).find("input[name='attrFieldId']").val()
+
+                        var fieldValue = $(div).find("[name='fieldValue']");
+                        var fieldValueResult = '';
+                        if (fieldValue.attr('type') == 'checkbox') {
+                            fieldValueResult = $(div).find("input[type='checkbox']:checked").val()
+                        } else if (fieldValue.attr('type') == 'radio') {
+                            fieldValueResult = $(div).find("input[type='radio']:checked").val()
+                        } else {
+                            fieldValueResult = fieldValue.val()
+                        }
+                        fieldResult = {"attrFieldId":attrFieldId,"values":fieldValueResult,"attrId":attrId};
+                        fieldResultArr.push(fieldResult)
+                    }
+                }
+                update(fieldResultArr)
+//
+            }
+        })
+    }*/
+
+    function initAttrField(attrField,sourcesData) {
+        ajaxInitGetData(attrField,sourcesData)
+    }
+
+    function getAttrFieldByAttrId() {
+        var val = $("#attrId option:selected").val();
+        if (val != null) {
+            ajaxGetData(val)
+        }
+    }
+
+    function ajaxGetData(val) {
+        $.ajax({
+            url: ctx + "/attr/attrField/getAttrFieldByAttr",
+            type: "post",
+            data: {
+                'attrId': val
+            },
+            success: function (r) {
+                var data = r.data
+                var text = ''
+                for (var i in data) {
+                    var element = data[i];
+                    text += '<div  class="form-group">'
+                    text += '<label class="col-sm-2 control-label">' + element.attrFieldName + '：</label>'
+                    text += '<input type="hidden" name="attrFieldId" value="' + element.attrFieldId + '"/>'
+                    text += '<div class="col-sm-8">'
+                    if (element.type == 1) {
+                        text += '<select class="form-control m-b" name="fieldValue">'
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            text += '<option value="' + childrenData.fieldValue + '">' + childrenData.fieldValue + '</option>'
+                        }
+                        text += '</select>'
+                    } else if (element.type == 2) {
+                        text += '<input type="text" name="fieldValue" class="form-control">'
+                    } else if (element.type == 3) {
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            text += '<label class="checkbox-inline i-checks">'
+                            text += '<input type="checkbox" value="' + childrenData.fieldValue + '" name="fieldValue"/> <i></i> ' + childrenData.fieldValue + ''
+                            text += '</label>'
+                        }
+                    } else {
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            text += '<label class="checkbox-inline i-checks" style="width: 50px;display: inline-flex;">'
+                            text += '<input type="radio" value="' + childrenData.fieldValue + '" name="fieldValue" style="margin-right: 5px;"/>' + childrenData.fieldValue + ''
+                            text += '</label>'
+                        }
+
+                    }
+                    text += '</div>'
+                    text += '<div class="col-sm-1">'
+                    text += '<button class="btn btn-primary" type="button" onclick="edit(' + element.attrFieldId + ')"><i class="glyphicon glyphicon-cog"></i></button>'
+                    text += '</div>'
+                    text += '<div class="col-sm-1">'
+                    text += '<button class="btn btn-danger" type="button" onclick="remove(' + element.attrFieldId + ')"><i class="glyphicon glyphicon-remove"></i></button>'
+                    text += '</div>'
+                    text += '</div>'
+//                            text +='<div class="hr-line-dashed"></div>'
+
+                }
+                $("#content").empty()
+                $("#content").html(text);
+            }
+        });
+    }
+
+    function ajaxInitGetData(val,sourcesData) {
+        $.ajax({
+            url: ctx + "/attr/attrField/getAttrFieldByAttr",
+            type: "post",
+            data: {
+                'attrId': val
+            },
+            success: function (r) {
+                var data = r.data
+                var text = ''
+                for (var i in data) {
+                    var element = data[i];
+                    var myData;
+
+                    for (var x in sourcesData){
+                        if(sourcesData[x].attrFieldId == element.attrFieldId){
+                            myData = sourcesData[x]
+                        }
+                    }
+
+                    text += '<div  class="form-group">'
+                    text += '<label class="col-sm-2 control-label">' + element.attrFieldName + '：</label>'
+                    text += '<input type="hidden" name="attrFieldId" value="' + element.attrFieldId + '"/>'
+                    text += '<div class="col-sm-8">'
+                    if (element.type == 1) {
+                        text += '<select class="form-control m-b" name="fieldValue">'
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            if (childrenData.fieldValue == myData.values){
+                                text += '<option value="' + childrenData.fieldValue + '" selected="selected">' + childrenData.fieldValue + '</option>'
+                            }else{
+                                text += '<option value="' + childrenData.fieldValue + '">' + childrenData.fieldValue + '</option>'
+                            }
+
+                        }
+                        text += '</select>'
+                    } else if (element.type == 2) {
+                        text += '<input type="text" name="fieldValue" class="form-control" value="'+myData.values+'">'
+                    } else if (element.type == 3) {
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            text += '<label class="checkbox-inline i-checks">'
+                            if (childrenData.fieldValue == myData.values){
+                                text += '<input type="checkbox" value="' + childrenData.fieldValue + '" name="fieldValue" checked="checked"/> <i></i> ' + childrenData.fieldValue + ''
+                            }else{
+                                text += '<input type="checkbox" value="' + childrenData.fieldValue + '" name="fieldValue"/> <i></i> ' + childrenData.fieldValue + ''
+                            }
+
+                            text += '</label>'
+                        }
+                    } else {
+                        for (var x in element.fieldValueDOList) {
+                            var childrenData = element.fieldValueDOList[x];
+                            text += '<label class="checkbox-inline i-checks" style="width: 50px;display: inline-flex;">'
+                            if(childrenData.fieldValue == myData.values){
+                                text += '<input type="radio" value="' + childrenData.fieldValue + '" name="fieldValue" checked="checked" style="margin-right: 5px;"/>' + childrenData.fieldValue + ''
+                            }else{
+                                text += '<input type="radio" value="' + childrenData.fieldValue + '" name="fieldValue" style="margin-right: 5px;"/>' + childrenData.fieldValue + ''
+                            }
+                            text += '</label>'
+                        }
+
+                    }
+                    text += '</div>'
+                    text += '<div class="col-sm-1">'
+                    text += '<button class="btn btn-primary" type="button" onclick="edit(' + element.attrFieldId + ')"><i class="glyphicon glyphicon-cog"></i></button>'
+                    text += '</div>'
+                    text += '<div class="col-sm-1">'
+                    text += '<button class="btn btn-danger" type="button" onclick="remove(' + element.attrFieldId + ')"><i class="glyphicon glyphicon-remove"></i></button>'
+                    text += '</div>'
+                    text += '</div>'
+//                            text +='<div class="hr-line-dashed"></div>'
+
+                }
+                $("#content").empty()
+                $("#content").html(text);
+            }
+        });
+    }
+
+
+
+    var E = window.wangEditor
+    var editor = new E('#editor')
+
+    function initEditor(){
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+//            'quote',  // 引用
+            'image',  // 插入图片
+            'table',  // 表格
+        ]
+        editor.customConfig.uploadImgServer = ctx+'/common/sysFile/uploadOss'
+        editor.create()
+        editor.txt.html($("#describe").val())
+    }
+
+
+    function setDescribe() {
+        var log = editor.txt.html()
+        console.log("log===="+log)
+        $("#describe").val(log)
+    }
+
+    function update(fieldValue) {
+        setDescribe()
+        var formData = new FormData($("#dataForm")[0]);
+        if (fieldValue!=null){
+            for(var i in fieldValue){
+                formData.append("productFieldDOList["+[i]+"].attrFieldId",fieldValue[i].attrFieldId)
+                formData.append("productFieldDOList["+[i]+"].values",fieldValue[i].values)
+                formData.append("productFieldDOList["+[i]+"].attrId",fieldValue[i].attrId)
+            }
+        }
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : ctx + "product/edit",
+            data : formData,// 你的formid
+            async : false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            error : function(request) {
+                parent.layer.alert("Connection error");
+            },
+            success : function(data) {
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    parent.tableReload();
+                    var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                    parent.layer.close(index);
+                } else {
+                    parent.layer.alert(data.msg)
+                }
+
+            }
+        });
+
+    }
+</script>
+</body>
+
+</html>

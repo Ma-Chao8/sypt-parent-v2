@@ -1,0 +1,46 @@
+body{margin: 0;background: #666666;}
+
+div.fc-head{text-align: center;}
+
+
+div.fc-logo{text-align: center;
+    margin-top: 25%;
+}
+
+div.fc-logo img{width:3rem ;}
+
+p.fc-fff{margin: 0;color: #FFFFFF;}
+
+p.fc-text{margin: 0;
+    font-size: 15px;
+    color: #ffffff;}
+
+input.id_user{
+                width: 65%;
+                height: 35px;
+                margin: 10px 0;
+                background: url(../img/hao.png) no-repeat;
+                background-color: white;
+                background-position: 3px;
+                padding-left: 35px;
+                border: 1px solid black;
+                outline: none;
+            }
+            
+input.id_password{width: 65%;
+                height: 35px;
+                margin: 10px 0;
+                background: url(../img/ma.png) no-repeat;
+                background-color: white;
+                background-position: 3px;
+                padding-left: 35px;
+                border: 1px solid black;
+                outline: none;}            
+
+button.sure{width: 72%;
+    height: 35px;
+    border: 0;
+    background-color: #f3a205;
+    color: #fff;
+    font-size: 20px;
+    line-height: 35px;}

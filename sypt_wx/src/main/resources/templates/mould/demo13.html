@@ -1,0 +1,97 @@
+<div id="demoTpl" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" type="text/css" th:href="@{/mould/demo13/css/style.css}"
+          href="/static/mould/demo13/css/style.css"/>
+    <style>
+        html {
+            font-size: 50px;
+        }
+    </style>
+    <header id="fc-head">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div th:each="banner: ${traceFile.banners}" class="swiper-slide">
+                    <img th:if="${banner != null}" th:name="${banner.imgId}" name="314" th:src="${banner.url}"
+                         src="http://qny1.tianma315.com/Fpl5UgaT8nG2SiACnU1ZZTDyWdLa"/>
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </header>
+
+    <div id="fc-content" class="demo01">
+        <div id="fc-content-head">
+            <dl>
+                <dt class="text-c f-18 fc-sub1">溯源查询结果</dt>
+                <dd>
+                    <p th:text="${traceFile.introduce}">感谢语!</p>
+                    <h5>查询编码：<span class="normal fc-red" th:text="${tf.code}">************</span></h5>
+                    <h5>查询次数：<span class="normal fc-red" th:text="${tf.queryNumber}">0次</span></h5>
+                    <h5>首次查询时间：<span class="normal fc-red" th:text="${#dates.format(tf.firstQueryDate,'yyyy-MM-dd HH:mm:ss')}">2017-09-19&emsp;17:50:42</span>
+                    </h5>
+                </dd>
+            </dl>
+        </div>
+
+        <div id="fc-content-body" name="demo13">
+            <div th:each="segment : ${tf.segments}"
+                 th:class="${'area '+segment.styletype}"
+                 th:name="${segment.styletype}"
+                 class="area01 area" name="area01">
+
+                <dl th:switch="${segment.styletype}">
+                    <dt class="text-c f-18 fc-sub1 settledspan">
+                        <span th:text="${segment.title}">产品信息</span>
+                    </dt>
+                    <dd th:case="area01">
+                        <ul class="contentBox2">
+                            <li th:each="segmentItem : ${segment.segmentItems}" class="fc-sub2">
+                                <h5 th:if="${data.type ne 1 and (!#strings.isEmpty(segmentItem.key) or !#strings.isEmpty(segmentItem.val))}"
+                                    class="settledspan">
+                                    <span th:text="${#strings.isEmpty(segmentItem.key) ? '' : segmentItem.key}"
+                                          class="bold f-14 subkey">产品名称</span>
+                                    <span th:if="${!#strings.isEmpty(segmentItem.key)}">：</span>
+                                    <span th:text="${#strings.isEmpty(segmentItem.val) ? '' : segmentItem.val}"
+                                          class="fc-gray f-12 subvalue">红鳍东方河鲀</span>
+                                </h5>
+                            </li>
+                            <img th:each="itemImg : ${segmentItem.segmentItemImgs}"
+                                 th:if="${data.type eq 1 and itemImg ne null}"
+                                 th:name="${itemImg.imgId}"
+                                 th:src="${itemImg.url}"
+                                 name="204"
+                                 src="http://qny1.tianma315.com/FpKRvDJL1i_cxGhIxAM1Qw5jtK2g"
+                                 class="mt-10"/>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+<!--
+    <section id="bottom">
+        <div id="fc-footer" th:if="${tf.company != null}">
+            <ul>
+                <li th:text="${tf.company.companyName}">珠海诚汇丰农业科技有限公司</li>
+                <li>地址:<span th:text="${tf.company.companyAddress}">广东珠海市金湾区平沙镇平东大道口</span></li>
+                <li>电话:<span th:text="${tf.company.tel}">0756-7756759/0756-7756797</span></li>
+                &lt;!&ndash;            <li>官网:<a href="http://www.zh-chf.com/" th:text="${tf.company.companyName}">www.zh-chf.com</a></li >&ndash;&gt;
+                <li>
+                    技术支持：<a th:href="www.tianma315.com">广州天码科技</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+-->
+</div>
+
+<script>
+    $(function () {
+        var mySwiper = new Swiper("#fc-head .swiper-container", {
+            loop: true,
+            autoplay: 5000,
+            pagination: '.swiper-pagination',
+        })
+    })
+</script>

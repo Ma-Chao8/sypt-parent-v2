@@ -1,0 +1,66 @@
+
+body{
+	background-color:#f4f4f4; 
+	font-size: 13px
+}
+
+#fc-header{
+	background-color: white;
+    margin: 10px 10px;
+}
+ /*图标*/   
+.logo{
+	width: 100%;
+	text-align: center;
+} 
+.logo img{
+	width: 60%;
+    height: 100%;
+    padding: 40px;
+}
+
+
+/*input*/
+input.name{height: 30px;width: 173px}
+input.phone{height: 30px;width: 173px}
+input.email{height: 30px;width: 173px}
+input.address{height: 30px;width: 173px}
+textarea{resize: none;
+    vertical-align: text-top;
+    width: 173px;}
+li{line-height:3}
+
+
+.languger{height: 50px;}
+span{color: red;}
+/*表格*/
+.xin{
+	list-style: none;
+	padding: 0;
+}
+.fc-content{
+    text-align: center;
+    line-height: 30px;
+}
+
+/*按钮*/          
+#footer{
+	text-align: center;
+	padding: 20px 20px;
+}
+.btn{
+	padding: 5px 5px;
+    width: 150px;
+    border: 0;
+    border-radius: 6px;
+    background-color: #009944;
+    color: white;
+    font-size: 18px;
+    margin: 30px;
+}
+
+#fc-footer{font-size: 12px;text-align: center;line-height: 24px;
+          background-color: #009944;
+          color: white;}
+#fc-footer ul li{line-height:2}          
+p.rightxia{padding-left: 60%;font-size: 12px;margin-bottom: 0}          

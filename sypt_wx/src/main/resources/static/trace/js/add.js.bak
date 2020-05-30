@@ -1,0 +1,416 @@
+var contextRoot = $("meta[name=ctxPath]").attr("content");
+/*
+ * 这个参数名字不要变动
+ */
+var fc_tplObject;
+$(function () {
+    var titleColr = {};
+    $("#subchangeColor").on("click", "input", function () {
+        var titleIcon = $("#ImgSlect option:selected").val();
+        var titleBg = $("#bgSlect option:selected").val();
+        titleColr.titleIcon = titleIcon;
+        titleColr.titleBg = titleBg;
+        var baseUrl = "/img/bgIcon/";
+        if ($("#phone").find("#fc-content").length > 0) {
+            $("#phone #fc-content").find('.fc-sub1').each(function () {
+                $(this).find("img:first").attr("src", baseUrl + titleIcon + ".png")
+                $(this).css({
+                    "backgroundImage": "url(" + baseUrl + "Bg_" + titleBg + ".png)"
+                })
+            })
+        }
+    });
+
+    $("#ImgSlect select").msDropDown();
+    $("#Imglist li").bind("DOMNodeInserted", function (e) {
+    });
+
+    //console.log($("#bgSlect option").eq(2).data("bgcolor"))
+    $("#bgSlect option").each(function () {
+        var $color = $(this).data("bgcolor");
+        $(this).css({
+            "backgroundColor": "#" + $color,
+            "height": "20px"
+        })
+    });
+    var timeflag = false;
+    $("#modelist").on("click", 'li .addIcon', function () {
+
+        if (timeflag) {
+            return;
+        }
+        if (!fc_tplObject) {
+            alert("请稍等片刻，正在努力加载。。。")
+            return;
+        }
+        var $Id = $(this).siblings(".dragIcon").attr("parentId")
+        var appendHTML = $.grep(fc_tplObject, function (item, index) {
+            if (item.style == $Id) {
+                return item;
+            }
+        })[0].sub;
+
+        var arr = []
+        var flag = true
+        $("#phone").children().find(".area").each(function () {
+            if (arr.indexOf($(this).attr("name")) < 0) {
+                arr.push($(this).attr("name"))
+                flag = true
+            } else {
+                flag = false
+            }
+        })
+
+        if (flag) {
+            $("#phone #fc-content-body").append(appendHTML)
+        } else {
+            $("#phone #fc-content-body >div.area").eq(-2).after(appendHTML)
+        }
+
+        var scrollTop = $('#phone #fc-content-body .area').last().offset()
+        var $bodyTop = $('#phone #demoTpl').scrollTop()
+        var $height = $('#phone #demoTpl').height()
+        timeflag = true;
+        $('#phone #demoTpl').animate({"scrollTop": (scrollTop.top + $bodyTop - $height + 100) + "px"}, 500, function () {
+            timeflag = false;
+        })
+    });
+
+    ///加载相应的demo样式
+    loadMould();
+    //下拉选择的模板
+    $("#Demo").on('change', function () {
+        if (this.value) {
+            loadMould();
+        }
+    });
+
+    /**
+     * 加载模板
+     */
+    function loadMould() {
+        $("#phone").empty();
+        $("#phone").load(contextRoot + "trace/view/mould/" + $("#Demo").val(), loadFinish);
+    }
+
+    function loadFinish() {
+        //初始化template的html模板，获取多级标题的模板
+        fc_tplObject = getTemplate($("#phone").children());
+        //创建左侧样式列表
+        creatList(fc_tplObject)
+        //确定可编辑区域
+        $("#phone #fc-content-body").find(".fc-sub1,.fc-sub2,.fc-sub3").find('span').attr("contenteditable", true)
+        $("#fc-content-body img:not(dt img)").attr("contenteditable", true);
+        $("#phone #fc-content-body").on("DOMNodeInserted", function (event) {
+            if ($(event.target).is("img")) {
+                $(event.target).attr("contenteditable", true)
+            } else {
+                $(event.target).find('span,img:not(dt img)').attr("contenteditable", true)
+            }
+        });
+        bindDrag("#modelist li .dragIcon");
+        bindDrag("#Imglist li .btn", 'imgages');
+        bindDrop("#fc-content-body", fc_tplObject)
+    }
+
+
+    //取消
+    $(".linkbox .cancel").click(function () {
+        $(".linkbox").hide();
+        $("#material").show()
+    });
+    //确定
+    $(".linkbox .deter").click(function () {
+        $(".linkbox").hide();
+        $("#material").show();
+        $("#footLink").empty();
+        var newFootLinkHtml = '';
+        $(".itembox .linkitem").each(function (i, v) {
+            newFootLinkHtml += '<div class="item white">' +
+                '<a id="' + $(v).find('input').eq(1).val() + '" style="color: white">' +
+                '<img src="' + $(v).find('img').attr('src') + '"/>' +
+                '<h5>' + $(v).find('input').eq(0).val() + '</h5></a>' +
+                '</div>'
+        });
+        $("#footLink").append(newFootLinkHtml);
+    })
+
+
+    /**
+     * 加载图片
+     */
+    var page = 0;
+    $(document).on("click", "a", function () {
+        switch ($(this).attr("data-operate")) {
+            case "refreshImg": {
+                loadImg(true);
+                break
+            }
+            case "loadMore": {
+                loadImg(false);
+                break
+            };
+        }
+    });
+
+    loadImg(true);
+
+    function loadImg(isRefresh) {
+        if (isRefresh) {
+            page = 1;
+            $("#Imglist ul").empty();
+        }
+        $.ajax({
+            url: "/file/list",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                pageNumber: page,
+                pageSize: 50,
+                type: "image"
+            },
+            success: function (result) {
+                if (result.code === 0 && result.data) {
+                    var records = result.data.records;
+                    if (!records || records.length < 1) {
+                        if (!isRefresh) {
+                            layer.msg("没有更多数据了");
+                        }
+                        return;
+                    }
+                    page++;
+                    renderImgList(records);
+                    bindDrag("#Imglist li .btn", 'imgages');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+    /**
+     * 渲染图片模块
+     *
+     * @param datas
+     */
+    function renderImgList(datas) {
+        if (!datas)
+            return;
+
+        for (var i in  datas) {
+            var record = datas[i];
+            var li = $("<li></li>");
+            //
+            var contentDiv = $('<div class="f-l pl-20"></div>');
+            $(contentDiv).append('<img name="' + record.id + '" src="' + record.url + '" onclick="picboost(' + record.url + ')"/>');
+
+            //
+            var operateDiv = $('<div class="f-r pr-20"></div>');
+            $(operateDiv).append('<input name="1" type="button" draggable="true"  value="增加" class="btn btn-success radius">');
+            $(operateDiv).append('<input name="2" type="button" draggable="true" value="替换" class="btn btn-primary radius ml-10" >');
+            //$(operateDiv).append('<input name="" type="button" draggable="true" value="删除" onclick="deleteImg()" class="btn btn-default radius ml-10">');
+            //
+            $(li).append(contentDiv);
+            $(li).append(operateDiv);
+            $("#Imglist ul").append(li);
+        }
+    }
+
+
+});
+
+
+//链接修改
+function showLink(obj) {
+    $(".linkbox").show();
+    $("#material").hide();
+    var html = "";
+    $(".itembox").html("");
+    $(obj).find("div.item").each(function (i, v) {
+        var url = '';
+        if ($(this).find("a").attr("id") != undefined) {
+            url = $(this).find("a").attr("id");
+        }
+        html += '<div class="linkitem">'
+            + '<input type="text" class="form-control" value="' + $(this).find("h5").text() + '" placeholder=""/>'
+            + '<input type="text" class="form-control" placeholder="链接地址" value="' + url + '"/>'
+            + '<img src="' + $(this).find("img").attr("src") + '" />'
+            + '<input type="file" style="cursor:pointer;display:inline-block" class="files" id="footLinkImg' + i + '" name="file" onchange="readFile(this,5)"/>'
+            + '<span class="add" onclick="add(this)">添加</span><span class="remore" onclick="remove(this)">移除</span></div>'
+    });
+    $(".itembox").append(html);
+    $(".linkbox").show();
+}
+
+//链接项添加
+function add(obj) {
+    var html = '<div class="linkitem">'
+        + '<input type="text" class="form-control" value="" placeholder=""/>'
+        + '<input type="text" class="form-control" placeholder="链接地址" value=""/>'
+        + '<img src="/img/icon03.jpg" />'
+        + '<input type="file" style="cursor:pointer;display:inline-block" class="files" id="footLinkImg' + $('.itembox>div').length + '" name="file" onchange="readFile(this,5)"/>'
+        + '<span class="add" onclick="add(this)">添加</span><span class="remore" onclick="remove(this)">移除</span></div>'
+    $(obj).parent().after(html);
+}
+
+//链接项删除
+function remove(obj) {
+    if ($(".itembox .linkitem").length <= 1) {
+        layer.msg('至少保留一个底部链接!');
+        return;
+    }
+    $(obj).parent().remove()
+}
+
+
+function addUrl(ele, baseUrl) {
+    $(ele).find("img").each(function () {
+        var $src = $(this).attr("src");
+        $(this).attr("src", baseUrl + $src)
+    })
+}
+
+//档案提交
+function submitData() {
+    reloadProduct(function (data) {
+        var subIndex = layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            area: '516px',
+            shadeClose: true,
+            content: $('#tong'),
+            btn: ['确定', '取消'],
+            yes: function (index) {
+                var $title = $('input[name="title"]').val();
+                if ($title == '' || $title == null) {
+                    layer.alert('请先输入标题');
+                    return;
+                }
+                var loading = layer.load(2);
+                var $postData = pageToDate("#fc-content-body", ".area");
+                var $product_id = $("#product").find("option:selected").val();
+                // 获取轮播图数据
+                var $logoId = [];
+                var logoNum = $('.swiper-pagination span').length;
+                for (var i = 0; i < logoNum; i++) {
+                    $logoId.push({imgId: $('.swiper-wrapper div[data-swiper-slide-index="' + i + '"]').find('img').attr('name')});
+                }
+                // 获取底部链接
+                var $footLinkData = [];
+                $('#footLink div').each(function (i, v) {
+                    var obj = {};
+                    obj['footLinkName'] = $(v).find('h5').text();
+                    obj['linkUrl'] = $(v).find('a').attr('id');
+                    obj['picAddress'] = $(v).find('img').attr('src');
+                    $footLinkData.push(obj);
+                });
+
+                $postData.traceFileName = $title;
+                $postData.productId = $product_id;
+                $postData.banners = $logoId;
+                $postData.footLinks = $footLinkData;
+                var data = JSON.stringify($postData);
+                console.log(data);
+                $.ajax({
+                    url: contextRoot + 'trace/add',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data,
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (result, statusText) {
+                        layer.close(loading);
+                        if (result.success) {
+                            layer.msg(result.msg);
+                            layer.close(subIndex);
+                        } else {
+                            layer.alert(result.msg)
+                        }
+                    },
+                    error: function (data) {
+                        layer.close(loading);
+                        layer.alert("网络请求失败，请稍后重新操作");
+                    }
+                });
+            }
+        });
+    }, function (msg) {
+        layer.alert(me);
+    }, function (msg) {
+        layer.alert(msg);
+    });
+}
+
+
+function openLayer(pageId) {
+    var index = layer.open({
+        type: 2,
+        title: "历史档案",
+        content: contextRoot + "user/traceability/view/chooseFile",
+    });
+    layer.full(index);
+}
+
+//删除素材图片
+function deleteImg(a, enclosure_id) {
+    layer.confirm('确定要删除该图片吗？', {
+        btn: ['删除', '取消'] //按钮
+    }, function () {
+        $.ajax({
+            'url': contextRoot + "user/traceability/json/delete/img/" + enclosure_id,
+            'type': 'get',
+            'dataType': 'json',
+            'success': function (result, statusText) {
+                if (result.code === 0) {
+                    layer.msg(result.msg);
+                    $(a).parent().parent().remove();
+                } else {
+                    layer.alert(result.msg);
+                }
+
+            }, error: function (data) {
+                layer.alert("网络错误，请稍后重新操作");
+            }
+        });
+    });
+}
+
+/**
+ * 重新加载产品下拉框
+ *
+ * @param success
+ * @param error
+ * @param exception
+ */
+function reloadProduct(success, error, exception) {
+    var loading = layer.load(3);
+    $('#product').empty();
+    $.ajax({
+        url: contextRoot + "product/all",
+        dataType: "json",
+        type: "GET",
+        success: function (result) {
+            if (result.code == 0) {
+                if (success)
+                    success(result.data);
+                if (result.data && result.data.length > 0) {
+                    $.each(result.data, function (i, v) {
+                        $('#product').append('<option value="' + v.productId + '">' + v.productName + '</option>');
+                    });
+                }
+            } else {
+                if (error)
+                    error("刷新产品列表失败");
+            }
+            layer.close(loading);
+        },
+        error: function (error) {
+            if (exception)
+                exception("网络错误，产品信息获取失败，请稍后重新操作");
+            console.log(error);
+            layer.close(loading);
+        }
+    });
+}

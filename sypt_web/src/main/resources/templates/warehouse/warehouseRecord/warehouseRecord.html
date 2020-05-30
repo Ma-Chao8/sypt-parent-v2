@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header">
+	<title>入库管理</title>
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left col-md-3 col-sm-3 nopadding">
+							<div class="input-group">
+                               <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">仓库：</button>
+                               </span>
+								<select id="warehouseId" type="text" class="form-control chosen-select" tabindex="2" style="width: 100%"
+								data-placeholder="仓库" >
+								<option value="">选择仓库</option>
+								</select>
+							</div>
+						</div>
+						<div class="columns pull-right" style="top: -2px;">
+							<!--<button id="btn_export" class="export-excel btn btn-info" >-->
+								<!--<i class="fa fa-share-square-o"></i>-->
+								<!--<span>&nbsp;导出Excel</span>-->
+							<!--</button>-->
+							<button class="btn btn-outline-secondary"  type="button" id="btn_export">
+								<i class="fa fa-download" aria-hidden="true"></i>导出
+							</button>
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="warehouse:warehouseRecord:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="warehouse:warehouseRecord:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="warehouse:warehouseRecord:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+		function getWarehouseId() {
+			$.ajax({
+				cache : true,
+				type : "GET",
+				url : getContext()+"/warehouse/warehouse/all",
+				// data : $('#signupForm').serialize(),// 你的formid
+				async : false,
+				error : function(request) {
+					parent.layer.alert("Connection error");
+				},
+				success : function(data) {
+					var itemList = data.data;
+					var htmlText ="";
+					for (var i in itemList){
+						var item = itemList[i];
+						htmlText += "<option value='"+item.warehouseId+"'> "+item.warehouseName+" </option>"
+					}
+					$("#warehouseId").append(htmlText);
+				}
+			});
+		}
+		$('#warehouseId').change(function () {
+			reLoad();
+		})
+		function tableExport(){
+			layer.confirm("确定要导出当前页数的数据？",
+					{btn:['确定','取消']},
+			function () {
+				$('#exampleTable').tableExport(
+						{
+							type: 'excel',//导出excel
+							//exportDataType: 'selected',
+							escape: 'false' ,
+							ignoreColumn: [0,9],  //忽略某一列的索引
+							fileName: '入库记录',  //文件名称设置
+							worksheetName: 'sheet1',  //表格工作区名称
+							tableName: '入库记录',
+							excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
+						}
+				)
+			}
+			)
+		}
+		$('#btn_export').click(function(){
+			tableExport()
+		})
+	</script>
+	<script type="text/javascript"  th:src="@{/js/appjs/warehouse/warehouseRecord/warehouseRecord.js}" src="/static/js/appjs/warehouse/warehouseRecord/warehouseRecord.js"></script>
+</body>
+</html>

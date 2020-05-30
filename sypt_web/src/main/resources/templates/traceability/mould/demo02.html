@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="traceability/mould/demo::header"></head>
+<body>
+<div id="demoTpl" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" type="text/css" th:href="@{/mould/demo02/css/style1.css}"
+          href="/static/mould/demo02/css/style1.css"/>
+    <!--<script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"-->
+    <!--src="/static/lib/jquery/jquery.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/mould/demo02/js/demo02.js}"
+            src="/static/mould/demo02/js/demo02.js"></script>
+    <script type="text/javascript" th:src="@{/mould/demo02/js/remControl.js}"
+            src="/static/mould/demo02/js/remControl.js"></script>
+
+    <header id="fc-head">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div th:each="banner: ${tf?.proBanners}" class="swiper-slide">
+                    <img th:name="${banner?.bannerImgId}" name="314" th:src="${banner?.bannerUrl}"
+                         src="http://qny1.tianma315.com/Fpl5UgaT8nG2SiACnU1ZZTDyWdLa"/>
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </header>
+    <div id="fc-content">
+        <div id="fc-content-head">
+            <dl class="mt-20">
+                <dt class="text-c f-18 fc-sub1">
+                    <img src="http://qny1.tianma315.com/Fkqb07_S8fK6WpuwE5WyOKlyl9Hw"/>防伪查询
+                </dt>
+                <dd>
+                    <p>感谢语！</p>
+                    <h5>查询编码：<span class="normal fc-red">************</span></h5>
+                    <h5>查询次数：<span class="normal fc-red">0次</span></h5>
+                    <h5>首次查询时间：<span class="normal fc-red">2017-09-19 17:50:42</span></h5>
+                </dd>
+            </dl>
+        </div>
+
+        <div id="fc-content-body" name="demo02">
+            <!--<div th:each="segment : ${traceFile.segments}"
+                 th:class="${'area '+segment.styletype}"
+                 th:name="${segment.styletype}"
+                 th:if="${segment != null}"
+                 class="area01 area"
+                 name="area01">-->
+            <div th:each="menu : ${tf.menuList}" th:if="${menu != null}" class="area01 area"
+                 name="area01">
+                <!--  -->
+                <dl>
+                    <dt class="text-c f-18 fc-sub1 settledspan">
+                        <img th:if="${menu.icon ne null}" th:src="${menu.icon}" style="width:10%">
+                        <span th:text="${menu.menuName}">产品信息</span>
+                    </dt>
+                    <dd>
+                        <ul class="contentBox2">
+                            <li th:each="data : ${menu.dataList}" th:if="${data != null}" class="fc-sub2">
+                                <h5 th:if="${data.type != 1 and (!#strings.isEmpty(data.dataKey) or !#strings.isEmpty(data.dataValue))}"
+                                    class="settledspan">
+                                    <span th:text="${#strings.isEmpty(data.dataKey) ? '' : data.dataKey}"
+                                          class="bold f-14 subkey">产品名称</span>：
+                                    <span th:if="${data.type}!=1"
+                                          th:text="${#strings.isEmpty(data.dataValue) ? '' : data.dataValue}"
+                                          class="fc-gray f-12 subvalue">红鳍东方河鲀</span>
+                                </h5>
+                                <img th:if="${data.type}==1" th:each="pic : ${data.pics}"
+                                     th:if="${pic!= null}"
+                                     th:src="${pic}"
+                                     th:alt="${data?.dataKey}"
+                                     name="204" src="http://qny1.tianma315.com/FpKRvDJL1i_cxGhIxAM1Qw5jtK2g"
+                                     class="mt-10"/>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div id="fc-footer">
+        <ul class="footerArea" th:object="${tf.company}" th:inline="text">
+            <li>[[*{companyName}]]</li>
+            <li>地址:[[*{companyAddress}]]</li>
+            <li>电话：[[*{tel}]]</li>
+            <li>
+                <a href="http://www.tianma315.com" target="_blank">技术方：广州天码防伪科技有限公司</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+html,
+body {
+    -webkit-overflow-scrolling: touch;
+    background-color: #e4e4e4;
+}
+
+img {
+    width: 100%;
+}
+
+#fc-head img {
+    width: 100%;
+}
+
+#fc-content {
+    width: 100%;
+    /*width: 7.1rem;*/
+    /*height: 100%;   在电脑端必须注释掉这行*/
+
+    margin: auto;
+
+    overflow: hidden;
+    position: relative;
+}
+
+#fc-content .area {
+    position: relative;
+    overflow: hidden;
+    /*width: 7.1rem;*/
+    width: 100%;
+    margin: 10px auto;
+    box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+}
+
+#fc-footer .area {
+    position: relative;
+    overflow: hidden;
+    /*width: 7.1rem;*/
+    width: 100%;
+    margin: 10px auto;
+    box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    color: #333;
+}
+
+#fc-footer dl > dt img {
+    width: 0.45rem;
+    vertical-align: -3px;
+}
+
+.contentBox2 .flex {
+    display: flex;
+    justify-content: space-around;
+}
+
+.contentBox2 .flex img {
+    display: block;
+    width: 45%;
+    text-indent: 0;
+}
+
+
+.text-30 {
+    padding: 2px 47px;
+    text-indent: 0.56rem;
+}
+
+/*
+ *查询部分
+ */
+#fc-content-head dd p {
+    font-size: 12px;
+    margin-top: 0.4rem;
+}
+
+
+/*下划线*/
+#fc-content dl > dt span {
+    padding-left: 5px;
+    border-bottom: 1px solid #009944;
+}
+
+#fc-footer .footerArea {
+    font-size: 12px;
+    text-align: center;
+    background-color: #009944;
+    color: white;
+    margin: 0;
+    padding: 0.2rem;
+}
+
+
+.rightxia {
+    padding-left: 60%;
+    font-size: 12px;
+    margin-bottom: 0
+}
+
+/*home文字*/
+p.text {
+    margin: 10px 9px;
+    text-align: justify;
+    text-indent: 0.6rem;
+}
+
+/*home溯源之旅*/
+#bgphoto {
+    /*width: 7.1rem;*/
+    width: 100%;
+    position: relative;
+    background: url(../img/j2.jpg) no-repeat top center;
+    background-size: 100%;
+    margin: auto;
+}
+
+.bgsearch {
+    display: flex;
+    padding: 5px 5px;
+}
+
+.bgtu {
+    width: 100%;
+    padding: 25px;
+}
+
+/*  new style*/
+
+.area01,
+.img_multi01,
+.img_multi02 {
+    padding: 0.2rem;
+}
+
+.area01 dl,
+.img_multi01 dl,
+.img_multi02 dl {
+    margin: 0;
+
+}
+
+.area01 dl dt,
+.img_multi01 dl dt,
+.img_multi02 dl dt {
+    padding: 0.2rem;
+}
+
+.area01 dl dt img,
+.img_multi01 dl dt img,
+.img_multi02 dl dt img {
+    width: 0.4rem;
+    height: 0.4rem;
+
+}
+
+
+.area01 dl dd h5,
+.img_multi01 dl dd h5,
+.img_multi02 dl dd h5 {
+    padding: 0 0.1rem;
+}

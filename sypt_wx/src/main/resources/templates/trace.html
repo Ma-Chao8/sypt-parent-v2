@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="ctxPath" th:content="@{/}">
+    <meta name="code" th:content="${code}">
+    <meta name="ident" th:content="${ident}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--    -->
+    <link type="text/css" rel="stylesheet" th:href="@{/libs/h-ui/css/H-ui.min.css}"
+          href="/static/libs/h-ui/css/H-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/libs/Hui-iconfont/1.0.8/iconfont.min.css}"
+          href="/static/libs/Hui-iconfont/1.0.8/iconfont.min.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/libs/swiper/css/swiper.css}"
+          href="/static/libs/swiper/css/swiper.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}"
+          href="/static/libs/bootstrap/css/bootstrap.min.css"/>
+
+    <!--    -->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/base.css}" href="/static/css/base.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/index.css}" href="/static/css/index.css"/>
+
+
+    <!--[if lt IE 9]>
+    <script src="lib/H-ui/lib/html5shi.js"></script>
+    <script src="lib/H-ui/lib/respond.min.js"></script>
+    <script src="lib/H-ui/lib/PIE_IE678.js"></script>
+    <![endif]-->
+    <title>溯源信息</title>
+</head>
+<body>
+<div id="contentlist">
+    <div class="preview-layout">
+        <div id="content"></div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/libs/jquery/jquery.min.js}" src="/static/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/libs/h-ui/js/H-ui.min.js}" src="/static/libs/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" th:src="@{/libs/bootstrap/js/bootstrap.min.js}"
+        src="/static/libs/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/libs/swiper/js/swiper.js}" src="/static/libs/swiper/js/swiper.js"></script>
+<script type="text/javascript" th:src="@{/libs/wx/js/jweixin-1.4.0.js}"
+        src="/static/libs/wx/js/jweixin-1.4.0.js"></script>
+
+<script th:inline="javascript">
+    var ctxPath = /*[[@{/}]]*/'';
+    var wxConfig = [[${wxConfig}]]
+</script>
+
+
+<script type="text/javascript">
+    (function () {
+        var contextRoot = $("meta[name=ctxPath]").attr("content");
+        $("#content").load(contextRoot + "trace/view/template/" + $("meta[name=code]").attr("content")+"?ident="+$("meta[name=ident]").attr("content"));
+
+        if (!wxConfig) {
+            wxConfig = {};
+        }
+        // wxConfig["debug"] = true;
+        wx.config(wxConfig);
+        wx.ready(function () {
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var url = ctxPath + "trace/update/location";
+                    var data = {};
+                    data["latitude"] = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    data["longitude"] = res.longitude;// 经度，浮点数，范围为180 ~ -180。
+                    data["speed"] = res.speed; // 速度，以米/每秒计
+                    data["accuracy"] = res.accuracy;// 位置精度
+                    data["code"] = $("meta[name=code]").attr("content");//
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "JSON",
+                        data: data,
+                        success: function (result) {
+                            console.log(result)
+                        },
+                        error: function (error) {
+                            //alert("error:" + error.status)
+                            console.log(error)
+                        }
+                    })
+                }
+            });
+        });
+    })();
+</script>
+</body>
+
+</html>

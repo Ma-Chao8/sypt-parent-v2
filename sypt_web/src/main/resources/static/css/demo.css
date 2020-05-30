@@ -1,0 +1,10 @@
+.title_head{text-align: center;
+    border: 1px solid #18a689;
+    height: 35px;
+    line-height: 35px;
+    background-color: #18a689;color: #FFFFFF;}
+.title_head >p{    font-size: 16px;
+    font-weight: 600;}    
+    
+.report{width:100%;text-align: center;}    
+.report img{width: 45%;}

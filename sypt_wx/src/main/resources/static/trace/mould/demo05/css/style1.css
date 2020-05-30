@@ -1,0 +1,105 @@
+html,
+body {
+	-webkit-overflow-scrolling: touch;
+	background-color: #e4e4e4;
+}
+img{width: 100%;}
+#fc-head img {
+	width: 100%;
+}
+
+
+/*zi*/
+.zi{background-color: #009944;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+   
+}
+
+.text-text{text-align: center;font-size: 13px;margin-bottom: 0;color: #009944;}
+
+#fc-content{
+	/*width: 7.1rem;
+	height: 100%;*/
+	width: 100%;
+	background-color: #fff;
+	margin: 10px auto;
+	box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	position: relative;
+}
+
+#fc-content.demo01 dl {
+	margin-top: 0.40rem;
+	
+}
+
+#fc-content.demo01 dl>dt img {
+	/*width: 0.45rem;*/
+	width: 20px;
+	vertical-align: -3px;
+}
+
+#fc-content.demo01 dd {
+	text-indent: 0.9rem;
+}
+
+.text-30{padding: 2px 47px;
+   text-indent: 0.56rem;}
+/*
+ *查询部分
+ */
+#fc-content-head dd p {
+	font-size: 12px;
+	margin-top: 0.4rem;
+}
+.area01 dd{text-indent: 1.1rem;}
+
+/*下划线*/
+#fc-content.demo01 dl>dt span{padding-left: 5px;
+    border-bottom: 1px solid #009944;}
+
+#fc-footer{font-size: 12px;text-align: center;line-height: 24px;
+          background-color: #009944;
+          color: white;}
+.area dt{padding-bottom: 10px}
+p.rightxia{padding-left: 60%;font-size: 12px;margin-bottom: 0}
+
+
+/*home溯源之旅*/
+#bgphoto{
+	width: 7.1rem;
+	position: relative;
+	background: url(../img/1.jpg) no-repeat top center;
+	background-size: 100%;
+	margin: auto;
+ }
+
+.bgsearch{display: flex;padding: 5px 5px;}
+
+img.bgtu{width: 70%;
+    padding: 25px;}
+
+ 
+/*报告*/
+/*#fc-content.demo01 .baogao{text-indent: 0;}    
+.tu{display: flex;}*/
+.baogao{text-indent: 0;}    
+.tu{display: -webkit-flex;-webkit-justify-content: space-around;-webkit-flex-wrap:wrap;width: 100%;}
+.tu img{width:45%; height:50%;}
+
+#gotop{position: fixed;
+    background-color: #009944;
+    top: 88%;
+    right: 15px;}
+    
+.fc-content-box{
+	width: 100%;
+	background-color: #fff;
+	margin: 10px auto;
+	box-shadow: 0px -3px 9px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	position: relative;
+}

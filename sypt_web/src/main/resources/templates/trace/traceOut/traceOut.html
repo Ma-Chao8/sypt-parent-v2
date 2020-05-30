@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<!--<button shiro:hasPermission="trace:traceOut:add" type="button" class="btn  btn-primary" onclick="add()">-->
+								<!--<i class="fa fa-plus" aria-hidden="true"></i>添加-->
+							<!--</button>-->
+							<button shiro:hasPermission="trace:traceOut:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="请输入批次">
+						</div>
+
+						<div class="columns pull-right col-md-2 nopadding">
+							<!--<label style=" display: inline-block;width: 20%;padding: 0;">结束时间：</label>-->
+							<!--<input id="endDate" type="text" class="form-control" style="width: 70%;display: inline-block;"-->
+							<!--placeholder="结束时间">-->
+							<input id="endDate" type="text" class="form-control" autocomplete="off"
+								   placeholder="结束时间">
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<!--<label style=" display: inline-block;width: 20%;padding: 0;">开始时间：</label>-->
+							<!--<input id="beginDate" type="text" class="form-control" style="width: 70%;display: inline-block;"-->
+							<!--placeholder="开始时间">-->
+							<input id="beginDate" type="text" class="form-control" autocomplete="off"
+								   placeholder="开始时间">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="trace:traceOut:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="trace:traceOut:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="trace:traceOut:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+		laydate.render({
+			elem : '#beginDate',
+			type : 'date'
+		});
+		laydate.render({
+			elem : '#endDate',
+			type : 'date'
+		});
+		</script>
+	<script type="text/javascript" src="/static/js/appjs/trace/traceOut/traceOut.js" th:src="@{/js/appjs/trace/traceOut/traceOut.js}"></script>
+</body>
+</html>

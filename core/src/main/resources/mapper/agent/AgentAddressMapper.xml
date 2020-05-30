@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.agent.dao.AgentAddressDao">
+    <select id="getAgentAddressPage" resultType="com.tianma315.core.agent.vo.AgentAddressVO">
+        SELECT aa.*,a.agent_name FROM agent_address aa LEFT JOIN agent a ON aa.agent_id = a.agent_id
+        WHERE aa.status != 2 AND  aa.company_id = #{companyId}
+        <if test="agentId != null">
+            AND aa.agent_id = #{agentId}
+        </if>
+    </select>
+</mapper>

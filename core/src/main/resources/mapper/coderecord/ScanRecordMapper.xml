@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianma315.core.coderecord.dao.ScanRecordMapper">
+    <select id="selectCountByDay" resultType="java.util.Map">
+        select
+        COUNT(1) count,
+        day(sr.created_date) day
+        from scan_record sr
+        WHERE sr.company_id = #{companyId}
+        AND year(sr.created_date) = #{year}
+        AND month(sr.created_date) = #{month}
+        group by day(sr.created_date)
+    </select>
+
+
+    <select id="selectCountByMonth" resultType="java.util.Map">
+        SELECT
+        month(sr.created_date) month,
+        COUNT(1) count
+        FROM
+        scan_record sr
+        WHERE sr.company_id = #{companyId}
+        AND year(sr.created_date) = #{date}
+        GROUP BY month(sr.created_date)
+    </select>
+
+    <select id="selectCountByYear" resultType="java.util.Map">
+        select
+        COUNT(1) count,
+        year(sr.created_date) year
+        from scan_record sr
+        WHERE sr.company_id = #{companyId}
+        AND year(sr.created_date) BETWEEN #{startYear} AND  #{endYear}
+    </select>
+
+    <select id="selectByCode" resultType="com.tianma315.core.coderecord.domain.pojo.ScanRecord">
+        SELECT
+        *
+        FROM scan_record sr
+        WHERE sr.`code` = #{code}
+        AND sr.trace_file_id = #{traceFileId}
+        LIMIT 1
+    </select>
+
+    <select id="selectRecordByCode" resultType="com.tianma315.core.coderecord.domain.pojo.ScanRecord">
+        SELECT
+        *
+        FROM scan_record sr
+        where sr.code = #{code}
+    </select>
+
+
+</mapper>

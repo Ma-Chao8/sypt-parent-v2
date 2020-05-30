@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.warehouse.dao.WarehouseRecordCodeDao">
+      <select id="selectWarehouseRecordCodeDO" resultType="WarehouseRecordCodeDO">
+            SELECT
+            *
+            FROM warehouse_record_code wrc
+            WHERE wrc.warehouse_record_id = #{id}
+      </select>
+
+      <update id="update" >
+            update warehouse_record_code
+            set
+            <trim suffixOverrides=",">
+                  <if test="warehouseRecordId != null">warehouse_record_id = #{warehouseRecordId},</if>
+                  <if test="bigCode != null">big_code = #{bigCode},</if>
+                  <if test="smallCode != null">small_code = #{smallCode},</if>
+            </trim>
+            where id = #{id}
+      </update>
+
+      <select id="getWarehouseRecordCodeDOByCode" parameterType="string" resultType="com.tianma315.core.warehouse.domain.WarehouseRecordCodeDO" >
+           SELECT * FROM warehouse_record_code wc
+            WHERE wc.big_code = #{code} OR  wc.small_code =#{code}
+            LIMIT 0 ,1
+      </select>
+</mapper>

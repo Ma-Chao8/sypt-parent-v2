@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+                    <div class="row">
+						<div class="columns pull-left col-md-3 col-sm-3 nopadding">
+							<div class="input-group">
+                               <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">仓库：</button>
+                               </span>
+								<select id="warehouseId" type="text" class="form-control chosen-select" tabindex="2" style="width: 100%"
+										data-placeholder="仓库" >
+									<option value="">选择仓库</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="form-group" style="text-align: right;">
+								<label class="control-label">退货日期：</label>
+								<input autocomplete="off" class="form-control layer-date" id="beginDate"  placeholder="开始日期" style="max-width:150px;display: inline-block;" />
+								<span>--</span>
+								<input autocomplete="off" class="form-control layer-date" id="endDate" placeholder="结束日期" style="max-width:150px;display: inline-block;" />
+							</div>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<button class="btn btn-outline-secondary"  type="button" id="btnExport">
+								<i class="fa fa-download" aria-hidden="true"></i>导出
+							</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+                   </div>
+
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:returned:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:returned:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="invoice:returned:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+		laydate.render({
+			elem: '#beginDate'
+		})
+		laydate.render({
+			elem: '#endDate'
+		})
+
+		function getWarehouseId() {
+			$.ajax({
+				cache : true,
+				type : "GET",
+				url : getContext()+"/warehouse/warehouse/all",
+				// data : $('#signupForm').serialize(),// 你的formid
+				async : false,
+				error : function(request) {
+					parent.layer.alert("Connection error");
+				},
+				success : function(data) {
+					var itemList = data.data;
+					var htmlText ="";
+					for (var i in itemList){
+						var item = itemList[i];
+						htmlText += "<option value='"+item.warehouseId+"'> "+item.warehouseName+" </option>"
+					}
+					$("#warehouseId").append(htmlText);
+				}
+			});
+		}
+
+		$('#warehouseId').change(function () {
+			reLoad();
+		})
+	</script>
+	<script type="text/javascript" th:src="@{/js/appjs/invoice/returned/returned.js}" src="/static/js/appjs/invoice/returned/returned.js"></script>
+</body>
+</html>

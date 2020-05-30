@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.trace.dao.TraceOutFieldDao">
+
+    <select id="getTraceOutAttrFieldByTraceOutId" resultType="com.tianma315.core.trace.vo.TraceOutAttrFieldVO">
+        SELECT tf.values,af.attr_field_name AS attrFieldName
+        FROM trace_out_field tf
+        LEFT JOIN attr_field af on tf.attr_field_id = af.attr_field_id
+        WHERE tf.trace_out_id = #{traceOutId} and tf.state = 0
+    </select>
+</mapper>

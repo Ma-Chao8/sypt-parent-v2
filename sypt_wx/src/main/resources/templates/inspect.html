@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>稽查</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <link rel="icon" th:href="@{/favicon.ico}" href="/favicon.ico">
+    <link rel="stylesheet" th:href="@{/plugins/mui/css/mui.min.css}"
+          href="/static/plugins/mui/css/mui.min.css"/>
+    <link rel="stylesheet" th:href="@{/plugins/iconfont/css/iconfont.css}"
+          href="/static/plugins/iconfont/css/iconfont.css"/>
+    <link rel="stylesheet" th:href="@{/css/style1.css}"
+          href="/static/css/style1.css"/>
+
+    <style>
+        .text-box {
+            padding: 5px 10px;
+        }
+
+        .text-box label, .text-box span {
+            display: inline-block;
+        }
+
+        .text-box label {
+            width: 30%;
+            text-align: right;
+
+        }
+
+        .text-box span {
+            width: 68%;
+            text-align: left;
+
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="bg">
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">稽查</h1>
+    </header>
+
+    <div class="mui-content">
+
+        <div class="mui-row" style="margin: 10px">
+            <div class="mui-saomiao" style="margin-top: 5px">
+                <span class="mui-icon mui-icon-add mui-icon-add-saomiao"></span>
+                <input name="code" type="text" class="mui-input-clear" autocomplete="off" placeholder="扫码">
+                <button name="scan">稽查</button>
+            </div>
+
+            <div id="inspect_info" class="mui-row" style="margin-top: 20px; display: none">
+                <div class="text-box">
+                    <label>查询码：</label>
+                    <span id="inspect_code"></span>
+                </div>
+                <div class="text-box">
+                    <label>产品：</label>
+                    <span id="product_name"></span>
+                </div>
+                <div class="text-box">
+                    <label>经销商：</label>
+                    <span id="agent_name"></span>
+                </div>
+                <div class="text-box">
+                    <label>联系人：</label>
+                    <span id="linkman"></span>
+                </div>
+                <div class="text-box">
+                    <label>tel：</label>
+                    <span id="tel"></span>
+                </div>
+                <div class="text-box">
+                    <label>发货时间：</label>
+                    <span id="deliver_date"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script th:inline="javascript">
+    window.ctxPath = /*[[@{/}]]*/ +'';
+</script>
+<script type="text/javascript" th:src="@{/plugins/jquery/jquery-2.1.4.js}"
+        src="/static/plugins/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" th:src="@{/plugins/mui/js/mui.min.js}"
+        src="/static/plugins/mui/js/mui.min.js"></script>
+<script type="text/javascript" th:src="@{/plugins/jweixin/jweixin-1.0.0.js}"
+        src="/static/plugins/jweixin/jweixin-1.0.0.js"></script>
+<script type="text/javascript" th:src="@{/js/app.js}"
+        src="/static/js/app.js"></script>
+<script type="text/javascript" th:src="@{/js/inspect.js}"
+        src="/static/js/inspect.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/css/swiper.min.css" rel="stylesheet"  th:href="@{/css/swiper.min.css}"/>
+
+<link href="/css/upload.css" rel="stylesheet" th:href="@{/css/upload.css}" />
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t wizard-big" id="signupForm" name="signupForm">
+						<div class="form-group datas" th:each="tyMenuDataDO:${tyMenuDataDOS}">
+							<span th:if="${tyMenuDataDO.type == 0}" class="input">
+								<label class="col-sm-3 control-label" th:text="${tyMenuDataDO.dataKey}">代理商名字：</label>
+								<div class="col-sm-8">
+									<input th:id="${tyMenuDataDO.menuDataId}" th:name="${tyMenuDataDO.menuDataId}" class="form-control" type="text" th:value="${tyMenuDataDO.dataValue}">
+								</div>
+							</span>
+
+
+
+
+							<span th:if="${tyMenuDataDO.type == 1}">
+								<div class="form-group row">
+									<div class="col-sm-3"></div>
+								<div class="col-sm-8 imgsa">
+									<span class="tudesc" th:text="${tyMenuDataDO.dataKey}">选择水质检测图</span>
+									<ul class="evimg">
+									<span class="imgArray" th:id="${tyMenuDataDO.menuDataId}" th:value="${tyMenuDataDO.menuDataId}">
+										<li class="loads" th:each="pic:${tyMenuDataDO.pics}">
+											<img class="img" src="img/uploadfile.png" th:src="${pic}" th:value="${pic}">
+											<span class="delete" onclick="delThis(this)">X</span>
+											<!--<input type="file" name="file" class="upload" id="upload" onchange="readFile(this)">-->
+										</li>
+									</span>
+										<li class="load">
+											<img class="img" src="img/uploadfile.png" th:src="@{/img/uploadfile.png}">
+											<input type="file" name="file" class="upload" id="upload" onchange="readFile(this)">
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							</span>
+
+						</div>
+
+
+
+
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="button" class="btn btn-primary" onclick="save()">提交</button>
+									<input type="button" class="btn btn-danger" value="取消"
+										   onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+									</input>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="showphoto" class="tu">
+				<div id="model" >
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+
+						</div>
+					</div>
+				</div>
+				<span class="photo_close">X</span>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/js/swiper.min.js" th:src="@{/js/swiper.min.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		var tyMenuDataDOS = [[${tyMenuDataDOS}]];
+		// console.log(tyMenuDataDOS)
+
+		function save(){
+			var prefix = getContext() + "/trace/traceOut"
+			var inputList=[]
+			var traceabilityFileId = [[${traceabilityFileId}]];
+			var proceduresLinkId = [[${proceduresLinkId}]];
+			var flag = false;
+			//判断文本框
+			$(".datas .input").each(function(){
+
+				var $id=$(this).find("input").attr("id")
+				var $input=$(this).find("input").val()
+				var $text=$(this).find("label").text()
+				if($input == ""){
+					alert($text+"不能为空！")
+					// layer.open({
+					// 	content: $text+"不能为空！"
+					// 	,btn: '我知道了'
+					// });
+					flag =true;
+					return;
+				}else{
+					var $value={"id":$id,"value":$input}
+					inputList.push($value)
+				}
+
+			})
+			//判断图片
+			var oldImgList=[];
+			var imgList=[];
+
+			$(".imgsa").find(".imgArray").each(function(){
+				var id=$(this).attr("id")
+				var value=[];
+				var srcList=[];
+				if($(this).find("li img").length==0){
+					var title=$(this).parents(".form-group").find(".tudesc").text()
+					var $size = '';
+					layer.msg("至少上传一张"+title+"!");
+					flag =true;
+					return;
+				}
+				// console.log("$(this).find('.loads .img').length"+$(this).find('.loads img').length)
+				$(this).find('.loads .img').each(function(){
+					// var src= $(this)[0].src;
+					var src=$(this).attr("src")
+					// var value = $(this).val();
+					srcList.push(src)
+				})
+				var oldItem = {"id":id,srcList:srcList}
+				oldImgList.push(oldItem)
+
+				$(this).find(".li img").each(function(){
+					var src=$(this).attr("src")
+					// console.log("lisrc:"+src)
+					$size=$(this).data("size")
+					//把头部的data:image/png;base64,（注意有逗号）去掉
+					var arr = src.split(','),
+							mime = arr[0].match(/:(.*?);/)[1],
+							len = mime.length;
+					var subLen = parseInt(len + 13);
+					src=src.substring(subLen);
+
+					var $item={"url":src,"size":$size}
+					value.push($item)
+				})
+				//var $invoiceId = $("#invoiceId").text();
+				var item={"id":id,value:value}
+				imgList.push(item)
+
+			})
+			if (flag) {
+				return;
+			}
+			// console.log(inputList)
+			// console.log(imgList)
+
+			//提交
+			var imgInputDo = new Object();
+			imgInputDo.imgs=imgList;
+			imgInputDo.inputDos = inputList;
+			imgInputDo.traceabilityFileId = traceabilityFileId;
+			imgInputDo.proceduresLinkId = proceduresLinkId;
+			imgInputDo.oldImgs = oldImgList;
+			// console.log(JSON.stringify(imgInputDo))
+			var indexs = layer.load();
+			$.ajax({
+				//几个参数需要注意一下
+				type: "POST",//方法类型
+				dataType: "json",//预期服务器返回的数据类型
+				contentType: "application/json",
+				url: prefix+"/updateData" ,//url
+				data:JSON.stringify(imgInputDo),
+				success: function (result) {
+					//console.log(result);//打印服务端返回的数据(调试用)
+					if (result.code == 0) {
+						layer.close(indexs);
+						// layer.open({
+						// 	content: '操作成功'
+						// 	,btn: '确定'
+						// 	,yes: function(index){
+						// 		layer.close(index);
+						// 		var indexs = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+						// 		parent.layer.close(indexs);
+						// 	}
+						// });
+						alert("修改成功");
+						var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+						parent.layer.close(index);
+						parent.location.reload();
+					}else {
+						layer.close(indexs);
+						layer.msg("录入异常！");
+					};
+				},
+				error : function() {
+					layer.close(indexs);
+					alert("异常！");
+				}
+			});
+		}
+
+
+
+		$(function(){
+			//图放大
+			var html="";
+			$(".imgArray li img").each(function(){
+				html+='<div class="swiper-slide" ><img  src='+$(this).attr("src")+'  /></div>'
+				console.log(html)
+			})
+
+			$("#showphoto .swiper-wrapper").append(html)
+			var photoSwiper;
+			$(".imgArray").on("click","li img",function(){
+				var $index=$(".imgArray li img").index($(this))
+				console.log($index)
+				$("#showphoto").show()
+				$("body").addClass("main-scroll-hidden")
+				photoSwiper = new Swiper ("#showphoto .swiper-container", {
+					initialSlide:$index,
+					loop: true,
+					autoplay:4000,
+				})
+
+			})
+			photoSwiper=null;
+			//关闭
+			$(".photo_close").click(function(){
+				$("#showphoto").hide()
+				$("body").removeClass("main-scroll-hidden")
+				$("body").addClass("main-scroll")
+			})
+		})
+
+
+		function readFile(obj) {
+			var file = obj.files[0];
+			//限定上传文件的类型，判断是否是图片类型
+			if (!/image\/\w+/.test(file.type)) {
+				alert("只能选择图片");
+				return false;
+			}
+
+			var size=obj.files[0].size
+			//console.log(size,"字节")
+			var reader = new FileReader();
+			var html="";
+			reader.readAsDataURL(file);
+			reader.onload = function (e) {
+				//console.log(this.result.split("base64,")[1]);
+				var base64=this.result
+                console.log("压缩前的文件流大小："+base64.length);
+
+                //压缩
+                dealImage(base64,500,function (base64Codes) {
+
+                    console.log(base64Codes)
+
+                    var arr = base64Codes.split(','),
+                        mime = arr[0].match(/:(.*?);/)[1],
+                        len = mime.length;
+                    var subLen = parseInt(len + 13);
+                    $base64 = base64Codes.substring(subLen);
+                    var $fileSize=fileSize($base64)
+                    console.log("压缩后的文件流大小："+$fileSize)
+
+                    html+='<li class="li"><img src="'+ base64Codes +'" onclick="showImg(this)" data-size="'+$fileSize+'"><span class="delete" onclick="delThis(this)">X</span></li>'
+                    $(obj).parent().parent().find(".imgArray").append(html)
+
+
+                })
+			}
+		}
+
+		//通过base64编码字符流计算文件流大小函数
+		function fileSize(str) {
+			var fileSize;
+			//找到等号，把等号也去掉
+			if (str.indexOf('=') > 0) {
+				var indexOf = str.indexOf('=');
+				str = str.substring(0, indexOf);//把末尾的’=‘号去掉
+			}
+			fileSize = parseInt(str.length - (str.length / 8) * 2);
+			return fileSize;
+		}
+
+        //压缩方法
+        function dealImage(base64, w, callback) {
+            var newImage = new Image();
+            var quality = 0.6;    //压缩系数0-1之间
+            newImage.src = base64;
+            newImage.setAttribute("crossOrigin", 'Anonymous');	//url为外域时需要
+            var imgWidth, imgHeight;
+            newImage.onload = function () {
+                imgWidth = this.width;
+                imgHeight = this.height;
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+                if (Math.max(imgWidth, imgHeight) > w) {
+                    if (imgWidth > imgHeight) {
+                        canvas.width = w;
+                        canvas.height = w * imgHeight / imgWidth;
+                    } else {
+                        canvas.height = w;
+                        canvas.width = w * imgWidth / imgHeight;
+                    }
+                } else {
+                    canvas.width = imgWidth;
+                    canvas.height = imgHeight;
+                    quality = 0.6;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+                var base64 = canvas.toDataURL("image/jpeg", quality); //压缩语句
+                // 如想确保图片压缩到自己想要的尺寸,如要求在50-150kb之间，请加以下语句，quality初始值根据情况自定
+                // while (base64.length / 1024 > 150) {
+                // 	quality -= 0.01;
+                // 	base64 = canvas.toDataURL("image/jpeg", quality);
+                // }
+                // 防止最后一次压缩低于最低尺寸，只要quality递减合理，无需考虑
+                // while (base64.length / 1024 < 50) {
+                // 	quality += 0.001;
+                // 	base64 = canvas.toDataURL("image/jpeg", quality);
+                // }
+                callback(base64);//必须通过回调函数返回，否则无法及时拿到该值
+            }
+        }
+
+
+
+		function delThis(obj){
+			var add=$(obj).parent().parent().parent().find(".load")
+			$(obj).parent().remove()
+		}
+
+		function showImg(obj){
+			var html="";
+			$("#showphoto .swiper-wrapper").html("")
+			$(obj).parent().parent().find("li img").each(function(){
+				html+='<div class="swiper-slide"><img src='+$(this).attr("src")+' /></div>'
+			})
+			$("#showphoto .swiper-wrapper").append(html)
+			var photoSwiper;
+			var $index=$(obj).index()
+			$("#showphoto").show()
+			$("body").addClass("main-scroll-hidden")
+			photoSwiper = new Swiper ("#showphoto .swiper-container", {
+				initialSlide:$index,
+				loop: true,
+				autoplay:4000,
+			})
+		}
+
+	</script>
+	<!--<script type="text/javascript" th:src="@{/js/appjs/procedures/procedureLink/add.js}" src="/js/appjs/procedures/procedureLink/add.js">-->
+
+</body>
+</html>

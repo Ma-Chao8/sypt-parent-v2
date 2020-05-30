@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.traceability.dao.TraceabilityFileDao">
+    <select id="selectPage" resultType="com.tianma315.core.traceability.vo.TraceabilityFileVO">
+
+        SELECT
+        tf.traceability_file_id AS traceabilityFileId,
+        tf.traceability_file_name AS traceabilityFileName,
+        tf.create_date AS createDate,
+        tf.product_id AS productId,
+        tf.introduce,
+        p.product_name AS productName,
+        su.name,
+        pr.name AS procedureName,
+        d.demo_name AS themeName
+        FROM traceability_file tf
+        LEFT JOIN product p    ON tf.product_id = p.product_id
+        LEFT JOIN procedures pr ON p.procedures_id = pr.procedure_id
+        LEFT JOIN sys_user su  ON tf.create_by = su.id
+        LEFT JOIN demo d       ON pr.theme_id = d.demo_id
+        WHERE tf.state = 0
+        <if test="companyId != null">
+            AND tf.company_id = #{companyId}
+        </if>
+        <if test="traceabilityFileName != null">
+            AND tf.traceability_file_name LIKE CONCAT('%',#{traceabilityFileName},'%')
+        </if>
+    </select>
+
+    <select id="traceabilityFileCheck" parameterType="com.tianma315.core.traceability.vo.TraceabilityFileVO"
+            resultType="com.tianma315.core.traceability.domain.TraceabilityFileDO">
+        SELECT * FROM traceability_file
+        WHERE
+        <if test="traceabilityFileId !=null">
+            traceability_file_id != #{traceabilityFileId} AND
+        </if>
+        procedures_id = #{proceduresId} AND company_id = #{companyId} AND state = 0 AND
+        ((DATE_FORMAT(#{startDate},'%Y-%m-%d') BETWEEN start_date AND end_date) OR
+        (DATE_FORMAT(#{endDate},'%Y-%m-%d') BETWEEN start_date AND end_date))
+    </select>
+
+    <select id="decideTraceabilityFile" resultType="com.tianma315.core.traceability.domain.TraceabilityFileDO">
+        SELECT tf.traceability_file_id AS traceabilityFileId
+        FROM traceability_file tf
+        LEFT JOIN procedures p ON tf.procedures_id = p.procedure_id
+        LEFT JOIN procedures_product pp ON pp.procedure_id = p.product_id
+        WHERE  (DATE_FORMAT(#{deliverDate},'%Y-%m-%d') BETWEEN start_date AND end_date)
+        AND (p.is_all_product = 1 OR  pp.product_id = #{productId})
+        AND tf.company_id = #{companyId} AND tf.state = 0
+    </select>
+
+
+    <resultMap id="MenuMap" type="com.tianma315.core.traceability.vo.TyMenuVO" autoMapping="true">
+        <id property="menuId" column="menu_id"/>
+        <collection property="dataList" ofType="com.tianma315.core.traceability.vo.TyMenuDataVO"
+                    autoMapping="true">
+            <id property="menuDataId" column="menu_data_id"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="TraceabilityFileInfo" type="com.tianma315.core.traceability.vo.TraceabilityFileVO"
+               autoMapping="true">
+        <id property="traceabilityFileId" column="traceability_file_id"/>
+        <collection property="menuList" autoMapping="true"
+                    resultMap="MenuMap"></collection>
+    </resultMap>
+
+
+    <select id="selectInfoId" resultMap="TraceabilityFileInfo">
+        SELECT
+        tf.*,
+        tym.*,
+        tymd.*,
+        p.procedures_id AS proceduresId
+        FROM traceability_file tf
+        LEFT JOIN ty_menu tym ON tf.traceability_file_id = tym.traceability_file_id
+        LEFT JOIN ty_menu_data tymd ON tym.menu_id = tymd.menu_id
+        LEFT JOIN product p ON tf.product_id = p.product_id
+        WHERE tf.traceability_file_id = #{id}
+        ORDER BY tym.menu_id DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.sys.dao.RoleMapper">
+ <select id="getRoleSignList" resultType="string">
+     select sr.role_sign
+        from sys_role sr
+        LEFT JOIN link_role lr on lr.role_id = sr.id
+        LEFT JOIN procedure_link pl on pl.procedure_link_id = lr.procedure_link_id
+        where lr.procedure_link_id = #{id} and lr.`status`=1
+ </select>
+    <select id="findAllByProcedureLinkId" resultType="com.tianma315.core.sys.domain.RoleDO">
+        SELECT sr.*
+        FROM link_role lr
+        LEFT JOIN sys_role sr ON lr.role_id = sr.id
+        WHERE lr.procedure_link_id = #{id} AND lr.status = 1
+    </select>
+</mapper>

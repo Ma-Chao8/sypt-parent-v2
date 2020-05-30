@@ -1,0 +1,15 @@
+
+.box {
+    display: block;
+}
+.box-header span {
+    cursor: pointer;
+}
+.box-header {
+    text-align: center;
+    background-color: #dedede;
+}
+
+.box-body {
+
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<meta name="ctxPath" th:content="@{/}">
+<head th:include="include::header"></head>
+<style>
+    .radio-box {
+        display: inline-block;
+        box-sizing: border-box;
+        cursor: pointer;
+        position: relative;
+        padding-left: 30px;
+        padding-right: 20px;
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-day" data-toggle="tab">每日扫码量</a></li>
+                        <li class=""><a href="#tab-month" data-toggle="tab">每月扫码量</a></li>
+                        <li class=""><a href="#tab-year" data-toggle="tab">近五年扫码量</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-day">
+                            <div class="container-fluid" style="margin: 10px 0">
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label for="date-day">选择月份</label>
+                                        <input type="text" class="form-control datepicker" id="date-day"
+                                               placeholder="选择日期">
+                                    </div>
+                                    <a class="btn btn-primary" data-operate="queryDay">查询</a>
+                                </form>
+                            </div>
+                            <div style="width:1000px; height:600px" id="chart-day"></div>
+                        </div>
+
+                        <div class="tab-pane" id="tab-month">
+                            <div class="container-fluid" style="margin: 10px 0">
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label for="date-month">选择年份</label>
+                                        <input type="text" class="form-control datepicker" id="date-month"
+                                               placeholder="选择日期">
+                                    </div>
+                                    <a class="btn btn-primary" data-operate="queryMonth">查询</a>
+                                </form>
+                            </div>
+                            <div style="width:1000px; height:600px" id="chart-month"></div>
+                        </div>
+
+                        <div class="tab-pane" id="tab-year">
+                            <div style="width:1000px;height:600px" id="chart-year"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script src="/static/js/plugins/echarts/echarts-all.js" th:src="@{/js/plugins/echarts/echarts-all.js}"></script>
+<!-- 如果有supervise权限则加载监管机构面板对应的图标数据 -->
+<script type="text/javascript">
+    (function () {
+        var ctxPath = $("meta[name=ctxPath]").attr("content");
+        initView();
+
+        function initView() {
+            $('#date-day').val(new Date().format("yyyy-MM"));
+            $('#date-day').datepicker({
+                language: 'zh-CN',
+                endDate: new Date(),
+                format: 'yyyy-mm',
+                startView: 'year',
+                endView: 'year',
+                minViewMode: "year",
+                autoclose: true,
+                todayHighlight: true,
+                startView: 1,
+                maxViewMode: 2,
+                minViewMode: 1,
+            });
+
+            $('#date-month').val(new Date().format("yyyy"));
+            $('#date-month').datepicker({
+                format: 'yyyy',
+                autoclose: true,
+                language: 'zh-CN',
+                todayHighlight: true,
+                startView: 2,
+                maxViewMode: 2,
+                minViewMode: 2,
+            });
+
+        }
+
+        $(document).on("click", "a", function () {
+            switch ($(this).attr("data-operate")) {
+                case "queryDay": {
+                    loadDay();
+                    break;
+                }
+
+                case "queryMonth": {
+                    loadMonth();
+                    break;
+                }
+            }
+        });
+
+        loadDay();
+
+        function loadDay() {
+            var data = {};
+            data["date"] = $('#date-day').val();
+            renderChart("chart-day", ctxPath + "statistics/user/scan/day", data);
+        }
+
+        loadMonth();
+
+        function loadMonth() {
+            var data = {};
+            data["date"] = $('#date-month').val();
+            renderChart("chart-month", ctxPath + "statistics/user/scan/month", data);
+        }
+
+        loadYear();
+
+        function loadYear() {
+            renderChart("chart-year", ctxPath + "statistics/user/scan/year", {year: 5});
+        }
+
+        function renderChart(id, url, params) {
+            var myChart = echarts.init(document.getElementById(id));
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "JSON",
+                data: params,
+                success: function (result) {
+                    if (!result.success) {
+                        layer.alert(result.msg);
+                        return;
+                    }
+                    var option = result.data;
+                    if (typeof option === "string") {
+                        option = JSON.parse(option);
+                    }
+                    console.log(option);
+                    myChart.setOption(option);
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        }
+    })();
+</script>
+</body>
+
+</html>

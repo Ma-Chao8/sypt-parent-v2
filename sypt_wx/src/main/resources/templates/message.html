@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>提示信息</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/message.css}" href="/static/css/message.css">
+</head>
+<body>
+
+<div class="message-box">
+    <div class="message-box-header">
+        <h4 style="text-align: center">温馨提示</h4>
+    </div>
+    <div class="message-box-body">
+        <p th:text="${message}">提示信息</p>
+    </div>
+</div>
+
+</body>
+</html>

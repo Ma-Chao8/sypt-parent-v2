@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.stock.dao.StockDao">
+
+    <select id="selectlists" resultType="StockVO">
+        SELECT
+        s.stock_id,
+        s.stock_number,
+        p.product_id,
+        p.product_name,
+        p.product_spec,
+        w.warehouse_name
+        FROM stock s
+        LEFT JOIN warehouse w ON s.warehouse_id = w.warehouse_id
+        LEFT JOIN product p on s.product_id = p.product_id
+        WHERE s.company_id = #{companyId}
+        <if test="productName != null and productName != '' ">
+            AND p.product_name like "%${productName}%"
+        </if>
+        <if test="warehouseId != null and warehouseId != '' ">
+            AND s.warehouse_id = #{warehouseId}
+        </if>
+    </select>
+    <select id="selectStockById" resultType="StockVO">
+        SELECT
+        s.stock_id,
+        s.stock_number,
+        p.product_id,
+        p.product_name,
+        p.product_spec
+        FROM stock s
+        LEFT JOIN product p on s.product_id = p.product_id
+        WHERE s.stock_id = #{stockId}
+    </select>
+
+    <select id="selectByProductId"  resultType="StockDO">
+        SELECT * FROM stock s
+        WHERE s.product_id = #{productId} AND s.warehouse_id = #{warehouseId}
+    </select>
+</mapper>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<style>
+    .checkbox-inline input[type=checkbox]{
+        position: inherit !important;
+        margin-left: 0 !important;
+    }
+</style>
+
+	<body class="gray-bg">
+            <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>产品检测表单字段设计</h5>    
+                    </div>
+                    <div class="ibox-content">
+
+                        <form method="get" class="form-horizontal">
+                            <input id="attrId" name="attrId" th:value="${attrId}" type="hidden">
+                            <div class="form-group">
+                                <div class="col-sm-6" style="float: left!important;">
+                                    <button class="btn btn-primary" type="button" onclick="add()">
+                                        <i class="glyphicon glyphicon-plus"></i>新增属性表单字段
+                                    </button>
+                                </div>
+                            </div>
+                        	<div class="hr-line-dashed"></div>
+                            <div id="content">
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">颜色：</label>-->
+                                <!--<div class="col-sm-8">-->
+                                    <!--<select class="form-control m-b" name="account">-->
+                                        <!--<option>红</option>-->
+                                        <!--<option>蓝</option>                 -->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <!---->
+                                <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-primary" type="button" href="javascript:;"><i class="glyphicon glyphicon-cog"></i></button>-->
+                                <!--</div>-->
+                                  <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-danger" type="button" href="javascript:;"><i class="glyphicon glyphicon-remove"></i></button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="hr-line-dashed"></div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">颜色单：</label>-->
+
+                                <!--<div class="col-sm-8">-->
+
+                                   <!--<label class="checkbox-inline i-checks">-->
+                                         <!--<input type="checkbox" checked="" value="option1" id="optionsRadios1" name="optionsRadios"><i></i>-->
+                                                                                                                                    <!--红-->
+                                    <!--</label>-->
+
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                        <!--<input type="checkbox" checked="" value="option1" id="optionsRadios1" name="optionsRadios">-->
+                                                                                                                                    <!--蓝-->
+                                    <!--</label>-->
+
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                         <!--<input type="checkbox" checked="" value="option1" id="optionsRadios1" name="optionsRadios">-->
+                                                                                                                                        <!--紫-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                                <!---->
+                                <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-primary" type="button" href="javascript:;"><i class="glyphicon glyphicon-cog"></i></button>-->
+                                <!--</div>-->
+                                 <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-danger" type="button" href="javascript:;"><i class="glyphicon glyphicon-remove"></i></button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                           <!---->
+                            <!--<div class="hr-line-dashed"></div>-->
+                              <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">颜色F：</label>-->
+
+                                <!--<div class="col-sm-8">-->
+
+                                	<!--<label class="checkbox-inline i-checks">-->
+                                            <!--<input type="radio" value="option1" name="a"> <i></i> 红-->
+                                                                                                                                    <!---->
+                                    <!--</label>-->
+                                	<!---->
+                                	<!--<label class="checkbox-inline i-checks">-->
+                                            <!--<input type="radio" value="option1" name="a"> <i></i> 蓝-->
+                                                                                                                                        <!---->
+                                    <!--</label>-->
+                                	<!---->
+                                	<!--<label class="checkbox-inline i-checks">-->
+                                            <!--<input type="radio" value="option1" name="a"> <i></i> 紫-->
+                                                                                                                 <!---->
+                                    <!--</label>-->
+                                	<!---->
+                                <!--</div>-->
+                                <!---->
+                                <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-primary" type="button" href="javascript:;"><i class="glyphicon glyphicon-cog"></i></button>-->
+                                <!--</div>-->
+                                  <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-danger" type="button" href="javascript:;"><i class="glyphicon glyphicon-remove"></i></button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!---->
+                             <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">尺寸：</label>-->
+
+                                <!--<div class="col-sm-8">-->
+                                    <!--<input type="text" class="form-control">-->
+                                <!--</div>-->
+                                <!---->
+                                <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-primary" type="button" href="javascript:;"><i class="glyphicon glyphicon-cog"></i></button>-->
+                                <!--</div>-->
+                                 <!--<div class="col-sm-1">-->
+                                	<!--<button class="btn btn-danger" type="button" href="javascript:;"><i class="glyphicon glyphicon-remove"></i></button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      <div th:include="include :: footer"></div>
+
+    <script type="text/javascript">
+        $(function () {
+            var attrId = $("#attrId").val()
+            $.ajax({
+                url : ctx+"/attr/attrField/getAttrFieldByAttr",
+                type : "post",
+                data : {
+                    'attrId' : attrId
+                },
+                success : function(r) {
+                    console.log(r)
+                    var data = r.data
+                    var text = ''
+                    for(var i in data){
+                       var element = data[i];
+                       text += '<div  class="form-group">'
+                        text += '<label class="col-sm-2 control-label">' + element.attrFieldName + '：</label>'
+                        text += '<div class="col-sm-8">'
+                        if (element.type == 1){
+                            text += '<select class="form-control m-b" name="account">'
+                            for(var x in element.fieldValueDOList){
+                                var childrenData = element.fieldValueDOList[x];
+                                text += '<option value="'+childrenData.fieldValueId+'">'+childrenData.fieldValue+'</option>'
+                            }
+                            text += '</select>'
+                        }else if (element.type == 2){
+                            text += '<input type="text"  class="form-control" placeholder="'+element.tips+'">'
+                        }else if (element.type == 3){
+                            for(var x in element.fieldValueDOList){
+                                var childrenData = element.fieldValueDOList[x];
+                                text += '<label class="checkbox-inline i-checks">'
+                                text += '<input type="checkbox" value="'+childrenData.fieldValueId+'" name="checkBox"/> <i></i> '+childrenData.fieldValue+''
+                                text += '</label>'
+                            }
+                        }else {
+                            for(var x in element.fieldValueDOList){
+                                var childrenData = element.fieldValueDOList[x];
+                                text += '<label class="checkbox-inline i-checks">'
+                                text += '<input type="radio" value="'+childrenData.fieldValueId+'" name="radio"/> <i></i>  '+childrenData.fieldValue+''
+                                text += '</label>'
+                            }
+
+                        }
+                        text += '</div>'
+                        text += '<div class="col-sm-1">'
+                        text += '<button class="btn btn-primary" type="button" onclick="edit('+element.attrFieldId+')"><i class="glyphicon glyphicon-cog"></i></button>'
+                        text += '</div>'
+                        text += '<div class="col-sm-1">'
+                        text += '<button class="btn btn-danger" type="button" onclick="remove('+element.attrFieldId+')"><i class="glyphicon glyphicon-remove"></i></button>'
+                        text += '</div>'
+                        text += '</div>'
+                        text +='<div class="hr-line-dashed"></div>'
+
+                    }
+                  $("#content").empty()
+                  $("#content").html(text);
+                }
+            });
+        })
+
+        function add() {
+            var attrId = $("#attrId").val()
+            layer.open({
+                type : 2,
+                title : '增加',
+                maxmin : true,
+                shadeClose : false, // 点击遮罩关闭层
+                area : [ '800px', '520px' ],
+                content : ctx + '/attr/attrField/add/'+attrId // iframe的url
+            });
+        }
+
+        function edit(id) {
+            layer.open({
+                type : 2,
+                title : '编辑',
+                maxmin : true,
+                shadeClose : false, // 点击遮罩关闭层
+                area : [ '800px', '520px' ],
+                content : ctx + '/attr/attrField/edit/' + id // iframe的url
+            });
+        }
+        function remove(id) {
+            console.log(id);
+            layer.confirm('确定要删除选中的记录？', {
+                btn : [ '确定', '取消' ]
+            }, function() {
+                $.ajax({
+                    url : ctx + '/attr/attrField/remove',
+                    type : "post",
+                    data : {
+                        'attrFieldId' : id
+                    },
+                    success : function(r) {
+                        if (r.code==0) {
+                            layer.msg(r.msg);
+                            location.reload();
+                        }else{
+                            layer.msg(r.msg);
+                        }
+                    }
+                });
+            })
+        }
+    </script>
+	</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+<div class="pd-20">
+    <form  method="POST"  id="formAdd">
+        <input id="companyId" name="companyId" type="hidden">
+        <div >
+            <div id="choiceProduct">
+
+            </div>
+        </div>
+
+        <div  class="text-center">
+            <div>
+                <button class="btn btn-primary radius" onclick="save()" type="submit">提交</button>
+                <input type="button" class="btn btn-default radius" value="&nbsp;&nbsp;取消&nbsp;&nbsp;"
+                       onclick="javascript:window.parent.location.reload()">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    function getCompanyId() {
+        var id = [[${companyId}]]
+        return id;
+    }
+    var demoId =new Array();
+    $(function () {
+        $.ajax({
+            type: "GET",
+            async:false,
+            url: getContext() +"/company/getDemoListByCompanyId/" + getCompanyId(),
+            dataType: "json",
+            success: function (result) {
+                if (result.code==0) {
+                    $("#companyId").val(getCompanyId());
+                    var proList = result.data;
+                    for (var i in proList){
+                        demoId.push(proList[i].demoId);
+                    }
+                } else {
+                    layer.msg(result.message);
+                }
+            },
+            error: function () {
+                layer.msg("网络错误，请重新刷新界面")
+            }
+        });
+
+        //console.log(productId)
+        selectData(demoId)
+    });
+    function selectData(demoId) {
+        //获取该商户下所有产品
+        $.ajax({
+            url: getContext() +"/company/demo/all",
+            type: "GET",
+            success: function (result) {
+                  if (result.code==0) {
+                    var htmlText = '<table class="table table-striped">';
+                    htmlText+= "<thead>\n" +
+                        "    <tr>\n" +
+                        "      <th></th>\n" +
+                        "      <th>模版名称</th>\n" +
+                        "      <th>模版</th>\n" +
+                        "    </tr>\n" +
+                        "  </thead>";
+                    htmlText += " <tbody>"
+                    var list = result.data;
+                    for (var index in list) {
+                        var item = list[index];
+                        htmlText+= "<tr>"
+                        if (demoId.indexOf(item.demoId) > -1){
+                            htmlText+="<td><input name='demoIdList' type='checkbox' checked = 'checked' value='" + item.demoId + "'/></td>"
+                            htmlText+= "<td> "+item.demoName+" </td>"
+                            htmlText+= "<td> "+item.demoValues+" </td>"
+                        }else{
+                            htmlText+="<td><input name='demoIdList' type='checkbox' value='" + item.demoId + "'/></td>"
+                            htmlText+= "<td> "+item.demoName+" </td>"
+                            htmlText+= "<td> "+item.demoValues+" </td>"
+                        }
+                        htmlText += "</tr>"
+                    }
+                    htmlText+='</tbody>';
+                    htmlText+="</table>";
+                    $("#choiceProduct").append(htmlText);
+                   }else{ layer.msg(result.message);}
+
+
+
+
+            },
+            error: function (result) {
+                layer.msg("网络错误，请稍后重新操作")
+            }
+        });
+    }
+
+
+//    $.validator.setDefaults({
+//        submitHandler : function() {
+//            save();
+//        }
+//    });
+
+    function save() {
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : getContext() +"/company/demo/bind",
+            data : $('#formAdd').serialize(),// 你的formid
+            async : false,
+            error : function(request) {
+                parent.layer.alert("Connection error");
+            },
+            success : function(data) {
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                    parent.layer.close(index);
+                    parent.tableReload();
+                } else {
+                    parent.layer.alert(data.msg)
+                }
+
+            }
+        });
+    }
+</script>
+</body>
+</html>

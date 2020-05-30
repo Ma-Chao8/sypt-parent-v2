@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.invoice.dao.InvoiceProductDao">
+
+    <resultMap id="InvoiceProductVo" type="InvoiceProductVO">
+        <id property="invoiceProductId" column="invoice_product_id"/>
+        <result property="invoiceId" column="invoice_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <!--<result property="productSpec" column="product_spec"/>-->
+        <!--  -->
+        <collection property="codes" ofType="InvoiceProductCodeDO" column="invoice_product_id">
+            <id property="codeId" column="code_id"/>
+            <result property="bigCode" column="big_code"/>
+            <result property="smallCode" column="small_code"/>
+            <result property="invoiceProductId" column="invoice_product_id"/>
+            <result property="status" column="status"/>
+        </collection>
+    </resultMap>
+    <select id="selectByInvoiceId" resultMap="InvoiceProductVo">
+        SELECT
+        *
+        FROM invoice_product ip
+        LEFT JOIN invoice_product_code ipc ON ip.invoice_product_id  = ipc.invoice_product_id
+        LEFT JOIN  product p ON  ip.product_id = p.product_id
+        WHERE ip.invoice_id = #{invoiceId}
+    </select>
+
+    <select id="selectEnableByCode" resultType="com.tianma315.core.invoice.domain.InvoiceProductCodeDO">
+        SELECT
+        ipc.*
+        FROM invoice_product_code ipc
+        LEFT JOIN invoice_product ip ON ipc.invoice_product_id = ip.invoice_product_id
+        LEFT JOIN product p ON ip.product_id = p.product_id
+        LEFT JOIN invoice i ON ip.invoice_id = i.invoice_id
+        WHERE ipc.status = 1
+        AND i.company_id = #{company_id}
+        AND (big_code = #{code} OR small_code = #{code})
+        LIMIT 1
+    </select>
+</mapper>

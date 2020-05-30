@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="ctxPath" content="/" th:content="@{/}">
+    <title>用户注册绑定</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/libs/mui/css/mui.min.css}"
+          href="/static/libs/mui/css/mui.min.css">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" href="/static/css/style.css">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/login.css}" href="/static/css/login.css">
+</head>
+
+<body class="mui-android mui-android-5 mui-android-5-0">
+
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">注册绑定</h1>
+</header>
+
+<div class="mui-content">
+    <form id="data-form" th:action="@{/wx/bindUser}" action="/" method="post">
+
+        <div class="mui-input-group">
+
+            <div class="mui-input-row">
+                <label>账号</label>
+                <input id='account' name="username" type="text" class="mui-input-clear mui-input" required
+                       autocomplete="off" placeholder="请输入账号">
+            </div>
+        </div>
+
+        <div class="mui-content-padded">
+            <button type="submit" class="mui-btn mui-btn-block mui-btn-primary">绑定</button>
+        </div>
+
+    </form>
+</div>
+<!--  -->
+
+<script type="text/javascript" th:src="@{/libs/jquery/jquery.min.js}" src="/static/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/libs/jquery-validation/jquery.validate.min.js}"
+        src="/static/libs/jquery-validation/jquery.validate.min.js"></script>
+<script type="text/javascript" th:src="@{/libs/mui/js/mui.min.js}" src="/static/libs/mui/js/mui.min.js"></script>
+<script>
+    (function ($, m, doc) {
+        //console.log("登录"
+        var ctxPath = $("meta[name=ctxPath]").attr("content");
+        if (!ctxPath) {
+            ctxPath = "/";
+        }
+
+        $("#data-form").validate({
+            onsubmit: true, //在提交时验证
+            onfocusout: false,//在得到焦点时是否验证
+            onkeyup: false,//在键盘弹起时验证
+            rules: {
+                username: {
+                    required: true //必须
+                }
+            },
+            messages: {
+                username: {
+                    required: "用户名不能为空"
+                }
+            },
+            submitHandler: function (form) { //验证成功时调用
+                console.log(form);
+                // $.ajax({
+                //     url: ctxPath + "login",
+                //     type: "POST",
+                //     dataType: "JSON",
+                //     data: $("#data-form").serialize(),
+                //     success: function (result) {
+                //         if (result.success) {
+                //             window.location.href = ctxPath;
+                //         } else {
+                //             m.alert(result.msg);
+                //         }
+                //     },
+                //     error: function (error) {
+                //         m.alert("网络请求错误:（" + error.status + "）");
+                //     }
+                // });
+                //
+                // return false;
+                return form;
+            },
+            invalidHandler: function (form, validator) {  //不通过回调
+                console.log(validator);
+                var errorList = validator.errorList;
+                if (errorList && errorList.length > 0) {
+                    var error = errorList[0];
+                    //m.toast(error.message, {duration: 'long', type: 'div'})
+                    m.alert(error.message);
+                }
+                return false;
+            }
+        });
+    }(jQuery, mui, document));
+</script>
+
+
+</body>
+</html>

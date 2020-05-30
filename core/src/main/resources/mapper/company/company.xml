@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.company.dao.CompanyMapper">
+    <select id="countLevel" resultType="com.tianma315.core.company.domain.vo.CompanyCountLevelVO">
+        SELECT count(c.level) value,c.level name FROM company c GROUP BY(c.level)
+    </select>
+
+    <select id="countRank" resultType="com.tianma315.core.company.domain.vo.CompanyCountRankVO">
+        SELECT count(c.rank) value,c.rank as name FROM company c  GROUP BY(c.rank)
+    </select>
+
+    <select id="getDemoListByCompanyId" resultType="com.tianma315.core.company.domain.pojo.DemoDO">
+        SELECT demo_id
+        FROM company_demo
+        WHERE company_id = #{companyId}
+    </select>
+
+</mapper>

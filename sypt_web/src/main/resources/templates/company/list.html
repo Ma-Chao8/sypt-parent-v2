@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<meta name="ctxPath" th:content="@{/}">
+<head th:include="include::header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div id="exampleToolbar" role="group">
+                    <button shiro:hasPermission="company:add" type="button" class="btn btn-primary" data-operate="add">
+                        <i class="fa fa-plus" aria-hidden="true"></i>添加
+                    </button>
+<!--
+                    <button shiro:hasPermission="company:del" type="button"
+                            class="btn btn-danger" data-operate="batchDelete">
+                        <i class="fa fa-trash" aria-hidden="true"></i>删除
+                    </button>
+-->
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <!--shiro控制bootstraptable行内按钮看见性 -->
+    <script type="text/javascript">
+        var s_edit_h = 'hidden';
+        var s_bind_h = 'hidden';
+    </script>
+    <script shiro:hasPermission="company:edit" type="text/javascript">
+        s_edit_h = '';
+        s_bind_h = '';
+    </script>
+<!--
+    <script shiro:hasPermission="company:del" type="text/javascript">
+        var s_remove_h = '';
+    </script>
+-->
+
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" th:src="@{/company/js/list.js}" src="/static/company/js/list.js"></script>
+</body>
+
+</html>

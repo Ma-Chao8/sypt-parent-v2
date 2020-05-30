@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.supplier.dao.SupplierDao">
+    <select id="getSupplierAndTypeVO" resultType="com.tianma315.core.supplier.VO.SupplierAndTypeVO">
+        SELECT
+        s.SUPPLIER_ID AS supplierId,s.company_id AS companyId,s.supplier_type_id AS supplierTypeId,
+        s.supplier_name AS supplierName,s.linkman,s.tel,s.mark,
+        s.create_date AS createDate,s.create_by AS createBy,s.state,st.type_name AS typeName
+        FROM supplier s LEFT JOIN supplier_type st on s.supplier_type_id = st.supplier_type_id
+        WHERE s.state = 0 AND s.company_id = #{companyId}
+        <if test="supplierName != null and supplierName!=''">
+            AND  s.supplier_name LIKE concat('%',#{supplierName},'%')
+        </if>
+    </select>
+</mapper>

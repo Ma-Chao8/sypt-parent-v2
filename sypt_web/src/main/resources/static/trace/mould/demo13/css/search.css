@@ -1,0 +1,83 @@
+html,
+body {	
+	background-color: #FFFFFF;
+}
+body{
+	-webkit-overflow-scrolling: touch;
+	position: relative;
+}
+#fc-content{background-color: #FFFFFF;}
+
+#fc-head img{width: 100%;}
+#fc-content-head{width: 7.1rem;
+    height: 100%;
+    background-color: #fff;
+    margin: 10px auto;
+    border-radius: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0;
+    padding-top: 10px;}
+#fc-content-head dl dt{    background-color: #469de3;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;}
+#fc-content-head dl dd p{text-align: center;
+    font-size: 13px;
+    margin-bottom: 0;
+    color: #469de3;}
+
+
+.fc-all dl dt {
+    width: 96%;
+    margin: 0 auto;
+    height: 0.7rem;
+    background: url(../img/xian.png) no-repeat center;
+    background-size: 4.46rem;
+    line-height: 0.7rem;
+    color: #666666;
+    font-size: 16px;
+}
+.contentBox2{background-color: #FFFFFF;padding-top: 5px;}
+.settledspan.text-c.f-16.secondlevel{text-align: left;
+    text-indent: 15px;}
+
+.text-c{color: #FFFFFF !important;}
+
+.fc-footer{    text-align: center;
+    margin-top: 10px;
+    background-color: #ffffff;
+    color: #469de3;
+    font-size: 12px;
+    line-height: 2;}
+p.rightxia{margin: 0;}
+h5{margin-top:5%;}
+
+.area{background-color: #FFFFFF;}
+.area dl>dt{text-align: left;
+    text-indent: 10px;
+    background-color: #469de3;
+    color: #fff;}
+
+h5 span {
+	display: inline-block;
+}
+
+h5 span:first-child {
+	text-align: right;
+	text-indent: 4px;
+	width: 35%;
+	    vertical-align: top;
+	    color: #469de3;
+}
+
+h5 span:last-child {
+	text-align: justify;
+	text-indent: 4px;
+	width: 55%;
+}
+

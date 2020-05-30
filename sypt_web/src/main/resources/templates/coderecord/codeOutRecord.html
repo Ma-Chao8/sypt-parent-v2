@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta charset="utf-8" name="ctxPath" content="/" th:content="@{/}">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button type="button" class="btn  btn-primary" data-operate="add">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </button>
+                    </div>
+
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchName" type="text" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:src="@{/js/appjs/coderecord/codeRecord/codeRecord.js}"
+        src="/static/js/appjs/coderecord/codeRecord/codeRecord.js"></script>
+</body>
+</html>

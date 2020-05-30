@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="small_code:smallRecord:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>关联
+							</button>
+							<button shiro:hasPermission="small_code:smallRecord:add" type="button" class="btn  btn-primary" onclick="addProduct()">
+								<i class="fa fa-plus" aria-hidden="true"></i>关联并入库
+							</button>
+							<a class="btn btn-primary btn-sm mr" href="#" title="打印一维码"  mce_href="#" onclick="printBigCode(0)"><i class="fa fa-print">打印一维码</i></a>
+							<a class="btn btn-primary btn-sm mr" href="#" title="打印二维码"  mce_href="#" onclick="printBigCode(1)"><i class="fa fa-print">打印二维码</i></a>
+							<button shiro:hasPermission="small_code:smallRecord:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="请输入外箱码">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="small_code:smallRecord:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="small_code:smallRecord:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="small_code:smallRecord:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+		<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0 pluginspage="install_lodop32.exe"></embed>
+	</object>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" th:src="@{/js/LodopFuncs.js}"></script>
+	<script type="text/javascript" th:src="@{/js/appjs/small_code/smallRecord/smallRecord.js}" src="/js/appjs/small_code/smallRecord/smallRecord.js"></script>
+</body>
+</html>

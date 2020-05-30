@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.product.dao.ProductMapper">
+    <select id="selectListPage" resultType="com.tianma315.core.product.domain.vo.ProductVo">
+        SELECT p.*,ps.name
+        FROM product p
+        LEFT JOIN procedures ps ON p.procedures_id = ps.procedure_id
+        WHERE p.status = 1
+        AND p.company_id = #{companyId}
+        ORDER BY p.product_id desc
+    </select>
+</mapper>

@@ -1,0 +1,308 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header">
+</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+			<span class="c-gray en">&gt;</span> 系统管理
+			<span class="c-gray en">&gt;</span> 流程记录
+			<a class="btn btn-success radius r" style="line-height:1em" href="javascript:location.replace(location.href);" title="刷新"><i class="fa fa-refresh"></i></a>
+		</nav>
+		
+		<div class="page-container" id="dataContainer">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<!--<span class="r">-->
+					<!--<i class="Hui-iconfont Hui-iconfont-lunzi"></i>-->
+		        <!--</span>-->
+				<span class="l">
+					流程显示
+				</span>
+			</div>
+
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>杀青</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+			<!---->
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>初揉</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+			<!---->
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>渥堆</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+			<!---->
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>金花黑茶</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+			<!---->
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>烘焙</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+			<!---->
+			<!--<form action="" method="post" class="form form-horizontal" id="form-article-add" style="">-->
+				<!--<h2>自然晾干</h2>-->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">操作流程：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">负责人：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" class="input-text" value="" placeholder="" id="" name="">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!---->
+				<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">工艺名称：</label>-->
+					<!--<div class="formControls col-xs-6 col-sm-6">-->
+						<!--<input type="text" name="" id="" placeholder="" value="" class="input-text">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+			<!--</form>-->
+
+		</div>
+		<div th:include="include :: footer"></div>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+
+	<script type="text/javascript" th:inline="javascript">
+		$(function () {
+            getData()
+        })
+
+		function getProceduresId(){
+		    var proceduresId = [[${proceduresId}]];
+		    return proceduresId;
+		}
+
+        function getTraceabilityFileId(){
+            var traceabilityFileId = [[${traceabilityFileId}]];
+            return traceabilityFileId;
+        }
+
+		function getData() {
+            $.ajax({
+                url: getContext()+"/traceability/tyMenu/viewProcess/"+getProceduresId(),
+                type: "GET",
+                success: function (result) {
+                    if (result.success) {
+                        var procedures = result.data.procedures;
+                        var htmlText = "<form action='' method='post' class='form form-horizontal' id='form-article-add' style=''>"
+                        var proceduresLinkVOList = result.data.proceduresLinkVOList;
+                        for(var item in proceduresLinkVOList){
+                            var procedureLink = proceduresLinkVOList[item].procedureLink;
+                            var linkContentList = proceduresLinkVOList[item].linkContentList;
+							var contentText = "";
+                            contentText += "<div name='menu' class='row cl'>"
+                            contentText += "<h2 name='menuName'>"+ procedureLink.procedureLinkName +"</h2>"
+                            for (var i in linkContentList){
+                                contentText += "<div class='row cl'>"
+                                contentText += "<label class='form-label col-xs-4 col-sm-2' name='dataKey'>"+linkContentList[i].contentName+"：</label>"
+                                contentText += "<div class='formControls col-xs-6 col-sm-6'>"
+                                contentText += "<input type='text' class='input-text' value='"+linkContentList[i].defaultValue+"' placeholder='' id='' name='dataValue'>"
+                                contentText += "</div>"
+                                contentText += "</div>"
+							}
+                            contentText += "</div>"
+							htmlText += contentText;
+						}
+						htmlText += "<div class='row cl'>" +
+							"<div class='col-2 col-offset-3'>" +
+                            "<input class='btn btn-primary radius' type='button' onclick='addData()' value='&nbsp;&nbsp;提交&nbsp;&nbsp;'>"+
+                            "</div>" +
+//                            "<div class='col-4 pull-left'>"+
+//                            "<input type='button' class='btn btn-default radius' value='&nbsp;&nbsp;取消&nbsp;&nbsp;' onclick='javascript:window.parent.location.reload()'>" +
+//                            "</div>"+
+                            "</div>"
+                        htmlText += "</form>"
+						$("#dataContainer").append(htmlText)
+
+                    } else {
+                        layer.msg(result.message)
+                    }
+                },
+                error: function (result) {
+                    layer.msg("网络错误，请稍后重新操作")
+                }
+            });
+        }
+
+        function generateData() {
+		    var menuDiv =  $("div[name='menu']");
+		    var result = new Array();
+			for (var i = 0; i<menuDiv.length;i++){
+		        var menu = menuDiv[i];
+		        var menuName = $(menu).children('h2').text();
+                var dataArr = new Array();
+                var div = $(menu).children('div');
+				for (var x = 0; x <div.length; x++){
+                    var divData = div[x];
+                    var dataKey = $(divData).find('label').text()
+					var dataValue = $(divData).find('input').val()
+					var data = {dataKey:dataKey,dataValue:dataValue}
+					dataArr.push(data)
+                }
+                var obj = {menuName:menuName,tyMenuDataList:dataArr}
+                result.push(obj)
+			}
+//			console.log(JSON.stringify(result))
+			return result;
+        }
+
+        function addData() {
+			var obj = {tyMenuDataKyVOList:generateData()}
+            console.log(JSON.stringify(obj))
+            $.ajax({
+                url:  getContext()+"/traceability/tyMenu/saveTyMenuVO/"+ getTraceabilityFileId(),
+                type: "POST",
+				dataType: "json",
+                contentType:"application/json",
+                data: JSON.stringify(generateData()),
+                success: function (result) {
+                    if (result.success) {
+//                        $.Hidemsg();
+                        layer.msg('添加成功', {
+                            time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
+                            end: function () {
+                                //刷新父窗口
+                                window.parent.location.reload();
+                                window.location.reload();
+                                //关闭弹出窗
+                                layer_close();
+                                //刷新父窗口
+                                window.parent.location.reload();
+                            }
+                        });
+                    } else {
+                        $('.Validform_title').css('background-color', '#DD514C');
+                        $('.Validform_info').html('失败：' + result.message);
+                    }
+                },
+                error: function (result) {
+                    layer.msg("网络错误，请稍后重新操作")
+                }
+            });
+        }
+
+	</script>
+	</body>
+
+</html>

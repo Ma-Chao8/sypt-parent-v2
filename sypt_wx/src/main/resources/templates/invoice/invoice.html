@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>扫码发货</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="icon" th:href="@{/favicon.ico}" href="/favicon.ico">
+    <link rel="stylesheet" th:href="@{/plugins/mui/css/mui.min.css}"
+          href="/static/plugins/mui/css/mui.min.css"/>
+    <link rel="stylesheet" th:href="@{/plugins/iconfont/css/iconfont.css}"
+          href="/static/plugins/iconfont/css/iconfont.css"/>
+    <link rel="stylesheet" th:href="@{/css/style1.css}"
+          href="/static/css/style1.css"/>
+    <!--<link rel="stylesheet" th:href="@{/css/sweep.css}" href="/static/css/sweep.css"/>-->
+
+    <style>
+
+        html, body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .mui-popover {
+            height: 80%;
+            top: 50px;
+            left: 10%;
+            width: 80%;
+        }
+
+        .mui-content {
+            padding-bottom: 44px;
+            height: 100%;
+        }
+
+        .footer {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 44px;
+            z-index: 10;
+        }
+
+        .footer .mui-btn-clear, .mui-btn-confirm {
+            border: 0;
+            width: 50%;
+            height: 44px;
+            display: block;
+            float: left;
+            border-radius: 0;
+            color: #ffffff;
+        }
+
+        .footer .mui-btn-clear {
+            background-color: #cccccc;
+        }
+
+        .footer .mui-btn-confirm {
+            background-color: #eb3e1f;
+        }
+
+        .footer .mui-btn-clear:active {
+            background-color: #797979;
+        }
+
+        .footer .mui-btn-confirm:active {
+            background-color: #d8381f;
+        }
+
+        #codeList .mui-table-view {
+            background-color: #ffffff00;
+        }
+
+        #codeList .mui-table-view li {
+            background-color: #ffffff;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+
+        #codeList code, #codeList type, #codeList delete {
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #codeList code {
+            width: 60%;
+        }
+
+        #codeList type {
+            width: 20%;
+            text-align: center;
+        }
+
+        #codeList delete {
+            width: 20%;
+            text-align: center;
+            background-color: #d80c14;
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="bg">
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">扫码发货</h1>
+    </header>
+
+    <div class="mui-content">
+        <div style="padding: 10px">
+            <div class="mui-row">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a id="selectAgent" class="mui-navigate-right" data="">选择经销商</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a id="selectProduct" class="mui-navigate-right" data="">选择产品</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mui-row">
+                <div class="mui-input-row" style="font-size: 14px; color: #767676; padding: 5px 0">
+                    <span>扫码前请记得先选择类型哦！</span>
+                </div>
+
+                <form class="mui-input-group">
+                    <div class="mui-input-row mui-radio mui-left">
+                        <label>大码</label>
+                        <input name="code_type" value="1" type="radio">
+                    </div>
+                    <div class="mui-input-row mui-radio mui-left">
+                        <label>小码</label>
+                        <input name="code_type" value="2" type="radio">
+                    </div>
+                </form>
+
+                <div class="mui-saomiao" style="margin-top: 5px">
+                    <span class="mui-icon mui-icon-add mui-icon-add-saomiao"></span>
+                    <input name="code" type="text" class="mui-input-clear" autocomplete="off" placeholder="扫码">
+                    <button name="add">添加</button>
+                </div>
+            </div>
+
+            <!-- code scan count -->
+            <div class="mui-row" style="font-size: 14px;color: #605c5c;padding: 5px 0;">
+                <span>扫码数量</span>
+                <span id="codeCount" style="color: #ffa70b">0</span>
+                <span>&nbsp;&nbsp;大码</span>
+                <span id="bigCodeCount" style="color: #ffa70b">0</span>
+                <span>&nbsp;&nbsp;小码</span>
+                <span id="smallCodeCount" style="color: #ffa70b">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 区域滚动的父容器 -->
+    <div id="codeList" class="mui-scroll-wrapper" style="top: 335px; margin-bottom: 44px">
+        <!-- 区域滚动的子容器 -->
+        <div class="mui-scroll" style="padding: 0 10px">
+            <!-- 真实的内容放到区域滚动的子容器里面 -->
+            <ul class="mui-table-view"></ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <button class="mui-btn mui-btn-clear">清空</button>
+        <button class="mui-btn mui-btn-confirm">提交</button>
+    </footer>
+
+    <!--  popover -->
+    <div id="agentPopover" class="mui-popover">
+        <div class="search-form">
+            <input name="agent_name" type="text" placeholder="搜索经销商">
+            <button name="search">搜索</button>
+        </div>
+
+        <div class="mui-scroll-wrapper" style="margin-top: 50px">
+            <div class="mui-scroll">
+                <ul class="mui-table-view"></ul>
+                <div class="mui-pull-bottom-pocket mui-block" style="visibility: visible">
+                    <div class="mui-pull">
+                        <div class="mui-pull-loading mui-icon mui-spinner mui-hidden"></div>
+                        <div class="mui-pull-caption mui-pull-caption-down load-more">点击加载更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="productPopover" class="mui-popover">
+        <div class="search-form">
+            <input name="product_name" type="text" placeholder="搜索产品">
+            <button name="search">搜索</button>
+        </div>
+        <div class="mui-scroll-wrapper" style="margin-top: 50px">
+            <div class="mui-scroll">
+                <ul class="mui-table-view"></ul>
+                <div class="mui-pull-bottom-pocket mui-block" style="visibility: visible">
+                    <div class="mui-pull">
+                        <div class="mui-pull-loading mui-icon mui-spinner mui-hidden"></div>
+                        <div class="mui-pull-caption mui-pull-caption-down load-more">点击加载更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    window.ctxPath = /*[[@{/}]]*/ +'';
+</script>
+<script type="text/javascript" th:src="@{/plugins/jquery/jquery-2.1.4.js}"
+        src="/static/plugins/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" th:src="@{/plugins/jweixin/jweixin-1.0.0.js}"
+        src="/static/plugins/jweixin/jweixin-1.0.0.js"></script>
+<script type="text/javascript" th:src="@{/plugins/mui/js/mui.min.js}"
+        src="/static/plugins/mui/js/mui.min.js"></script>
+<script type="text/javascript" th:src="@{'/js/app.js?id='+${#dates.createNow().getTime()}}"
+        src="/static/js/app.js"></script>
+<script type="text/javascript" th:src="@{'/js/invoice.js?id='+${#dates.createNow().getTime()}}"
+        src="/static/js/invoice.js"></script>
+</body>
+</html>

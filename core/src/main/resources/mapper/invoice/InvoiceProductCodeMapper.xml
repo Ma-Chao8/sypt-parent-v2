@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.invoice.dao.InvoiceProductCodeDao">
+    <select id="selectLastDeliverByCode" resultType="com.tianma315.core.invoice.domain.vo.InvoiceProductCodeVO">
+        SELECT
+        ipc.*,
+        p.product_id,
+        p.product_name,
+        i.invoice_id
+        FROM invoice_product_code ipc
+        LEFT JOIN invoice_product ip ON ipc.invoice_product_id = ip.invoice_product_id
+        LEFT JOIN product p ON ip.product_id = p.product_id
+        LEFT JOIN invoice i ON ip.invoice_id = i.invoice_id
+        WHERE i.company_id = #{companyId}
+        AND (big_code = #{code} OR small_code = #{code})
+        ORDER BY i.created_date DESC
+        LIMIT 1
+    </select>
+
+    <select id="countCodeByYear" resultType="com.tianma315.core.invoice.domain.vo.InvoiceProductCodeValue">
+       SELECT count(ipc.big_code) as `bigValue`,count(ipc.small_code) as `smallValue`, DATE_FORMAT(i.created_date,"%m") as `date`
+       FROM
+	   invoice i
+	   LEFT JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+	   LEFT JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+       where i.company_id =#{companyId} and i.state = 1 and DATE_FORMAT(created_date,"%Y") = #{year}
+       GROUP BY DATE_FORMAT(i.created_date,"%m")
+    </select>
+
+    <select id="countCodeByMonth" resultType="com.tianma315.core.invoice.domain.vo.InvoiceProductCodeValue">
+       SELECT count(ipc.big_code) as `bigValue`,count(ipc.small_code) as `smallValue`, DATE_FORMAT(i.created_date,"%d") as `date`
+       FROM
+	   invoice i
+	   LEFT JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+	   LEFT JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+       where i.company_id =#{companyId} and i.state = 1 and DATE_FORMAT(created_date,"%Y-%m") = concat(#{year},'-',#{month})
+       GROUP BY DATE_FORMAT(i.created_date,"%d")
+    </select>
+
+</mapper>

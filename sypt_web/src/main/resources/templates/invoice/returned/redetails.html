@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head  th:include="include :: header">
+
+    <link th:href="@{/libs/H-ui/css/H-ui.min.css}"
+          href="/static/libs/H-ui/css/H-ui.min.css" rel="stylesheet"/>
+    <link th:href="@{/libs/H-ui-Admin/css/H-ui.admin.css}"
+          href="/static/libs/H-ui-Admin/css/H-ui.admin.css" rel="stylesheet"/>
+    <link th:href="@{/libs/Hui-iconfont/1.0.1/iconfont.css}"
+          href="/static/libs/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet"/>
+    <!--<link th:href="@{/libs/jquery-dataTables/css/jquery.dataTables.css}"-->
+    <!--href="/static/libs/jquery-dataTables/css/jquery.dataTables.css" rel="stylesheet"/>-->
+    <!--[if IE 6]>
+    <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>已发货单</title>
+    <style>
+        .product-box {
+            border: 1px solid #c9c9c9;
+        }
+
+        .product-box-header {
+            padding: 10px 15px;
+            background-color: #c9c9c9;
+        }
+
+        .product-box-content {
+            padding: 15px;;
+
+        }
+
+        .product-box-content table th, td {
+            text-align: center;
+            border-bottom: 1px solid #c9c9c9;
+            padding: 10px 15px;
+        }
+
+        .product-box-content table tr:last-child td {
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="pd-10">
+    <div class="row cl pd-5">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8">
+            <div class="col-lg-6 col-md-6">
+                <span>货单号：</span>
+                <span id="invoice_id"></span>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <span>发货时间：</span>
+                <span id="deliver_date"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row cl pd-5">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8">
+            <div class="col-lg-6 col-md-6">
+                <span>经销商：</span>
+                <span id="agent_name"></span>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <span>联系人：</span>
+                <span id="linkman"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row cl pd-5">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8">
+            <div class="col-lg-6 col-md-6">
+                <span>电话：</span>
+                <span id="tel"></span>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <span>收货地址：</span>
+                <span id="deliver_address"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row cl">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8">
+            <div class="product-box">
+                <div class="product-box-header">
+                    <span>产品信息</span>
+                </div>
+
+                <div class="product-box-content">
+
+                    <table id="table_product">
+                        <thead>
+                        <tr>
+                            <th>产品名称</th>
+                            <th>发货码</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script th:src="@{/libs/jquery/jquery.min.js}"
+        src="/static/libs/jquery/jquery.min.js"></script>
+<script th:src="@{/libs/jquery/jquery-formatDate.js}"
+        src="/static/libs/jquery/jquery-formatDate.js"></script>
+<script th:src="@{/js/app.js}"
+        src="/static/js/app.js"></script>
+<script th:src="@{/libs/layer/1.9.3/layer.js}"
+        src="/static/libs/layer/1.9.3/layer.js"></script>
+<script th:src="@{/libs/jquery-dataTables/js/jquery.dataTables.min.js}"
+        src="/static/libs/jquery-dataTables/js/jquery.dataTables.min.js"></script>
+<script th:src="@{/libs/H-ui/js/H-ui.js}"
+        src="/static/libs/H-ui/js/H-ui.js"></script>
+<script th:src="@{/libs/H-ui-Admin/js/H-ui.admin.js}"
+        src="/static/libs/H-ui-Admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    var ctxPath = /*[[@{/}]]*/ '';
+</script>
+<script>
+    $(function () {
+        $.ajax({
+            url: ctxPath + "invoice/details/",
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                    var data = result.data;
+                    $("#invoice_id").text(data.invoice_id);
+                    $("#deliver_date").text($.formatDate(new Date(data.deliver_date), "yyyy-MM-dd"));
+                    $("#agent_name").text(data.agent_name);
+                    $("#linkman").text(data.linkman);
+                    $("#tel").text(data.tel);
+                    $("#deliver_address").text(data.deliver_addres);
+                    var text = "";
+                    var products = data.products;
+                    for (var i in products) {
+                        var product = products[i];
+                        text += "<tr>";
+                        text += "<td>" + product.product_name + "</td>";
+                        text += "<td>";
+                        var codes = product.codes;
+                        for (var j in codes) {
+                            var code = codes[j];
+                            text += "<div>"
+                            text += code.big_code ? (code.big_code + " （大码）") : (code.small_code + " （小码）");
+                            text += "</div>"
+                        }
+                        text += "</td>";
+                        text += "</tr>"
+                    }
+                    $("#table_product").append(text);
+                } else {
+                    layer.msg(result.message)
+                }
+            },
+            error: function () {
+                layer.msg("网络错误，请稍后重新操作");
+            }
+        })
+    });
+
+</script>
+</body>
+</html>

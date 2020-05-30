@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.invoice.dao.ReturnedProductDao">
+    <resultMap id="ReturnedProductVO" type="ReturnedProductVO">
+        <id property="returnedProductId" column="returned_product_id"/>
+        <result property="returnedId" column="returned_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <!--<result property="productSpec" column="product_spec"/>-->
+        <!-- 产品对应的码 -->
+        <collection property="codes" ofType="ReturnedProductCodeDO" column="returned_product_id">
+            <id property="codeId" column="code_id"/>
+            <result property="returnedProductId" column="returned_product_id"/>
+            <result property="bigCode" column="big_code"/>
+            <result property="smallCode" column="small_code"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByReturnedId" resultMap="ReturnedProductVO">
+        SELECT
+        rp.*,
+        rpc.*,
+        p.product_name
+        FROM returned r
+        LEFT JOIN returned_product rp ON r.returned_id = rp.returned_id
+        LEFT JOIN returned_product_code rpc ON rp.returned_product_id = rpc.returned_product_id
+        LEFT JOIN product p ON rp.product_id = p.product_id
+        WHERE rp.returned_id = #{returnedId}
+    </select>
+</mapper>

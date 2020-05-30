@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+    table{border: 1px solid darkgrey;}
+    table tr,table th{text-align: center;}
+    table caption{
+        padding: 10px 15px;
+        background-color: #c9c9c9;
+    }
+</style>
+<body>
+<div class="pd-20">
+
+    <div class="container">
+        <br>
+        <input id="returnId" name="returnId" type="hidden">
+        <div>
+            <div id="choiceProduct">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    function getReturnId() {
+        var id = [[${returnId}]]
+        return id;
+    }
+    $(function () {
+        $.ajax({
+            type: "GET",
+            async:false,
+            url: getContext()+"/invoice/returned/getDetails/" + getReturnId(),
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                   // $("#procedureId").val(getProceduresId());
+                    var proList = result.data;
+                    console.log(proList)
+                    var htmlText = '<table class="table table-striped">';
+                    htmlText+= "<caption>产品信息</caption>"+"<thead>\n" +
+                        "    <tr>\n" +
+                        "      <th>产品</th>\n" +
+                        "      <th>大码</th>\n" +
+                        "      <th>小码</th>\n" +
+                        "    </tr>\n" +
+                        "  </thead>";
+                    htmlText += " <tbody>"
+                    for ( var index in proList){
+                        var pro = proList[index]
+                        htmlText+="<tr>";
+                        htmlText+="<td>"+pro.productName+" </td>"
+                        htmlText+="<td>"
+                        for (var i in pro.codes){
+                            var code =pro.codes[i]
+                            htmlText+=code.bigCode+"</br>"
+                        }
+                        htmlText+="</td>"
+
+                        htmlText+="<td>"
+                        for (var i in pro.codes){
+                            var code =pro.codes[i]
+                            htmlText+=code.smallCode+"</br>"
+                        }
+                        htmlText+="</td>"
+
+
+
+                        htmlText+="</tr>";
+                    }
+                    htmlText+='</tbody>';
+                    htmlText+="</table>";
+                    $("#choiceProduct").append(htmlText);
+                } else {
+                    layer.msg(result.message);
+                }
+            },
+            error: function () {
+                layer.msg("网络错误，请重新刷新界面")
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

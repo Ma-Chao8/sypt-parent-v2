@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.procedures.dao.ProceduresDao">
+    <select id="selectPage" resultType="com.tianma315.core.procedures.vo.ProceduresVO">
+        SELECT
+        pd.procedure_id as procedureID,
+        pd.name as name,
+        pd.state as state,
+        pd.product_id as productId,
+        pd.is_open as isOpen,
+        pd.create_by as createBy,
+        pd.create_date as createDate,
+        p.product_name as productName,
+        pd.is_all_product as isAllProduct,
+        pd.banner_enable as bannerEnable,
+        pd.footlink_anable as footlinkAnable
+        FROM procedures pd LEFT JOIN product p ON pd.product_id = p.product_id
+        WHERE pd.state = 0 AND pd.company_id = #{companyId}
+    </select>
+</mapper>

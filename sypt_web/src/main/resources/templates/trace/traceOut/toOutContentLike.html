@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/css/swiper.min.css" rel="stylesheet"  th:href="@{/css/swiper.min.css}"/>
+
+<link href="/css/upload.css" rel="stylesheet" th:href="@{/css/upload.css}" />
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t wizard-big" id="signupForm" name="signupForm">
+						<div class="form-group datas" th:each="linkContentDO:${likeContentAll}">
+							<span th:if="${linkContentDO.type == 0}" class="input">
+								<label class="col-sm-3 control-label" th:text="${linkContentDO.contentName}">代理商名字：</label>
+								<div class="col-sm-8">
+									<input th:id="${linkContentDO.linkContentId}" th:name="${linkContentDO.linkContentId}" class="form-control" type="text" th:value="${linkContentDO.defaultValue}">
+								</div>
+							</span>
+
+
+
+
+							<span th:if="${linkContentDO.type == 1}">
+								<div class="form-group row">
+									<div class="col-sm-3"></div>
+								 <div class="col-sm-8 imgsa">
+									<span class="tudesc" th:text="${linkContentDO.contentName}">选择水质检测图</span>
+									<ul class="evimg">
+									<span class="imgArray" th:id="${linkContentDO.linkContentId}">
+										<li class="loads" th:each="pic:${linkContentDO.pics}">
+											<img class="img" th:src="${pic}" th:value="${pic}">
+											<span class="delete" onclick="delThis(this)">X</span>
+											<!--<input type="file" name="file" class="upload" id="upload" onchange="readFile(this)">-->
+										</li>
+									</span>
+										<li class="load">
+											<img src="img/uploadfile.png" th:src="@{/img/uploadfile.png}">
+											<input type="file" name="file" class="upload" id="upload" onchange="readFile(this)">
+										</li>
+									</ul>
+								 </div>
+							    </div>
+
+							</span>
+
+						</div>
+
+
+
+
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="button" class="btn btn-primary" onclick="save()">提交</button>
+									<input type="button" class="btn btn-danger" value="取消"
+										   onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+									</input>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="showphoto" class="tu">
+				<div id="model" >
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+
+						</div>
+					</div>
+				</div>
+				<span class="photo_close">X</span>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+
+
+	<script src="/js/swiper.min.js" th:src="@{/js/swiper.min.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		function save(){
+			var prefix = getContext() + "/trace/traceOut"
+			var inputList=[]
+			var traceabilityFileId = [[${traceabilityFileId}]];
+			var proceduresLinkId = [[${proceduresLinkId}]];
+			//console.log("gggg="+proceduresLinkId)
+			var flag = false;
+			//判断文本框
+			$(".datas .input").each(function(){
+
+				var $id=$(this).find("input").attr("id")
+				var $input=$(this).find("input").val()
+				var $text=$(this).find("label").text()
+				if($input == ""){
+					alert($text+"不能为空！")
+					// layer.open({
+					// 	content: $text+"不能为空！"
+					// 	,btn: '我知道了'
+					// });
+					flag =true;
+					return;
+				}else{
+					var $value={"id":$id,"value":$input}
+					inputList.push($value)
+				}
+
+			})
+			//判断图片
+			var imgList=[];
+			var oldImgList=[];
+			$(".imgsa").find(".imgArray").each(function(){
+				var id=$(this).attr("id")
+				var value=[];
+				var srcList=[];
+				if($(this).find("li img").length==0){
+					var title=$(this).parents(".form-group").find(".tudesc").text()
+					var $size = '';
+					//alert("至少上传一张"+title+"!")
+					// layer.open({
+					// 	content: "至少上传一张"+title+"!"
+					// 	,btn: '我知道了'
+					// });
+					layer.msg("至少上传一张"+title+"!");
+					flag =true;
+					return;
+				}
+
+				//
+				$(this).find('.loads .img').each(function(){
+					// var src= $(this)[0].src;
+					var src=$(this).attr("src")
+					// var value = $(this).val();
+					srcList.push(src)
+				})
+				var oldItem = {"id":id,srcList:srcList}
+				oldImgList.push(oldItem)
+
+				$(this).find(".li img").each(function(){
+					var src=$(this).attr("src")
+					$size=$(this).data("size")
+					//把头部的data:image/png;base64,（注意有逗号）去掉
+					var arr = src.split(','),
+							mime = arr[0].match(/:(.*?);/)[1],
+							len = mime.length;
+					var subLen = parseInt(len + 13);
+					src=src.substring(subLen);
+
+					var $item={"url":src,"size":$size}
+					value.push($item)
+				})
+				//var $invoiceId = $("#invoiceId").text();
+				var item={"id":id,value:value}
+				imgList.push(item)
+
+			})
+			if (flag) {
+				return;
+			}
+			// console.log(inputList)
+			// console.log(imgList)
+
+			//提交
+			var imgInputDo = new Object();
+			imgInputDo.imgs=imgList;
+			imgInputDo.oldImgs=oldImgList;
+			imgInputDo.inputDos = inputList;
+			imgInputDo.traceabilityFileId = traceabilityFileId;
+			imgInputDo.proceduresLinkId = proceduresLinkId;
+			var indexs = layer.load();
+			$.ajax({
+				//几个参数需要注意一下
+				type: "POST",//方法类型
+				dataType: "json",//预期服务器返回的数据类型
+				contentType: "application/json",
+				url: prefix+"/codeUpdate" ,//url
+				data:JSON.stringify(imgInputDo),
+				success: function (result) {
+					//console.log(result);//打印服务端返回的数据(调试用)
+					if (result.code == 0) {
+						layer.close(indexs);
+
+						alert("录入成功");
+						parent.location.reload();
+						var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+						parent.layer.close(index);
+					};
+				},
+				error : function() {
+					layer.close(indexs);
+					alert("异常！");
+				}
+			});
+		}
+
+
+
+		$(function(){
+			//图放大
+			var html="";
+			$(".imgArray li img").each(function(){
+				html+='<div class="swiper-slide" ><img  src='+$(this).attr("src")+'  /></div>'
+				console.log(html)
+			})
+
+			$("#showphoto .swiper-wrapper").append(html)
+			var photoSwiper;
+			$(".imgArray").on("click","li img",function(){
+				var $index=$(".imgArray li img").index($(this))
+				console.log($index)
+				$("#showphoto").show()
+				$("body").addClass("main-scroll-hidden")
+				photoSwiper = new Swiper ("#showphoto .swiper-container", {
+					initialSlide:$index,
+					loop: true,
+					autoplay:4000,
+				})
+
+			})
+			photoSwiper=null;
+			//关闭
+			$(".photo_close").click(function(){
+				$("#showphoto").hide()
+				$("body").removeClass("main-scroll-hidden")
+				$("body").addClass("main-scroll")
+			})
+		})
+
+
+		function readFile(obj) {
+			var file = obj.files[0];
+			//限定上传文件的类型，判断是否是图片类型
+			if (!/image\/\w+/.test(file.type)) {
+				alert("只能选择图片");
+				return false;
+			}
+
+			var size=obj.files[0].size
+			//console.log(size,"字节")
+			var reader = new FileReader();
+			var html="";
+			reader.readAsDataURL(file);
+			reader.onload = function (e) {
+				//console.log(this.result.split("base64,")[1]);
+				var base64=this.result
+				var arr = base64.split(','),
+						mime = arr[0].match(/:(.*?);/)[1],
+						len = mime.length;
+				var subLen = parseInt(len + 13);
+				$base64=base64.substring(subLen);
+				var $fileSize=fileSize($base64)
+
+				html+='<li class="li"><img src="'+this.result+'" onclick="showImg(this)" data-size="'+$fileSize+'"><span class="delete" onclick="delThis(this)">X</span></li>'
+				$(obj).parent().parent().find(".imgArray").append(html)
+			}
+		}
+
+		//通过base64编码字符流计算文件流大小函数
+		function fileSize(str) {
+			var fileSize;
+			//找到等号，把等号也去掉
+			if (str.indexOf('=') > 0) {
+				var indexOf = str.indexOf('=');
+				str = str.substring(0, indexOf);//把末尾的’=‘号去掉
+			}
+			fileSize = parseInt(str.length - (str.length / 8) * 2);
+			return fileSize;
+		}
+
+		function delThis(obj){
+			var add=$(obj).parent().parent().parent().find(".load")
+			$(obj).parent().remove()
+		}
+
+		function showImg(obj){
+			var html="";
+			$("#showphoto .swiper-wrapper").html("")
+			$(obj).parent().parent().find("li img").each(function(){
+				html+='<div class="swiper-slide"><img src='+$(this).attr("src")+' /></div>'
+			})
+			$("#showphoto .swiper-wrapper").append(html)
+			var photoSwiper;
+			var $index=$(obj).index()
+			$("#showphoto").show()
+			$("body").addClass("main-scroll-hidden")
+			photoSwiper = new Swiper ("#showphoto .swiper-container", {
+				initialSlide:$index,
+				loop: true,
+				autoplay:4000,
+			})
+		}
+
+	</script>
+	<!--<script type="text/javascript" th:src="@{/js/appjs/procedures/procedureLink/add.js}" src="/js/appjs/procedures/procedureLink/add.js">-->
+
+</body>
+</html>

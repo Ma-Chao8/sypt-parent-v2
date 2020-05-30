@@ -1,0 +1,132 @@
+html,
+body {
+    background-color: #f4f4f4;
+}
+
+body {
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+}
+
+#fc-head img {
+    width: 100%;
+}
+
+#fc-content-head {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    margin: 10px auto;
+    border-radius: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0;
+}
+
+#fc-content-head dl dt {
+    background-color: #219950;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+#fc-content-head dl dd p {
+    text-align: center;
+    margin: 2% 15%;
+    font-size: 13px;
+    margin-bottom: 0;
+    color: #219950;
+}
+
+#fc-content-body dl dt img.icon {
+    width: 20px;
+    position: absolute;
+    right: 5px;
+    padding-top: 5px;
+}
+
+#fc-content-body dl dd {
+    display: none;
+}
+
+h5 {
+    text-indent: 0.5rem;
+}
+
+#fc-content-body dl dt {
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid gainsboro;
+    padding: 2px;
+}
+
+#fc-content #fc-content-body .flex img {
+    width: 50%;
+}
+
+.fc-all dl dt {
+    width: 96%;
+    margin: 0 auto;
+    height: 0.7rem;
+    background: url(../img/xian.png) no-repeat center;
+    background-size: 4.46rem;
+    line-height: 0.7rem;
+    color: #666666;
+    font-size: 16px;
+}
+
+.contentBox2 {
+    background-color: #FFFFFF;
+    padding-top: 5px;
+}
+
+.settledspan.text-c.f-16.secondlevel {
+    text-align: left;
+    text-indent: 15px;
+}
+
+img.rightrotate {
+    width: 20px;
+    vertical-align: -3px;
+}
+
+.fc-footer {
+    text-align: center;
+    margin-top: 10px;
+    background-color: #219950;
+    color: #fff;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.fc-footer ul {
+    margin: 0;
+}
+
+p.rightxia {
+    margin: 0;
+}
+
+
+.area {
+    background-color: #FFFFFF;
+}
+
+.area dl > dt {
+    text-align: left;
+    text-indent: 10px;
+}
+
+.rotate90 {
+    transform: rotate(90deg) !important;
+    -webkit-transform: rotate(90deg) !important;
+}
+
+
+.footer-layout .footer-item a h5 {
+    color: #0a6999;
+}

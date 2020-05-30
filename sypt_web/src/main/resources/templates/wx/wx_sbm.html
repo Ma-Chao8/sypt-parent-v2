@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/wx_sbm.css" />
+		<script type="text/javascript" src="js/remControl.js" ></script>
+	</head>
+	<body>
+		 <div class="fc-head">
+		 	<div class="fc-logo"><img src="img/logo.png"></div>
+		 	<p class="fc-fff">辅助验证</p>
+		 	<p class="fc-text">本平台仅用于微信号辅助登录</p>
+		 	<p class="fc-text">只支持在年轻工作室购买的小号</p>
+		 	
+		 	<div class="fc-box">
+		 			<input type="text" class="id_user"  id="input_user" placeholder="请输入需要验证的账号"/>
+		 			<input type="text" class="id_password" id="input_password"  placeholder="请输入显示的6位验证码"/>
+		 		    <div class="btn">
+		 		    	<button class="sure" id="searchBtn">验证</button>
+		 		    </div>
+		 	</div>
+		 </div>
+		 
+		 <script type="text/javascript" src="js/jquery-2.1.4.js" ></script>
+		 <script type="text/javascript" src="lib/layer/layer/layer.js" ></script>
+		 <script>
+		 	window.onload=function(){
+			var search=document.getElementById('searchBtn');
+			
+			search.onclick=function(){
+				var $user=document.getElementById('input_user').value;
+				var $password=document.getElementById('input_password').value;
+				
+				if($user!="" && $password != ""&&$password.length==6){
+					window.location.href="demo.html";
+				}else{
+					layer.msg("信息不完整！请填充！");
+					return;
+					
+				}
+				
+			}
+		}
+		 </script>
+	</body>
+</html>

@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>燕窝溯源信息管理平台</title>
+    <head th:include="include :: header"></head>
+    <link rel="stylesheet" th:href="@{/css/plugins/bootstrap-4.3.1-dist/css/bootstrap.min.css}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: 86.5% Times;
+            color: #333;
+            font: 75% Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        td {
+            padding: 1px 3px;
+        }
+
+        #into table {
+            border-collapse: collapse;
+        }
+
+        .firsttd {
+            text-align: right;
+            font-weight: bold;
+            color: #369;
+            padding: 3px 0;
+        }
+
+        #info tr > td:first-child {
+            min-width: 120px;
+        }
+
+        p {
+            margin: 3px 0;
+        }
+
+        button {
+            background: #3079ed;
+            color: white;
+            padding: 5px;
+            border: 0;
+            -webkit-border-radius: 2px;
+        }
+
+        #head {
+            margin-bottom: 4px;
+            background: #ddd;
+            text-align: center;
+        }
+
+        #head > * {
+            display: inline-block;
+        }
+
+        #head h1 {
+            font-size: 18px;
+        }
+
+        #container > div {
+            margin: 5px;
+        }
+
+        #msg {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #foot {
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+        }
+
+        #active {
+            background: #ddd;
+            padding: 10px;
+        }
+
+        h1 {
+            font: 125% Arial, Helvetica, sans-serif;
+            text-align: left;
+            font-weight: bolder;
+            background: #2c7a0b;
+            padding: 3px;
+            display: block;
+            color: #FFF;
+        }
+
+        .redh1 {
+            font: 125% Arial, Helvetica, sans-serif;
+            text-align: left;
+            font-weight: bolder;
+            background: #D07342;
+            padding: 3px;
+            display: block;
+            color: #FFF;
+        }
+
+        .class1 {
+            background: #FFF;
+            position: relative;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        span {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            cursor: pointer;
+            color: yellow;
+            font-size: 12px;
+        }
+
+        p {
+            text-align: left;
+            line-height: 20px;
+            background: #2c7a0b;
+            padding: 3px;
+            margin-top: 5px;
+            color: #FFF;
+        }
+
+        img{width:100%; height:auto;}
+    </style>
+</head>
+<body>
+<div >
+    <div id="container" class="container">
+        <div id="head"> <img th:src="@{/img/logo-small.png}" height="40"> </div>
+        <div id="msg" align="centerright: auto;text-align: center;">
+            <span style="color: red; right: auto; text-align: center; top: auto;"><font></font></span> <span style="color: green; right: auto; text-align: center; top: auto;"></span>
+        </div>
+        <div id="info">
+            <div class="class1">
+                <h1> 产品信息 </h1>
+                <span id="stateBut0" onclick="useI('class0content', 'stateBut0')">-&nbsp;收缩</span>
+                <table id="class0content">
+
+                    <tr>
+                        <td class="firsttd">产品名称：</td>
+                        <td><div th:text="${result.product.productName}"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="firsttd">产品规格：</td>
+                        <td><div th:text="${result.product.productSpec}"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="firsttd">包装数量：</td>
+                        <td><div th:text="${result.product.boxSize}"></div></td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td class="firsttd">零售价格：</td>-->
+                        <!--<td><div th:text="${result.product.productPrice}">Q/ZKYY 0003S</div></td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <td class="firsttd">产品图片：</td>
+                        <td>
+                            <div>
+                                <img th:src="${result.product.productImg}"
+                                     class="img-responsive center-block">
+                            </div>
+                        </td>
+                    </tr>
+                    <!--<div th:if="${result.product.productFieldVOS != null}">-->
+                    <!--<div th:each="item,index : ${result.product.productFieldVOS}">-->
+
+                    <tr th:each="item,index : ${result.product.productFieldVOS}">
+                        <td class="firsttd" th:text="${item.attrFieldName} + '：'"></td>
+                        <td><div th:text="${item.values}"></div></td>
+                    </tr>
+
+                    <!--</div>-->
+                    <!--</div>-->
+                </table>
+            </div>
+
+
+
+            <!--<div class="class1">-->
+                <!--<h1> 溯源信息 </h1>-->
+                <!--<span id="stateBut3" onclick="$use('class3content', 'stateBut3')">-&nbsp;收缩</span>-->
+                <!--<div id="class3content">-->
+                    <div th:if="${result.produceCenter != null}">
+                        <div th:each="item,index : ${result.produceCenter}">
+                            <!--<h3 ></h3>-->
+                            <div class="class1">
+                                <h1 th:text="${item.tyMenu.menuName}"> 溯源信息 </h1>
+                                <span th:id="'stateButs'+${index.index}"
+                                      th:onclick="'useI(\'classcontents'+${index.index}+'\',\'stateButs'+${index.index}+'\')'">
+                                -&nbsp;收缩</span>
+                                <div th:id="'classcontents'+${index.index}">
+                                    <div class="form-group" th:each="menuData,index : ${item.dataList}">
+                                        <table >
+                                            <tr>
+                                                <td class="firsttd" th:text="${menuData.dataKey} + '：'"></td>
+                                                <td>
+                                                    <div
+                                                            th:if="${menuData.type != 1}"
+                                                            th:text="${menuData.dataValue}"
+                                                    ></div>
+
+                                                    <div th:unless="${menuData.type != 1}">
+                                                        <a class='btn btn-success btn-sm' title="查看图片"
+                                                           th:href="@{/traceability/traceabilityFile/getTyMenuDataById/}+${menuData.menuDataId}"
+                                                           >查看图片</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="active">
+                <form id="checkForm1"  method="get">
+                    <div id="checkDate">
+                        <label>请输入12位防伪码：</label>
+                        <input type="hidden" name="wxkeystr" value="2H8neIHF75a">
+                        <input type="hidden" name="manuId" value="10197">
+                        <input type="text" id="code" name="code" size="12" maxlength="12">
+                        <input type="button" id="checkDateBtn" style="background: #3079ed; color: white; padding: 5px; border: 0; -webkit-border-radius: 2px;" value="验证真伪"
+                                onclick="checkCode()"
+                        >
+                    </div>
+                </form>
+            </div>
+            <div id="foot">
+                <p style="text-align: center;"> 燕窝溯源信息管理平台 </p>
+            </div>
+        </div>
+
+        <!--<div th:include="include::footer"></div>-->
+
+    </div>
+
+</div>
+<!--<script th:src="@{/js/plugins/jquery-3.2.1/jquery-3.2.1.min.js}"></script>-->
+<!--<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
+<div th:include="include::footer"></div>
+<script type="text/javascript">
+    function checkCode(){
+        console.log(11111)
+        var code =  document.getElementById("code").value
+        console.log("code:"+code)
+        $.ajax({
+            type : "GET",
+            url : ctx + "/traceability/traceabilityFile/checkCode?code="+code,
+            async : true,
+            error : function(request) {
+                parent.layer.alert("Connection error");
+            },
+            success : function(data) {
+                layer.msg(data.msg);
+            }
+        });
+    }
+
+//    function $(element) {
+//        return element = document.getElementById(element);
+//    }
+//
+//    function $use(targetid, objN) {
+//        var d = $(targetid);
+//        var sb = $(objN);
+//        if (d.style.display != "none") {
+//            d.style.display = "none";
+//            sb.innerHTML = "+&nbsp;展开";
+//        } else {
+//            d.style.display = "block";
+//            sb.innerHTML = '-&nbsp;收缩';
+//        }
+//    }
+
+    function useI(targetid, objN) {
+        var d = document.getElementById(targetid)
+        var sb = document.getElementById(objN)
+        if (d.style.display != "none") {
+            d.style.display = "none";
+            sb.innerHTML = "+&nbsp;展开";
+        } else {
+            d.style.display = "block";
+            sb.innerHTML = '-&nbsp;收缩';
+        }
+    }
+
+    function imgView(id) {
+        layer.open({
+            type: 2,
+            title: '查看图片',
+            maxmin: true,
+            shadeClose: false, // 点击遮罩关闭层
+//                area: ['800px', '520px'],
+            content: getContext() + 'wx/getTyMenuDataById/' + id // iframe的url
+        });
+    }
+
+
+
+</script>
+</body>
+</html>

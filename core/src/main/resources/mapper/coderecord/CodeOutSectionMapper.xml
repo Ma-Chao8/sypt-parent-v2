@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.coderecord.dao.CodeRecordDao">
+    <select id="theDayCount" resultType="Integer">
+        SELECT SUM(c.record_number) dayNum FROM code_record c WHERE DATE_FORMAT(c.first_query_date,'%Y%m%d') = curdate()
+        <if test="companyId != null">
+            AND  c.company_id = #{companyId}
+        </if>
+    </select>
+
+    <select id="theMonthCount" resultType="Integer">
+        SELECT SUM(c.record_number) monthNum FROM code_record c WHERE DATE_FORMAT(c.first_query_date,'%Y%m') = DATE_FORMAT(now(),'%Y%m')
+
+        <if test="companyId != null">
+            AND  c.company_id = #{companyId}
+        </if>
+    </select>
+
+    <select id="allDayCount" resultType="com.tianma315.core.coderecord.vo.CodeRecordCountVO">
+        SELECT ( DATE_FORMAT( c.first_query_date, '%d' ) ) as nowDay, SUM( c.record_number ) as num
+        FROM code_record c
+        WHERE DATE_FORMAT( c.first_query_date, '%Y%m' ) = DATE_FORMAT( now( ), '%Y%m' )
+        GROUP BY ( DATE_FORMAT( c.first_query_date, '%Y%m%d' ) )
+    </select>
+
+    <select id="agentTheDayCount" resultType="Integer">
+       -- SELECT SUM(c.record_number) dayNum FROM code_record c LEFT JOIN trace_file tf ON c.traceability_file_id = tf.trace_file_id
+       -- WHERE DATE_FORMAT(c.first_query_date,'%Y%m%d') = curdate() and tf.status = 1 and tf.company_id = #{companyId}
+
+       SELECT SUM(c.record_number) dayNum FROM code_record c
+       WHERE DATE_FORMAT(c.first_query_date,'%Y%m%d') = curdate()
+    </select>
+
+    <select id="agentTheMonthCount" resultType="Integer">
+        SELECT SUM(c.record_number) monthNum FROM code_record c
+        --LEFT JOIN trace_file tf ON c.traceability_file_id = tf.trace_file_id
+        WHERE DATE_FORMAT(c.first_query_date,'%Y%m') = DATE_FORMAT(now(),'%Y%m')
+        --and tf.status = 1 and tf.company_id = #{companyId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.attr.dao.AttrDao">
+
+    <select id="selectByMerchantId" parameterType="long" resultType="com.tianma315.core.attr.domain.AttrDO">
+        SELECT a.* FROM attr a
+
+    </select>
+
+    <delete id="deleteByMerchantId" parameterType="long">
+         DELETE a.*,
+            ad.*,
+            fv.*
+            FROM
+                attr as a
+                INNER JOIN attr_field as ad ON a.attr_id = ad.attr_id
+                INNER JOIN field_value as fv ON ad.attr_field_id = fv.attr_field_id
+
+    </delete>
+</mapper>

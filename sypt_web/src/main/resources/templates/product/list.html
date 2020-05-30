@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include::header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div id="exampleToolbar" role="group">
+                    <button shiro:hasPermission="product:add" type="button" class="btn btn-primary" data-operate="add">
+                        <i class="fa fa-plus" aria-hidden="true"></i>添加
+                    </button>
+                    <button shiro:hasPermission="product:del" type="button" class="btn btn-danger" data-operate="batchDelete">
+                        <i class="fa fa-trash" aria-hidden="true"></i>删除
+                    </button>
+
+                    <a shiro:hasPermission="product:add" type="button" class="btn  btn-primary"
+                       th:href="${#httpServletRequest.getContextPath()}+'/product/exportProduct'">
+                        <i class="fa fa-download" aria-hidden="true"></i>模板
+                    </a>
+
+                    <button shiro:hasPermission="product:add" type="button" class="btn  btn-danger"
+                            onclick="productImport()">
+                        <i class="fa fa-upload" aria-hidden="true"></i>导入
+                    </button>
+
+                    <button class="btn btn-outline-secondary"  type="button" id="btnExport">
+                        <i class="fa fa-download" aria-hidden="true"></i>导出
+                    </button>
+
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--shiro控制bootstraptable行内按钮看见性 -->
+    <script type="text/javascript">
+        var s_edit_h = 'hidden';
+        var s_remove_h = 'hidden';
+    </script>
+    <script shiro:hasPermission="product:edit" type="text/javascript">
+        s_edit_h = '';
+    </script>
+    <script shiro:hasPermission="product:del" type="text/javascript">
+        var s_remove_h = '';
+    </script>
+
+</div>
+<div th:include="include::footer"></div>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<script type="text/javascript" src="/static/js/appjs/product/list.js"
+        th:src="@{/js/appjs/product/list.js}">
+</script>
+</body>
+
+</html>

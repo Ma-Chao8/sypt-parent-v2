@@ -1,0 +1,114 @@
+@import "banner.css";
+
+html,
+body {
+    -webkit-overflow-scrolling: touch;
+    background-color: #e4e4e4;
+}
+
+ul {
+    text-indent: 0 !important;
+}
+
+img {
+    width: 100%;
+}
+
+.fc-content {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.fc-content-head {
+    padding: 10px;
+}
+
+.fc-content-head p {
+    font-size: 12px;
+    color: #999999;
+}
+
+.fc-content-head h4 {
+    font-size: 16px;
+    color: #000000;
+}
+
+.fc-content-body {
+    padding: 10px;
+}
+
+.lanse {
+    color: #0000FF;
+}
+
+.area dt {
+    background: url(../img/divide.png) no-repeat center;
+    background-size: 80%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.area dd .fc-sub2 .subkey {
+    font-size: 14px;
+    color: #444444;
+}
+
+.area dd .fc-sub2 .subvalue {
+    font-size: 14px;
+    color: #666666;
+}
+
+.area dd .fc-sub2 .contentBox3 li span {
+    font-size: 12px;
+}
+
+.area dd .fc-sub2 .contentBox3 {
+    display: none;
+}
+
+.settledspan a {
+    color: #0000FF;
+    margin-left: 10px;
+}
+
+#fc-footer {
+    text-align: center;
+}
+
+.resultColum {
+    -webkit-justify-content: space-around;
+    height: 144px;
+    -webkit-align-items: center;
+}
+
+.resultColum a {
+    width: 74px;
+    display: block;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.resultColum a img {
+    display: block;
+    width: 100%;
+}
+
+.area dd .settledspan {
+    display: -webkit-flex;
+    align-items: center;
+}
+
+.area dd .settledspan span {
+    display: block;
+    min-width: 30px;
+}
+
+.area02 h5 .Hui-iconfont {
+    font-size: 20px;
+    display: inline-block;
+    transition: all 0.5s
+}
+
+

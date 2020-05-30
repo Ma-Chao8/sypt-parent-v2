@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.sys.dao.RoleMenuMapper">
+
+	<select id="listMenuIdByRoleId" resultType="long">
+		select menu_id from sys_role_menu
+		<where>role_id = #{roleId}</where>
+	</select>
+
+	<delete id="removeByRoleId">
+		DELETE FROM sys_role_menu WHERE role_id=#{roleId}
+	</delete>
+
+	<insert id="batchSave">
+		INSERT INTO sys_role_menu(role_id, menu_id) values
+		<foreach item="item" index="index" collection="list"
+			separator=",">
+			(#{item.roleId},#{item.menuId})
+		</foreach>
+	</insert>
+
+	<select id="selectByRoleId" parameterType="long" resultType="com.tianma315.core.sys.domain.MenuDO">
+		SELECT m.* FROM sys_menu m
+		LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+		WHERE rm.role_id = #{roleId}
+	</select>
+
+	<select id="selectByUserId" parameterType="long" resultType="com.tianma315.core.sys.domain.MenuDO">
+		SELECT m.* FROM sys_menu m
+		LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+		LEFT JOIN sys_user_role ur ON ur.role_id = rm.role_id
+			WHERE ur.user_id = #{userId} AND m.id != 3
+	</select>
+</mapper>

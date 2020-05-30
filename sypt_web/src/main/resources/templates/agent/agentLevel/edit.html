@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="levelId" name="levelId" th:value="${agentLevel.levelId}"  type="hidden">
+						<input id="companyId" name="companyId" th:value="${agentLevel.companyId}"  type="hidden">
+														<div class="form-group">
+								<label class="col-sm-3 control-label">等级名称：</label>
+								<div class="col-sm-8">
+									<input id="levelName" name="levelName" th:value="${agentLevel.levelName}" placeholder="等级名称" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">等级排序：</label>
+								<div class="col-sm-8">
+									<input id="levelWeight" name="levelWeight" th:value="${agentLevel.levelWeight}" placeholder="等级越低序列号越大" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" th:src="@{/js/appjs/agent/agentLevel/edit.js}" src="/js/appjs/agent/agentLevel/edit.js">
+	</script>
+</body>
+</html>

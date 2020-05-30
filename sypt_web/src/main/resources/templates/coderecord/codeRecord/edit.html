@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="code_record_id" name="code_record_id" th:value="${codeRecord.code_record_id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">小码：</label>
+								<div class="col-sm-8">
+									<input id="smallCode" name="smallCode" th:value="${codeRecord.smallCode}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">查询次数：</label>
+								<div class="col-sm-8">
+									<input id="recordNumber" name="recordNumber" th:value="${codeRecord.recordNumber}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首次查询时间：</label>
+								<div class="col-sm-8">
+									<input id="firstQueryDate" name="firstQueryDate" th:value="${codeRecord.firstQueryDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="bigCode" name="bigCode" th:value="${codeRecord.bigCode}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">对应的序号：</label>
+								<div class="col-sm-8">
+									<input id="serialNumber" name="serialNumber" th:value="${codeRecord.serialNumber}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="traceabilityFileId" name="traceabilityFileId" th:value="${codeRecord.traceabilityFileId}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/coderecord/codeRecord/edit.js">
+	</script>
+</body>
+</html>

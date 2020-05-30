@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div id="" class="product-group" style="width: 60%;margin: 0 auto;text-align: center">
+							<img th:src="@{/img/qizhi.png}" style="width: 80px">
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" th:inline="javascript">
+		var prefix = getContext() + "/trace/traceOut"
+		var list = [[${contentList}]]
+		var traceabilityFileId = [[${traceabilityFileId}]]
+		if ([[${msg}]])
+		{
+			layer.msg([[${msg}]])
+		}
+		if(list){
+			for (var i in list){
+               var name = list[i];
+               var div = $('<div id="" class="product-group" style="width: 60%;margin: 0 auto;text-align: center"></div>')
+				$(div).append('<i class="glyphicon glyphicon-sort-by-attributes"></i>')
+				if (list[i].isAdd==0){
+					if (list[i].isRole==1){
+						$(div).append('<button type="button" class="btn btn-block btn-outline btn-primary" onclick="addContent('+list[i].procedureLinkId+','+traceabilityFileId+')">'+list[i].procedureLinkName+'</button>')
+					} else {
+						$(div).append('<button type="button" class="btn btn-block btn-outline btn-primary" onclick="send()">'+list[i].procedureLinkName+'</button>')
+					}
+
+				}else{
+					if (list[i].isRole==1){
+						$(div).append('<button type="button" onclick="prompt('+list[i].procedureLinkId+','+traceabilityFileId+')" class="btn btn-primary btn-block">'+list[i].procedureLinkName+'</button>')
+					}else {
+						$(div).append('<button type="button" class="btn btn-block btn-outline btn-primary" onclick="send()">'+list[i].procedureLinkName+'</button>')
+					}
+
+				}
+				$(".ibox-content").append(div);
+			}
+		}
+		function send() {
+			layer.msg("您没有编辑该环节的权限！")
+		}
+
+		function prompt(id,traceabilityFileId) {
+			layer.msg('信息已录入，你确定要修改吗？', {
+				time: 0 //不自动关闭
+				,btn: ['确定', '取消']
+				,yes: function(index){
+					layer.close(index);
+					editContent(id,traceabilityFileId)
+				}
+			});
+		}
+		function addContent(id,traceabilityFileId) {
+			//console.log(id)
+			layer.open({
+				type: 2,
+				title: '溯源流程',
+				maxmin: true,
+				shadeClose: false, // 点击遮罩关闭层
+				area: ['80%', '80%'],
+				content: prefix + '/linkContent/' + id +'/'+traceabilityFileId// iframe的url
+			});
+
+
+		}
+		function editContent(id,traceabilityFileId) {
+			//console.log(id)
+			layer.open({
+				type: 2,
+				title: '溯源流程',
+				maxmin: true,
+				shadeClose: false, // 点击遮罩关闭层
+				area: ['80%', '80%'],
+				content: prefix + '/updateLinkContent/' + id +'/'+traceabilityFileId// iframe的url
+			});
+
+
+		}
+
+	</script>
+	<!--<script type="text/javascript" th:src="@{/js/appjs/procedures/procedureLink/add.js}" src="/js/appjs/procedures/procedureLink/add.js">-->
+
+</body>
+</html>

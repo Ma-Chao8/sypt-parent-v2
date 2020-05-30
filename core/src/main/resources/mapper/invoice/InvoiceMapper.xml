@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.invoice.dao.InvoiceDao">
+
+    <!-- select start -->
+    <resultMap id="InvoiceVo" type="com.tianma315.core.invoice.domain.vo.InvoiceVO">
+        <id property="invoiceId" column="invoice_id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="invoiceNumber" column="invoice_number"/>
+        <result property="createBy" column="create_by"/>
+        <result property="agentId" column="agent_id"/>
+        <result property="agentName" column="agent_name"/>
+        <result property="linkman" column="linkman"/>
+        <result property="tel" column="tel"/>
+        <result property="deliverAddres" column="deliver_addres"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="deliverDate" column="deliver_date"/>
+        <result property="remark" column="remark"/>
+        <result property="state" column="state"/>
+        <!--  -->
+        <collection property="products" ofType="InvoiceProductVO" column="invoice_id"
+                    select="com.tianma315.core.invoice.dao.InvoiceProductDao.selectByInvoiceId">
+        </collection>
+    </resultMap>
+
+    <select id="selectPages" resultType="InvoiceVO">
+        SELECT
+        i.*,
+        a.agent_name,
+        w.warehouse_name
+        FROM invoice i
+        LEFT JOIN agent a ON i.agent_id = a.agent_id
+        LEFT JOIN warehouse w ON i.warehouse_id = w.warehouse_id
+        WHERE i.company_id = #{companyId}
+        <if test="agentId != null and agentId > 0">
+            AND i.agent_id = #{agentId}
+        </if>
+        <if test="beginDate != null and beginDate != ''">
+            AND DATE_FORMAT(i.created_date,'%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(#{beginDate},'%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE_FORMAT(i.created_date,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#{endDate},'%Y-%m-%d')
+        </if>
+        <if test="searchKey != null and searchKey!=''">
+            and
+            (
+            a.`agent_name`like concat(concat("%",#{searchKey}),"%")
+            or i.`linkman`like concat(concat("%",#{searchKey}),"%")
+            or i.tel like concat(concat("%",#{searchKey}),"%")
+            )
+        </if>
+        <if test="warehouseId != null and warehouseId!=''">
+            and
+            i.warehouse_id = #{warehouseId}
+        </if>
+        <if test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+            order by i.${sortName} ${sortOrder}
+        </if>
+    </select>
+
+    <select id="selectDetail" resultMap="InvoiceVo">
+        SELECT
+        i.*,
+        a.agent_name
+        FROM invoice i
+        LEFT JOIN agent a ON i.agent_id = a.agent_id
+        WHERE i.invoice_id = #{invoiceId}
+    </select>
+
+    <select id="selectInspect" resultType="com.tianma315.core.invoice.domain.vo.InspectVo">
+        SELECT
+        ipc.big_code,
+        ipc.small_code,
+        i.deliver_date,
+        i.invoice_id,
+        i.tel,
+        i.linkman,
+        a.agent_name,
+        p.product_name
+        FROM invoice i
+        LEFT JOIN  invoice_product ip ON i.invoice_id = ip.invoice_id
+        LEFT JOIN  invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+        LEFT JOIN  agent a ON i.agent_id = a.agent_id
+        LEFT JOIN  product p ON ip.product_id = p.product_id
+        WHERE ipc.status =1
+        AND (ipc.small_code = #{code} OR ipc.big_code = #{code})
+        ORDER BY i.deliver_date DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectByIds" resultType="com.tianma315.core.invoice.domain.vo.InvoiceVO">
+        select * from invoice where invoice_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectInvoicePage" resultMap="InvoiceVo">
+        SELECT
+        i.*,
+        a.agent_name
+        FROM invoice i
+        LEFT JOIN agent a ON i.agent_id = a.agent_id
+        WHERE i.create_by=#{userId}
+    </select>
+
+    <select id="selectByBigCode" resultType="string">
+        SELECT
+        ipc.big_code
+        FROM
+        invoice i
+        INNER JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+        INNER JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+        WHERE
+        ipc.`status` = 1
+        and i.company_id = #{companyId}
+        AND
+        (ipc.big_code IN
+        <foreach collection="bigCode" item="code" open="(" close=")" separator="," index="index">
+            #{code}
+        </foreach>
+        )
+    </select>
+
+    <select id="selectBySmallCode" resultType="string">
+        SELECT
+        ipc.small_code
+        FROM
+        invoice i
+        INNER JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+        INNER JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+        WHERE
+        ipc.`status` = 1
+        and i.company_id = #{companyId}
+        AND
+        (ipc.small_code IN
+        <foreach collection="smallCode" item="code" open="(" close=")" separator="," index="index">
+            #{code}
+        </foreach>
+        )
+    </select>
+
+    <select id="countByYear" resultType="com.tianma315.commons.model.DataValues">
+        select COUNT(*) as `value`,DATE_FORMAT(created_date,"%m") as `date`
+        from invoice where company_id = #{companyId}
+        and DATE_FORMAT(created_date,"%Y") = #{year}
+        GROUP BY DATE_FORMAT(created_date,"%m")
+    </select>
+
+    <select id="countByMonth" resultType="com.tianma315.commons.model.DataValues">
+        select COUNT(*) as `value`,DATE_FORMAT(created_date,"%d") as `date`
+        from invoice where company_id = #{companyId}
+        and DATE_FORMAT(created_date,"%Y-%m") = concat(#{year},'-',#{month})
+        GROUP BY DATE_FORMAT(created_date,"%d")
+    </select>
+
+
+    <select id="selectByCode" resultType="com.tianma315.core.invoice.domain.InvoiceDO">
+            SELECT
+            i.*
+            FROM invoice i
+            LEFT JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+            LEFT JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+            WHERE ipc.status = 1
+            AND ipc.big_code = #{code}
+            OR ipc.small_code = #{code}
+    </select>
+
+
+    <resultMap id="DeliverRecordVoMap" type="com.tianma315.core.invoice.domain.vo.DeliverRecordVo" autoMapping="true">
+        <id property="invoiceId" column="invoice_id"/>
+        <collection property="products" column="invoice_id" ofType="com.tianma315.core.product.domain.vo.ProductVo" autoMapping="true">
+            <id property="productId" column="product_id"/>
+            <collection property="productCodes" column="invoice_product_id" ofType="com.tianma315.core.invoice.domain.InvoiceProductCodeDO" autoMapping="true">
+
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectInvoiceProducts" resultType="com.tianma315.core.product.domain.pojo.Product">
+        select * from invoice_product ip
+        left join product p  on  ip.product_id = p.product_id
+        where ip.invoice_id =#{invoice_id}
+    </select>
+
+    <select id="selectDeliveredRecord" resultMap="DeliverRecordVoMap">
+        SELECT *
+        FROM invoice i
+        LEFT JOIN invoice_product ip ON i.invoice_id = ip.invoice_id
+        LEFT JOIN invoice_product_code ipc ON ip.invoice_product_id = ipc.invoice_product_id
+        LEFT JOIN product p ON ip.product_id = p.product_id
+        where 1=1
+        and i.create_by = #{userId}
+        <if test="searchKey!= null">
+            and ( i.invoice_id = #{searchKey} or i.linkman like concat('%',#{searchKey},'%') )
+        </if>
+        order by i.created_date desc
+    </select>
+</mapper>

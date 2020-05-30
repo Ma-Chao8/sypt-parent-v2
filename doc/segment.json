@@ -1,0 +1,168 @@
+{
+  "content": [
+    {
+      "detail": [
+        {
+          "subImg": [],
+          "key": "产品名称",
+          "val": "红鳍东方河鲀"
+        },
+        {
+          "subImg": [],
+          "key": "执行标准",
+          "val": "执行的标准"
+        },
+        {
+          "subImg": [],
+          "key": "生产批次号",
+          "val": "12345648552"
+        },
+        {
+          "subImg": [],
+          "key": "保质期",
+          "val": "180天"
+        },
+        {
+          "subImg": [],
+          "key": "保存条件",
+          "val": "低温保存"
+        }
+      ],
+      "title": "产品信息",
+      "styletype": "area01"
+    },
+    {
+      "detail": [
+        {
+          "subImg": [],
+          "key": "养殖基地",
+          "val": "深海金鲳鱼",
+          "details": [
+            {
+              "subImg": [],
+              "key": "水温",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "盐度",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "负责人",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "电话",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "地点",
+              "val": "18C"
+            },
+            {
+              "subImg": [
+                "204",
+                "205"
+              ],
+              "key": "出货时间",
+              "val": "18C"
+            }
+          ]
+        },
+        {
+          "subImg": [],
+          "key": "检测机构",
+          "val": "检测机构名称",
+          "details": [
+            {
+              "subImg": [],
+              "key": "检测人",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "电话",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "检测时间",
+              "val": "18C"
+            },
+            {
+              "subImg": [
+                "208"
+              ],
+              "key": "报告",
+              "val": "18C"
+            }
+          ]
+        },
+        {
+          "subImg": [],
+          "key": "物流信息",
+          "val": "物流机构名称",
+          "details": [
+            {
+              "subImg": [],
+              "key": "司机",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "电话",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "车牌号",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "运输条件",
+              "val": "18C"
+            },
+            {
+              "subImg": [],
+              "key": "发车时间",
+              "val": "18C"
+            }
+          ]
+        }
+      ],
+      "title": "养殖信息",
+      "styletype": "area02"
+    }
+  ],
+  "mould": "demo01",
+  "traceFileName": "asdas",
+  "productId": "1",
+  "logoId": [],
+  "footLinkData": [
+    {
+      "footLinkName": "公司简介",
+      "linkUrl": "",
+      "picAddress": "http://qny1.tianma315.com/FhIluG389dgH8RAwxHHxa6z9-Czf"
+    },
+    {
+      "footLinkName": "养生食谱",
+      "linkUrl": "",
+      "picAddress": "http://qny1.tianma315.com/FnQETDUtXMy60NuUDrBoL9erzSxQ"
+    },
+    {
+      "footLinkName": "视频中心",
+      "linkUrl": "",
+      "picAddress": "http://qny1.tianma315.com/FhX2M4AkS6vKQL1hYLsAYYobT1yW"
+    },
+    {
+      "footLinkName": "连锁门店",
+      "linkUrl": "",
+      "picAddress": "http://qny1.tianma315.com/FpH63WwApP5UEuhYkCJjWYv-P5BC"
+    }
+  ]
+}

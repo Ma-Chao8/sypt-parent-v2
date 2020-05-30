@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.attr.dao.AttrFieldDao">
+    <resultMap id="resultVO" type="com.tianma315.core.attr.vo.AttrFieldAndFieldVO">
+        <id column="attr_field_id" property="attrFieldId"></id>
+        <result column="attr_field_name" property="attrFieldName"></result>
+        <result column="attr_id" property="attrId"></result>
+        <result column="type" property="type"></result>
+        <result column="tips" property="tips"></result>
+        <result column="order_num" property="orderNum"></result>
+        <result column="state" property="state"></result>
+        <collection property="fieldValueDOList" ofType="com.tianma315.core.attr.domain.FieldValueDO">
+            <id column="fieldValueId" property="fieldValueId"></id>
+            <result column="attrFieldId" property="attrFieldId"></result>
+            <result column="fieldValue" property="fieldValue"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getAttrFieldAndField" resultMap="resultVO">
+        SELECT af.*,fv.field_value_id AS fieldValueId,
+                    fv.attr_field_id AS attrFieldId,
+                    fv.field_value AS fieldValue
+                    FROM attr_field af
+        LEFT JOIN field_value fv ON af.attr_field_id = fv.attr_field_id
+        WHERE af.state = 0 AND af.attr_id = #{attrId}
+    </select>
+</mapper>

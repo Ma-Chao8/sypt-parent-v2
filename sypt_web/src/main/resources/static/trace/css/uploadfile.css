@@ -1,0 +1,23 @@
+.content_box{
+	width: 500px; 
+	height: 340px;
+	overflow: hidden;
+	}
+.content_box button{ margin-left: 150px; margin-top: 25px;}
+.file_box{width: 500px; margin-top: 20px;}
+.file_box div:first-child{
+	width: 150px; 
+	text-align: right;
+	height: 25px;
+	line-height: 25px; 
+	float: left;
+}
+.file_box input{ margin-top: 10px;}
+#seen{
+	width: 180px; 
+	height: 180px; 
+	background:url(../img/filebg.png) no-repeat center;
+	margin-left: 150px; 
+	margin-top: 15px;
+	background-size: 100%;
+}

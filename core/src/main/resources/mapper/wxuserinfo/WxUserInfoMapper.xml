@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.wxuserinfo.dao.WxUserInfoDao">
+    <select id="countMonthNum" resultType="Integer">
+        select count(*) as monthNum FROM wx_user_info w
+        WHERE DATE_FORMAT(w.created_date,'%Y%m') = DATE_FORMAT(now(),'%Y%m')
+    </select>
+
+    <select id="countProvinceUser" resultType="com.tianma315.core.wxuserinfo.vo.WxUserInfoVO">
+        SELECT count(wui.openid) value, wui.province as name
+        FROM wx_user_info wui WHERE wui.company_id = #{companyId} GROUP BY wui.province
+    </select>
+
+    <select id="selectTouristNum" resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		wx_user_info w
+		where w.product_num = 0 AND  w.company_id =#{company_id}
+	</select>
+
+    <select id="selectConsumerFNum" resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		wx_user_info w
+		where w.product_num = 1 AND  w.company_id =#{company_id}
+	</select>
+
+    <select id="selectConsumerSNum" resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		wx_user_info w
+		where w.product_num > 1 AND  w.company_id =#{company_id}
+	</select>
+</mapper>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="linkContentId" name="linkContentId" th:value="${linkContent.linkContentId}"
+                               type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">溯源环节细节名称：</label>
+                            <div class="col-sm-8">
+                                <input id="contentName" name="contentName" th:value="${linkContent.contentName}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">类型：</label>
+                            <div class="col-sm-8">
+                                <input id="type" type="radio" name="type" value="0" />
+                                <span>文本</span>
+                                <input id="type2" type="radio" name="type" value="1" />
+                                <span>图片</span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="default">
+                            <label class="col-sm-3 control-label">默认值：</label>
+                            <div class="col-sm-8">
+                                <input id="defaultValue" name="defaultValue" th:value="${linkContent.defaultValue}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排序：</label>
+                            <div class="col-sm-8">
+                                <input id="sort" name="sort" th:value="${linkContent.sort}" class="form-control"
+                                       placeholder="数值越小越靠前" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否显示：</label>
+                            <div class="col-sm-8">
+                                <select id="isView" name="isView" class="form-control">
+                                    <option value="1" th:selected="${linkContent.isView==1}">显示</option>
+                                    <option value="0" th:selected="${linkContent.isView!=1}">隐藏</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input id="proceduresLinkId" name="proceduresLinkId" th:value="${linkContent.proceduresLinkId}"
+                               type="hidden">
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                                <input type="button" class="btn btn-danger" value="取消"
+                                       onclick="javascript:
+											var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				                            parent.layer.close(index);">
+                                </input>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    var type = [[${linkContent.type}]]
+    if (type == 0){
+        $("#type").prop("checked",true)
+    }else {
+        $("#type2").prop("checked",true)
+        $("#default").hide()
+    }
+
+    $('input[name="type"]').change(function() {
+        if ($('input[name="type"][value="0"]').prop("checked")) {
+            $("#default").show()
+        } else {
+            $("#default").hide();
+        }
+        })
+
+    function isView() {
+        var type = [[${linkContent.type}]]
+        console.log("type="+type)
+        if (type == 0){
+            $("#type").prop("checked",true)
+        }else {
+            $("#type2").prop("checked",true)
+        }
+
+        var isView = [[${linkContent.isView}]]
+        if (isView == 0) {
+            $("#isView").append("<option  value='1'>是 </option>");
+            $("#isView").append("<option selected = 'selected'  value='0'>否 </option>");
+        } else {
+            $("#isView").append("<option selected = 'selected' value='1'>是 </option>");
+            $("#isView").append("<option  value='0'>否 </option>");
+        }
+    }
+</script>
+<script type="text/javascript" th:src="@{/js/appjs/procedures/linkContent/edit.js}"
+        src="/js/appjs/procedures/linkContent/edit.js">
+</script>
+</body>
+</html>

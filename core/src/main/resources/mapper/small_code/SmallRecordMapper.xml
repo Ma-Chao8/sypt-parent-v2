@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.small_code.dao.SmallRecordDao">
+    <!--<select id="selectByCode" resultType="com.tianma315.core.small_code.domain.SmallRecordDO">-->
+    <!--SELECT-->
+    <!--*-->
+    <!--FROM small_record-->
+    <!--WHERE company_id = #{companyId}-->
+    <!--AND (big_code = #{code} OR small_code = #{code} )-->
+    <!--</select>-->
+
+    <resultMap id="SmallRecordMap" type="com.tianma315.core.small_code.domain.SmallRecordDO">
+        <result property="id" column="id"></result>
+        <result property="smallCode" column="small_code"></result>
+        <result property="bigCode" column="big_code"></result>
+        <result property="companyId" column="company_id"></result>
+        <result property="createBy" column="create_by"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="productId" column="product_id"></result>
+    </resultMap>
+    <select id="selectByCode" resultMap="SmallRecordMap">
+        SELECT
+        *
+        FROM small_record
+        WHERE company_id = #{companyId}
+        AND (big_code = #{code} OR small_code = #{code} )
+    </select>
+
+    <resultMap id="recordVO" type="com.tianma315.core.small_code.vo.SmallRecordListVO">
+        <!--<result property="id" column="id"></result>-->
+        <result property="bigCode" column="big_code"></result>
+        <!--<result property="createDate" column="create_date"></result>-->
+        <!--<result property="productId" column="product_id"></result>-->
+        <!--<association property="bigCode" javaType="String">-->
+        <!--<constructor>-->
+        <!--<arg  column="big_code"/>-->
+        <!--</constructor>-->
+        <!--</association>-->
+        <collection property="smallCodes" ofType="String" javaType="List">
+            <!--<constructor>-->
+            <!--<arg  column="small_code"/>-->
+            <!--</constructor>-->
+            <result column="small_code"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectRecordPage" resultType="com.tianma315.core.small_code.vo.SmallRecordVO">
+        SELECT
+        big_code AS bigCode,create_date AS createDate
+        FROM small_record
+        WHERE company_id = #{companyId}
+        <if test="bigCode != null and bigCode != ''">
+            AND big_code like CONCAT('%',#{bigCode},'%')
+        </if>
+        GROUP BY(big_code)
+    </select>
+
+    <select id="selectListByCode" resultType="com.tianma315.core.small_code.domain.SmallRecordDO">
+        select
+        *
+        from small_record
+        where big_code = #{code}
+        or small_code = #{code}
+    </select>
+</mapper>

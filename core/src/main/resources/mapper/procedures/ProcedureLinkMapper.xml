@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tianma315.core.procedures.dao.ProcedureLinkDao">
+
+    <resultMap id="LinkVO" type="com.tianma315.core.procedures.vo.ProcedureLinkFileVO">
+        <id column="procedure_link_id" property="procedureLinkId"></id>
+        <result column="proceduresName" property="proceduresName"></result>
+        <result column="procedure_link_name" property="procedureLinkName"></result>
+        <result column="icon" property="icon"></result>
+        <result column="sort" property="sort"></result>
+        <result column="is_view" property="isView"></result>
+        <result column="is_dynamic" property="isDynamic"></result>
+        <result column="is_all" property="isAll"></result>
+
+        <collection property="roleNames" ofType="string">
+           <result column="role_name"></result>
+        </collection>
+    </resultMap>
+    <select id="listProceduresVO" resultMap="LinkVO">
+        SELECT pl.*,p.name AS proceduresName,sr.role_name FROM  procedure_link pl
+        LEFT JOIN procedures p ON pl.procedures_id = p.procedure_id
+        LEFT JOIN (SELECT * FROM link_role WHERE `status` = 1) lr ON pl.procedure_link_id = lr.procedure_link_id
+        LEFT JOIN sys_role sr ON sr.id = lr.role_id
+        WHERE pl.state = 0 and pl.company_id = #{companyId}
+    </select>
+    <insert id="insertRole" useGeneratedKeys="true" parameterType="list">
+        insert into link_role
+        (procedure_link_id,role_id,status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.procedureLinkId}, #{item.roleId}, #{item.status})
+        </foreach>
+    </insert>
+</mapper>

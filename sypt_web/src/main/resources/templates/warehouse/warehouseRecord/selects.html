@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+    table{border: 1px solid darkgrey;}
+    table tr,table th{text-align: center;}
+    table caption{
+        padding: 10px 15px;
+        background-color: #c9c9c9;
+    }
+</style>
+<body>
+<div class="pd-20">
+    <div class="container">
+
+        <input id="returnId" name="returnId" type="hidden">
+        <div>
+            <div id="choiceProduct">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    function getWarehouseRecordId() {
+        var id = [[${id}]]
+        return id;
+    }
+    var bigCodes =new Array();
+    $(function () {
+        $.ajax({
+            type: "GET",
+            async:false,
+            url: getContext()+"/warehouse/warehouseRecord/getCodeById/" + getWarehouseRecordId(),
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                    var codes = result.data;
+
+                    for (var i in codes){
+                        bigCodes.push(codes[i].bigCode);
+                    }
+                    console.log(bigCodes);
+                    var htmlText = '<table class="table table-striped" border="1">';
+                    htmlText+= "<caption>产品大小码信息</caption>"+"<thead>\n" +
+                        "    <tr>\n" +
+
+                        "      <th>大码</th>\n" +
+                        "      <th>小码</th>\n" +
+
+                        "    </tr>\n" +
+                        "  </thead>";
+                    htmlText += " <tbody>"
+
+                        for (var i in codes){
+                            if (bigCodes[1]!=null)
+                            {
+                                htmlText+="<tr>";
+                                // var  code =pro.codes[i]
+                               if (i==0){
+                                   htmlText+="<td>"+codes[i].bigCode+"</td>"
+                                   htmlText+="<td>"+codes[i].smallCode+" </td>"
+                                   htmlText+="</tr>";
+                               }
+                                htmlText+="<td></td>"
+                                htmlText+="<td>"+codes[i].smallCode+" </td>"
+
+                                htmlText+="</tr>";
+                            }else if (bigCodes[0]==null){
+                                htmlText+="<td></td>"
+                                htmlText+="<td>"+codes[i].smallCode+" </td>"
+                                htmlText+="</tr>";
+                            }
+                            else {
+                                htmlText+="<tr>";
+                                // var  code =pro.codes[i]
+                                htmlText+="<td>"+codes[i].bigCode+" </td>"
+                                htmlText+="<td></td>"
+
+                                htmlText+="</tr>";
+                            }
+
+                        }
+
+                    // }
+
+                    htmlText+='</tbody>';
+                    htmlText+="</table>";
+                    $("#choiceProduct").append(htmlText);
+                } else {
+                    layer.msg(result.message);
+                }
+            },
+            error: function () {
+                layer.msg("网络错误，请重新刷新界面")
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+phonehtml,
+body {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow: auto;
+}
+
+header.btn-primary {
+    height: 60px;
+    font-size: 30px;
+    line-height: 60px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+
+aside {
+    border-right: 1px solid #ccc;
+    height: 100%;
+    float: left;
+}
+
+#editor {
+    height: 100%;
+    float: left;
+    clear: right;
+}
+
+#Imglist li img {
+    width: 50px;
+    display: inline-block;
+}
+
+.panel {
+    overflow: hidden;
+}
+
+.panel li {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid #e9e9e9;
+
+}
+
+#Imglist li {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0; /*add by xl*/
+}
+
+
+#phone::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+#editor .editorNav {
+    height: 60px;
+    line-height: 60px;
+    text-indent: 40px;
+}
+
+#demoTpl {
+    box-sizing: border-box;
+}
+
+/*#fc-content [contenteditable]{
+	border: 2px solid #C0C0C0;
+	
+}*/
+
+#fc-content p span:not(.Hui-iconfont):after {
+    content: " ";
+}
+
+#fc-content p span:not(.Hui-iconfont):before {
+    content: " ";
+}
+
+
+/*#editor .editorNav input{margin-right: 30px;}*/
+
+
+/*#editor h5{width: 100%;height: 50px;line-break: 50px;text-align: center; background: #007AFF;color: #fff;}*/
+
+#modelist .item h4 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#modelist .item .info {
+    display: none;
+}
+
+#modelist .item .info li {
+    height: 36px;
+    line-height: 36px;
+    text-indent: 30px;
+    border-bottom: 0;
+    font-size: 14px;
+}
+
+/*
+ * 新增手势
+ */
+#modelist .info li:hover {
+    cursor: pointer;
+}
+
+#modelist .item .info li .Hui-iconfont {
+    font-size: 20px;
+    text-indent: 0;
+    color: #5eb95e;
+    margin-left: 10px
+}
+
+
+#phone {
+    background-color: #000;
+    height: 568px;
+    box-shadow: 0px -3px 9px 2px #aaa;
+    width: 375px;
+    box-sizing: content-box;
+    position: absolute;
+    left: 50%;
+    margin-left: -188px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+#phone #demoTpl {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+}
+
+#phone #demoTpl::-webkit-scrollbar {
+    width: 0px;
+    height: 0;
+}
+
+/*#phone::after{
+	content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    margin-left: -30px;
+    bottom: 20px;
+    border-radius: 100%;
+    box-sizing: border-box;
+    border: 5px solid #333;
+    }
+ #phone::before{
+    content: '';
+    width: 60px;
+    height: 10px;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    margin-left: -30px;
+    background: #333;
+    top: 50px;
+   }*/
+
+/*
+ * 新增
+ */
+.linkbox {
+    position: absolute;
+    left: 73%;
+    top: 20%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1.5px solid #e0e0e0;
+}
+
+.itembox {
+    margin-top: -31px;
+}
+
+.linkcontent {
+    width: 300px;
+    padding: 8px;
+    height: 540px;
+    overflow-y: auto;
+}
+
+.text-ti {
+    display: inline-block;
+    padding: 8px 10px;
+}
+
+.linkitem {
+    margin-left: 84px;
+    margin-bottom: 10px;
+}
+
+.linkitem img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.files {
+    margin-left: -60px;
+    height: 50px;
+    width: 50px;
+    opacity: 0;
+}
+
+.remore {
+    padding: 8px 10px;
+    background-color: #dd514c;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.add {
+    padding: 8px 10px;
+    background-color: #5a98de;
+    color: white;
+    border-radius: 5px;
+    margin-left: 43px;
+    cursor: pointer;
+}
+
+.fun-box {
+    padding: 8px 5px;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+}
+
+.fun-box span {
+    display: inline-block;
+    background: red;
+    padding: 5px 0;
+    background: #5a98de;
+}
+
+.linkbox .fun-box span {
+    width: 140px;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 13px 13px 13px 0;
+    border-color: transparent #e0e0e0 transparent transparent;
+    position: absolute;
+    left: -12px;
+    top: 14px;
+}
+
+.arrow-inner {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 11px 12px 0;
+    border-color: transparent #fff transparent transparent;
+    position: absolute;
+    left: 4px;
+    top: -12px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+::-moz-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+::-ms-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+/*图片增、删、改*/
+.menu {
+    display: flex;
+    height: 110px;
+    width: 100%;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.menu .item {
+    flex: 1;
+    display: block;
+}
+
+.menu img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.menu h5 {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1;
+}
+
+.white {
+    color: white;
+}
+
+/* footer edit layout */
+.footer-edit-layout {
+
+}
+
+.footer-edit-content {
+
+}
+
+.footer-edit-item {
+    margin-top: 15px;
+    height: 72px;
+    line-height: 72px;
+}
+
+.footer-edit-item-icon,
+.footer-edit-item-input,
+.footer-edit-item-operate {
+    float: left;
+}
+
+.footer-edit-item-icon {
+    width: 72px;
+    width: 72px;
+}
+
+.footer-edit-item-icon img {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #345399;
+}
+
+.footer-edit-item-input {
+    width: 60%;
+}
+
+.footer-edit-item-operate {
+    width: 25%;
+}
+
+.footer-edit-item-operate button {
+    margin-left: 10px;
+}
+
+
+/* footer layout */
+
+.footer-layout {
+    display: flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 0 0;
+    margin: 0;
+}
+
+.footer-layout .footer-item {
+    flex: 1;
+    display: block;
+    padding: 5px;
+}
+
+.footer-layout .footer-item a {
+    color: #ffffff;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.footer-layout .footer-item a img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.footer-layout .footer-item a h5 {
+    text-align: center;
+    text-indent: 0;
+}
+
